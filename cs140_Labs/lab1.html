@@ -1,0 +1,323 @@
+<title> CS140 -- Lab Assignment 1</title>
+
+<h1> CS140 -- Lab Assignment 1 (100 pts: Spring, 2019)</h1>
+
+<hr>
+<h3>Getting motivated</h3>
+WELCOME to your first CS140 lab. During the semester, you will be taken
+through a sequence of increasingly more difficult programming 
+assignments.  
+They will be challenging but matched to your programming skills which 
+will become better and better as we go along. 
+In case you find yourself spending too much time on an
+assignment, be sure to seek help from the TAs or the instructor (in that order). 
+You can also post questions to the class using Canvas Discussions 
+(don't post detailed code).
+The important thing is for you not to back yourself into a corner where you 
+get so frustrated that you give up.
+<p>
+
+<hr>
+<h3>Lab submission and due date</h3>
+Your friendly TAs will tell you how to submit your work on Canvas the first day in lab. 
+Take good notes!
+You don't submit Prog1a.  
+The due date for Prog1b and Prog1c
+is 11.59PM Tuesday January 22, 2019.
+The due date for Prog1d is 11.59PM Tuesday January 29, 2019.
+<p>
+
+<hr>
+<h3>Getting Started</h3>
+
+<p>
+In CS102 you used an IDE that ran under Windows. That was done so you could 
+learn programming skills more quickly. In CS140 (and all subsequent computer science
+courses), you will write, compile and execute programs on computers that run Linux.
+This requires Unix proficiency. You went thru a Unix bootstrap in CS130, but 
+in case you never quite got the hang of it or have forgotten what you learned,
+your first task is to work 
+thru a Unix tutorial such as 
+<a href="http://www.tutorialspoint.com/unix/" target="_blank">tutorialspoint.com/unix</a>.
+Unix will seem very complicated at first but you don't need to know all that
+many commands to get started. Then, as time goes by and you become more 
+confident, you can branch out and familiarize yourself with other commands
+and tools.
+
+<p>
+There are many ways to edit files under Unix. Old timers prefer 
+"vi" which is a screen-oriented editor. 
+You should consider using a newer improved version called "vim" which is 
+available for Macs and Windows computers. 
+The above Unix tutorial has a short section on "vi" which outlines 
+the basic commands for inserting and deleting text, moving up/down 
+and across lines, etc (which is really all you need).
+Evautally, you will want to read the PDF manual available from
+<a href="http://www.vim.org/docs.php" target="_blank">vim.org/docs.php</a> to learn 
+how to do things more efficiently.
+
+<p>
+You also need to figure out how to connect to the Hydra machines from your own
+computer. That way you can work from anywhere. You will also benefit from being
+able to copy files to and from your own computer and Hydra machines. 
+There are many ways to do this. Ask the TAs and/or your classmates for suggestions.
+If you choose to do the labs on your own computer, be forewarned that your
+code will be graded on a Hydra machine which, of course, requires that it compiles
+and runs on that computer. If it doesn't, you will be assigned a score of 0 for the
+assignment.
+
+<p><p>
+When you go to your first lab, login to your Unix account and do the following:
+<UL> 
+<LI> Create a directory in your home directory called cs140 (use lower case).
+Make sure read and write access is disallowed for anyone but yourself.
+<pre>
+UNIX> mkdir ~/cs140
+UNIX> chmod 700 ~/cs140
+</pre>
+
+<LI> Create a subdirectory called cs140/labs and within it, a subdirectory 
+called lab1. Go to this last directory. Write a C++ program called "Prog1a"
+which prints "hello world" to stdout. Use "vi" to
+create the cpp file and "g++" to compile the executable. 
+<pre>
+UNIX> mkdir -p ~/cs140/labs/lab1
+UNIX> cd ~/cs140/labs/lab1
+UNIX> vi Prog1a.cpp
+... enter the code ...
+(To learn how to insert text, save a file, and exit vi, read the tutorials above)
+UNIX> g++ -o Prog1a Prog1a.cpp
+UNIX> ./Prog1a
+</pre>
+As you can see, the only tricky bit is using "vi".
+If you want to understand what the mentioned commands do, use 
+the "man" page system.
+<pre>
+UNIX> man man
+UNIX> man mkdir
+</pre>
+The first command displays a manual for how to use the manual. 
+The second command tells you everything you need to know about creating
+a directory.
+You scroll thru multiple man pages using the "space" bar.
+<p>
+
+<LI>
+To make life easier for you, Hydra solution executables will be made
+available for all lab assignments. Sometimes you will also be given
+data files and half-baked source code files that you will modify.
+For lab1, you obtain these files as follows:
+<pre>
+UNIX> ~cs140/labs/lab1/copy 
+</pre>
+This creates the directory ~/cs140/labs/lab1 and
+all the parent directories in the chain.
+
+<p>
+<b>WARNING:</b>
+The copy script doesn't check to see if a file with the same name
+already exists in the target directory. Solution executables and
+partial source code files will always be all lower case, e.g., "prog1a".
+If you make a habit of using uppercase names for your files, e.g.,
+"Prog1a.cpp" and "Prog1a", you will not run into problems.
+However,
+if you have a file with the same name as one being copied to you, 
+it will be replaced without warning.
+For that reason, you should always make a backup
+of your work when you run the copy script after you have started making
+changes to your code. Same goes when you copy files between your own
+computer and the Hydra machines. Better safe than sorry!
+
+</UL>
+
+<h3>Assignment Details</h3>
+
+<UL>
+<LI> <b>Prog1b -- 20 pts</b>
+<p>
+Write a program called "Prog1b" that reads a sequence of random integers
+from stdin. When the input has been exhausted, the program prints the
+number of integers read, their sum as well as the minimum and maximum
+values to stdout. Place all the code in the main function (like you did
+in most of your CS102 labs). Test that the program works using simple
+input examples. 
+<pre>
+UNIX> ./Prog1b
+10 
+3 
+16  
+ctrl-d (To close stdin)
+N   = 3
+sum = 29
+min = 3
+max = 16
+</pre>
+When all looks good, use the program "prog1_ints" (provided to you by the copy
+script mentioned above) to generate random sequences of integers. 
+The program produces as many numbers as specified by the command line argument.
+To understand more
+about the syntax below, read the "Unix - Pipes & Filters" section of the unix
+tutorial above.
+<pre>
+UNIX> ./prog1_ints 123 | ./Prog1b
+N   = 123
+sum = 59515
+min = 2
+max = 994
+</pre>
+Different arguments to "prog1_ints" produces different number sequences
+(the random number generator is seeded differently).
+Rerunning the program with the same argument produces the same number sequence.
+This allows you to run "prog1_ints" and manually compute the answer before
+piping the output to "Prog1b". It also allows you to 
+run your program followed by the solution exectuable ("prog1b") and compare
+the results. 
+<p>
+
+<LI> <b>Prog1c -- 20 pts</b>
+<p>
+Write a program called "Prog1c" which does the same as "Prog1b". 
+This time around, create a class called "stats" which has two public
+member functions, namely, "push(int)" and "print()". The main
+function instantiates a stats object, then enters into a loop reading
+integers from stdin which are passed to the stats object using the
+push function. When stdin has been exhausted, the print function
+summarizes the number statistics. 
+
+<p>
+The code for "Prog1c" will seem unnecessarily complicated compared
+with "Prog1b". Don't worry about that. Eventually you will
+be writing programs for which the class structure not only makes
+sense but is both a necessary and helpful way to organize things. 
+At this point, we are simply warming up and getting you used to
+the concept.
+<p>
+
+<LI> <b>Prog1d -- 60 pts</b>
+<p>
+Write a program called "Prog1d" which can encode and decode ASCII text
+files, i.e., any file you can view and make sense of such as source
+code or an html file. Since the goal is not to prevent bad guys 
+from reading your files, we take a simple approach based on systematic 
+character shifting. 
+
+<p>
+Computers represent alphanumeric characters
+using what is called an ASCII code which is nothing more than a 
+a unique 8-bit number. For example, 
+newline '\n' is 10 (0x0A), space ' ' is 32 (0x20), 
+digit '0' is 48 (0x30),
+letter 'A' is 65 (0x41) while letter 'a' is 97 (0x61) and so forth.
+(the Unix command "man 7 ascii" will show you all the encodings).
+Since alphanumeric characters are integer numbers, we can
+manipulate them. For example, 'a'+1 produces 'b' and 'a'+2 produces 'c'.
+We will use this idea to change all letters the same way. To keep
+things interesting, we will make sure lower case letters remain
+lower case and upper case letters remain upper case. We will not
+change white space, digits, and other characters. 
+In order to this, you need to determine whether a character represents
+a letter and if so, whether it is lower or upper case. 
+Use the library functions "isalpha", "islower", and "isupper" to get
+that job done.
+More about these below. The tricky bit is to ensure the encoding 
+stays within the realm of lower and upper case letters. For example,
+'z'+1 should be mapped to 'a', 'y'+4 should be mapped to 'c', and so
+forth. When you decode, you likewise need to ensure that say 'a'-1
+maps to 'z' and 'c'-4 maps to 'y'. This is not hard but you do need
+to be careful when you implement these cyclic mappings.
+
+<p>
+How will the program know whether to encode or decode and how will
+it know which number to add or subtract to each letter?
+You tell it using command line arguments. The first is either "-encode"
+or "-decode". The second is an integer in the range 0-9.
+<pre>
+UNIX> ./Prog1d -encode 4
+You can't read this!   
+Csy ger'x vieh xlmw!
+
+UNIX> ./Prog1d -encode 4 | ./Prog1d -decode 4
+You can't read this!
+You can't read this!
+</pre>
+Your program must check that the correct number and type of command
+line arguments is given. If not, an error message should be printed
+to stderr and program execution stopped. The encoding and decoding
+should be carried out on a textline-by-textline basis using functions
+"encode(string&,int)" and "decode(string&,int)". The two
+arguments are a reference to a textline and the magic shift you
+will apply to the lower and upper case letters in it. The function
+"getline(istream&, string&)" can be used to read textlines one
+at a time.
+
+<p>
+Once you get the hang of Unix, this is by far the most difficult part
+of the lab. Use reference guides such as
+<a href="http://www.cplusplus.com/" target="_blank">cplusplus.com</a>
+to help you with C++ library function syntax and use. As an example,
+<a href="http://www.cplusplus.com/reference/cctype/" target="_blank">cplusplus.com/reference/cctype</a>
+tells you how to use the "isalpha", "islower", and "isupper" functions
+mentioned above. There is also a C++ tutorial in the documentation section.
+
+<p>
+Take a structured approach to your program development. Initially, forget 
+about the
+encoding and decoding. Write a program that checks if the right number
+of command line arguments is given to it. When that works, check that the
+arguments are of the correct type (here argv[1] must be either
+"-encode" or "-decode" while argv[2] must be an integer in the 0-9 range).
+Then add the code that reads one textline at a time from stdin. Finally, add 
+the function for encoding followed by the function for decoding. This way,
+you will have something to submit if you can't figure out how to make
+the program do what it is supposed to or if you run out of time. Take
+this approach for ALL lab assignments. The TAs will NOT have time to
+do extensive debugging of your program when grading it. 
+Assume code that doesn't compile and/or run properly will be given a 
+score of 0. Effort is nice but ultimately code has to work in
+the real world. 
+
+</UL>
+
+<h3>Grade Rubric</h3>
+<p>
+NOTE 1: You must have a correctly functioning executable for each program you are assigned to write.
+Verify your output against these working programs.  The TAs will do the same when grading your
+submissions.  As stated by the lab grading guidelines, approximately half of the points awarded 
+for each assignment are determined by program <b>functionality</b>.
+
+<p>
+NOTE 2: Use the <b>naming conventions</b> described in the lab assignment.
+
+<p>
+NOTE 3: Appropriate comments are worth 5 out of the 100 points overall and up to 5% of each section. 
+If you are unsure what constitutes appropriate comments, see Dr. Parker's note titled "Commenting 
+Your Code" here: <a href="http://web.eecs.utk.edu/~parker/Courses/CS302-Fall06/Labs.html" 
+target="_blank">Commenting Your Code</a>.
+
+<h4>Prog1a (0)<h4>
+<pre>
+*0: Prog1a should not be submitted.
+</pre>
+
+<h4>Prog1b (20 points)<h4>
+<pre>
+*10: Loop for reading in stdin
+*10: Sum/min/max calculation
+</pre>
+
+<h4>Prog1c (20 points)<h4>
+<pre>
+*10: Class definition
+*10: Class functions
+</pre>
+
+<h4>Prog1d (60 points)<h4>
+<pre>
+*20: Command line argument parsing
+*10: Verification that given command line parameters are valid
+*15: Encode function
+*15: Decode function
+</pre>
+
+<hr>
+Wed Jan  9 12:09:39 EST 2019

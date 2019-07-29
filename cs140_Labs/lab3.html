@@ -1,0 +1,283 @@
+<title> CS140 -- Lab Assignment 3</title>
+
+<h1> CS140 -- Lab Assignment 3 (200 pts: Spring, 2019)</h1>
+
+<hr>
+<h3>Getting motivated</h3>
+In this lab, you will write four programs
+for determining whether numbers are prime numbers or not.
+You will progress from an almost C-like program to a
+sophisticated C++ program that makes extensive use of STL
+functions. 
+<p>
+
+<hr>
+<h3>Lab submission and due date</h3>
+Submit your work via Canvas as usual.
+Prime1 and Prime2 are both due 11.59PM on Saturday February 16, 2019.
+while
+Prime3 and Prime4 are both due 11.59PM on Saturday February 23, 2019.
+NOTE:
+You are likely to find the last two programs somewhat difficult to write.
+Pace yourself accordingly. 
+In fact, you are strongly encouraged to write the first two programs
+faster then indicated by the due dates to buy yourself some time 
+for the last two programs.
+<p>
+
+<hr>
+<h3>Prime number primer</h3>
+
+OK. The header is a lame pun, but this really is a summary of
+what prime numbers are and how you compute them. Here we go.
+
+<p>
+An integer represents a prime number, if the number is
+greater than 1, and its only divisors are 1 and the number
+itself. Non-prime numbers are composite in that they
+are the product of powers of primes.
+
+<p>
+Given a number n, you can determine, if it is prime by
+trying to divide increasingly larger numbers into it.
+If a particular division is successful, the number is not prime,
+and you can stop. What is the biggest number you need to test? 
+If you think about it you will quickly realize that 
+sqrt(number) sets the limit for your search. Why?
+Well, if you divide a number by a number which is greater
+than its own square-root, you get a number which is less
+than that same square-root. Since you have already tested for it,
+there is no need to do it again. Simple as that.
+
+<p>
+Hint:
+An easy way to check if one integer divides into another is
+based on the modulo operator. That is, when n%m equals 0 you
+know n divides by m.
+
+<h3>Programs you need to write </h3>
+
+Fire up your favorite editor and write the following four programs.
+Be sure to check them rigorously. 
+
+<UL>
+<LI>
+For 50 points,
+write a program called Prime1 which reads an endless 
+sequence of integers from stdin and tests whether
+each number is prime or not and prints a meaningful
+message to stdout if it is.
+Example program output is shown below.
+Place all your code in "Prime1.cpp" including
+function "isprime(int)" which is a boolean function
+that does all the checking. 
+As usual, the endless input ends
+when CTRL-D is encountered.
+<p>
+
+<LI>
+For 50 points,
+write a modified version of Prime1 called Prime2.
+Move the "isprime(int)" code into a class
+called "isprime" that overloads its function operator
+to act as a function object. 
+Instantiate an "isprime" object in the main program
+and use it to test the input data. 
+The program output is as shown below.
+
+<p>
+To avoid having to iteratively test each new input
+against all possible numbers smaller than its 
+square root, create an increasingly larger
+list of prime numbers and use a linear search to
+see if the number in question is listed or not.
+Initially, the list should only contain the number 2.
+If you want to see, whether N is prime number, have
+the overloaded function operator call
+a private member function that expands
+the list of known prime numbers to cover N.
+Base this magic function on the code
+from Prime1 to grow the list such that the largest
+prime number known is greater than N. Then test
+if N is in the list by traversing the list.
+You are encouraged to use
+"find()" from STL to do the traversal but
+you don't have to.
+Note that "find()" returns an iterator to the
+element, if it was in the list, and the end-iterator,
+if it wasn't found. You must translate this into a boolean
+variable that indicates whether the
+number N was found in the list or not.
+
+<LI>
+For 50 points,
+write a modified version of Prime2 called Prime3.
+Change "isprime::operator()" to use a binary search
+instead of the linear search implemented by "find()"
+to determine if input N is a prime number. 
+You are encouraged to use
+"binary_search()" from STL to do the job.
+Note that this algorithm returns a boolean that
+indicates whether the number N was found or not.
+
+<p>
+Now change the driver code in the main program. 
+First, have it use an optional 
+command line argument to set the number of
+integers to test. Call this number N. If no
+command line argument is present, use N=123 as the default. 
+Seed the random number generator with N. See the
+"clibstd" family of functions for "srand()". 
+Second, generate a list of N random numbers in 
+the range 1-140.
+As a suggestion, write a function object for producing
+each random number using "rand()" while
+letting "generate()" from STL fill in the list.
+Feel free to represent the list using a "vector"
+which you may recall is an array-based sequence container.
+Third,
+use "transform()" from STL along with function 
+object "isprime" to obtain a boolean array that 
+indicates which random number is prime.
+Feed this array to "count()" from STL to
+determine how many prime numbers there are.
+Print the result to stdout as shown below.
+
+<LI>
+For 50 points,
+write a modified version of Prime3 called Prime4.
+This time all changes are with respect to the
+main program.
+
+<p>
+Write a function called "extract_prime()" that
+takes the two vector arrays holding all the random
+numbers and the boolean variables indicating which
+are primes as input and produces a new vector of
+just the prime numbers.
+
+<p>
+Write a function called "print()" which prints
+the contents of an array in a formatted fashion
+as shown below. Specifically, print 8 integers
+per line in a 3-character wide field with a space
+separating the numbers.
+
+<p>
+Add code that calls these two functions to output
+the prime numbers in their order of appearance.
+Then sort the data and eliminate any multiples
+of the same number. Output the result. Consider
+using "sort()" and "unique()" from STL to do
+the heavy lifting.
+
+<p>
+Hint: If you implemented "Prime4" using vector arrays,
+you can use the "erase" member function to get rid of the
+unwanted data moved to the end by "unique()".
+
+<LI>
+Run the Hydra script /home/cs140/labs/lab3/copy to obtain
+four x86-Linux executables that work as described above.
+You also get a makefile and four skeleton programs
+that might be helpful.
+
+</UL>
+
+<hr>
+<h3>Executable output examples</h3>
+
+<b>Prime1 and Prime2</b>
+<pre>
+user> ./Prime1
+10
+13
+13 is a prime number
+101
+101 is a prime number
+1024
+</pre>
+
+<hr>
+
+<b>Prime3</b>
+<pre>
+user> ./Prime3 
+Sequence contains 21 prime numbers.
+user>
+user> ./Prime3 1000
+Sequence contains 243 prime numbers.
+</pre>
+
+<hr>
+
+<b>Prime4</b>
+<pre>
+user> ./Prime4 
+Sequence contains 21 prime numbers.
+All numbers in order appearance:
+  61  113   13   53   41   17   61   97   59    7   17  137   41    5  127   31  131   59  109   83
+  61
+Unique values in numerical order:
+   5    7   13   17   31   41   53   59   61   83   97  109  113  127  131  137
+user>
+user> ./Prime4 1000
+Sequence contains 243 prime numbers.
+All numbers in order appearance:
+  37   11    3   79   59   11   47   97    7   17  109   59    2    2   83   59  113   89   61   73
+  41   31   79   17    7   43   31   53    7   17   83   11   31    3  127   43  101  139  137  109
+   5   17    5   19   29   31   17  107  131   61  113    7   83   23  109   41   19   79   53   47
+ 139  103   59   67    3  113  137  137   73   29  127   23  109  103   37  127  139  107  101   11
+ 131   61   41  101   79   31  127   43   83   47  139    2  139   11   23  107   53  127   59  109
+  13   13  139  101   71   41   71  139  131  127   89  109  127   83  137   43   43   73  113   61
+  43   89   41    3   89   11    7  113   13   13    2   17   53    3   79   29   97    7   67   97
+ 139  113   59   23   19   59  103   73    5  103    7   37   89   71    5  137   31  109   67   89
+  83    2    7   67   29  103    5   31   41   37   19  131  109   11   71   11   13   67   47   79
+  73  131  103   67   61  137   41   43    2  131   17  127    2   61   11   29   23   47   29   19
+ 109    5  127   11   17  139   31   41    5  101  137   67   11   47   13  139   43  113  127  113
+  73   43   29   23    5    3   31   67   79  107   53   13   13    7   83  103   71   73   89   29
+  47   79  127
+Unique values in numerical order:
+   2    3    5    7   11   13   17   19   23   29   31   37   41   43   47   53   59   61   67   71
+  73   79   83   89   97  101  103  107  109  113  127  131  137  139
+</pre>
+<hr>
+
+<h3>Grade Rubric</h3>
+<p>
+See previous lab assignments for notes on general expectations.
+
+<h4>Prime1 (50 points)</h4>
+<pre>
+*20: isprime() function implementation
+*20: correct message displayed on prime number input
+*10: reads numbers from stdin and exits on CTRL-D
+</pre>
+
+<h4>Prime2 (50 points)</h4>
+<pre>
+*10: isprime class definition
+*10: function operator() implementation
+*10: correctly identifies prime numbers in output
+*20: maintains and searches list of prime numbers
+</pre>
+
+<h4>Prime3 (50 points)</h4>
+<pre>
+*10: function operator() implements binary search
+*10: uses command line argument as N and seed for random number generator
+*10: generates list of N random numbers in range 1-140
+*10: uses transform() to obtain boolean array
+*10: prints resulting number of prime numbers from using count()
+</pre>
+
+<h4>Prime4 (50 points)</h4>
+<pre>
+*20: extract_prime() function implementation
+*20: print() function implementation
+*10: prints unique, sorted prime numbers
+</pre>
+
+<hr>
+
+Sat Feb  2 11:48:52 EST 2019

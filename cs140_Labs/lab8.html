@@ -1,0 +1,271 @@
+<title> CS140 -- Lab Assignment 8</title>
+
+<h1> CS140 -- Lab Assignment 8 (110 pts: Spring, 2019)</h1>
+
+<hr>
+<h3>Getting motivated</h3>
+This is a chance to earn extra points, be they real
+or for bragging rights. That is, some of you could use some
+extra lab points. Some of you have nearly maxed out but 
+need an extra challenge. 
+Either way, this lab assignment is for you!
+<p>
+
+Positive integers can be written as the sum of prime numbers. 
+In fact, a German by the name of Goldbach conjectured in 
+1742 that even integers can be expressed as the sum of 
+two prime numbers and that odd integers require at most 
+three prime numbers.
+According to Wikipedia, this can be shown empirically for
+integers less than 4,000,000,000,000,000,000 but a proof
+has yet to be established (anybody who do that is eligible
+for a the Fields Medal in mathematics -- good luck!). Your
+job is to write a program the enumerates these sequences
+for user supplied integers less than 10,000.
+Details are given below. 
+Your score for this assignment will be added to your 
+total lab score with the caveat that the latter 
+can't exceed the max total score for the regular lab assignments. 
+<p>
+
+<h3>Lab submission and due date</h3>
+Submit the Goldbach.cpp file described below via Canvas as usual.
+The submission deadline is 11.59PM on Tuesday, April 30, 2019.
+<p>
+
+<hr>
+<h3>Goldbach Partitioning</h3>
+
+<p>
+Your friendly instructor wrote and compiled a program
+for partitioning integers greater than 2 
+into the smallest sum of prime numbers.
+While refactoring, he accidentally wiped out the code that does
+it all. 
+As you will see, the program consists of a main function that
+instantiates a prime_partition object called goldberg which
+can be treated like a function in that it can be given 
+integers to partition. 
+Your job is to recreate the prime_partition code.
+<p>
+
+<UL>
+<LI>
+For 15 points,
+define the prime_partition class so that it can get the job done
+specified in the main function. You will need a constructor, an
+overloaded function operator that takes an integer number as its 
+sole argument, plus private member functions and data to support
+the computation. You will not be able to complete this until 
+you have worked out the overall solution, so keep reading. 
+<p>
+
+<LI>
+For 20 points,
+implement the missing create_pset function which should be
+called by the prime_partition constructor to precompute
+a table of prime numbers greater than or equal to 2 and 
+less than 10,000.
+The goal is fast lookup of the prime numbers when carrying 
+out the partitioning.
+Base this function on the plist code from Prime2.cpp 
+(see Lab 3). 
+Replace the list used then with a binary search tree 
+in the form of an std::set object. 
+<p>
+
+Hint: You may find it advantageous to introduce pset_min and 
+pset_max variables that hold the min and max values stored in 
+the pset. Consider using std::min_element and std::max_element
+for these calculations. 
+These variables can be set by the prime_partition constructor
+after create_pset has finished its job.
+<p>
+
+<LI>
+For 20 points,
+implement the missing function operator which takes an integer
+argument, partitions it into its sum of prime numbers, and
+prints the result to stdout. 
+First carry out a Goldilocks check for
+the given integer: it can't be too small, and it can't be too 
+large. That is, numbers outside [2;10,000) should be rejected.
+Then call a private member function called compute_partition, 
+which determines which prime numbers add up to the given integer,
+followed by a call to a private member function called
+print_partitions, which prints all the the different combinations
+of prime numbers to stdout. More about these function next.
+<p>
+
+Hint: 
+You may want to have the function operator set a max_terms 
+variable to 2 for even numbers and 3 for odd numbers. 
+This variable can be used to speed the compute_partition function 
+up by rejecting solutions that involve more prime numbers than
+that, e.g., 16 = 2+2+2+... should be deemed a bad solution and 
+abandonded since only two prime numbers are needed, 
+namely, 11+5 or 13+3.
+<p>
+
+Hint:
+You may also want to think about the data structures
+needed to store the result produced by compute_partition
+and used by print_partitions. For example, you may want
+to use a vector to hold the list of prime numbers for
+a given partition and a vector of vectors to hold
+the set of all partitions.
+These data structures need to be defined
+and initialized somewhere. 
+<p>
+
+<LI>
+For 40 points, 
+implement the missing compute_partitions function. 
+This must be a recursive function that enumerates thru
+prime numbers that potentially add up to a given
+integer. To keep the output to a minimum, this function
+should only produce prime number sequences where the
+next number is less than or equal to the previous number.
+That is, if N=A+B+C+..., then A>=B>=C>=..., e.g.,
+16=11+5 or 13+3 but not 5+11 or 3+13.
+<p>
+
+Base cases should include when a solution has
+been found (number=0), 
+when the number being partitioned is invalid 
+(number&lt;last number), or when too many terms
+are being considered.
+<p>
+
+The recursion must use backtracking to iterate thru 
+valid prime numbers stored in the pset. This is very
+similar to the computation carried out when solving the 
+sudoku puzzle. That is, given a list of possible prime
+numbers, try each in turn and recursively attempt to 
+partition the resulting smaller number. Whether that
+fails or succeeds, remove the attempted prime number
+and try the next until the list has been exhausted.
+<p>
+
+Hint: Let the list of possible prime numbers be bracketed
+by two set::iterators that respectively are initialized
+to pset.begin() and pset.upper_bound(number). Define a
+for-loop that iterates thru this sequence. Add each 
+prime number attempted to a partition list before you 
+recursively call compute_partitions to partition the 
+remaining difference. For example, say the current
+number is 16. The list of possible prime numbers are
+thus 2, 3, 5, 7, 11, and 13. When trying 2, the recursive
+call to compute_partitions is given 14 as the next number
+to partition (16-2). 
+
+<LI>
+For 15 points, 
+implement print_partitions which prints all valid prime number 
+partitions to stdout. See code behavior examples below.
+<p>
+
+<LI>
+Run the script /home/cs140/labs/lab8/copy to obtain
+a Hydra executable called sgoldbach that works as 
+described above.  You also get a makefile and the 
+mentioned skeleton program. Run the executable on 
+several difference numbers to see how it haves.
+Note that prime numbers produce a single prime number.
+Some numbers can be partitioned in a very limited
+number of ways while others can be partitioned
+in many different ways. For example, the output
+for 9,999 shown only partially below actually consists
+of 21,998 prime number triplets.
+</UL>
+
+<hr>
+<h3>Executable output examples</h3>
+
+<b>Goldbach Partitioning</b>
+<pre>
+user> ./goldbach
+number = 17
+17
+
+number = 21
+19 2
+
+number = 24
+13 11
+17 7
+19 5
+
+number = 27
+17 5 5
+17 7 3
+19 5 3
+23 2 2
+
+number = 42
+23 19
+29 13
+31 11
+37 5
+
+number = 998
+499 499
+541 457
+577 421
+601 397
+619 379
+631 367
+661 337
+691 307
+727 271
+757 241
+769 229
+787 211
+859 139
+919 79
+937 61
+967 31
+991 7
+
+number = 9999
+5003 2549 2447
+5003 2579 2417
+5003 2657 2339
+5003 2663 2333
+5003 2687 2309
+5003 2699 2297
+5003 2729 2267
+5003 2753 2243
+5003 2789 2207
+5003 2843 2153
+...
+9949 31 19
+9949 37 13
+9949 43 7
+9949 47 3
+9967 19 13
+9967 29 3
+9973 13 13
+9973 19 7
+9973 23 3
+
+number = CTRL-D
+</pre>
+<hr>
+
+<h3>Grade Rubric</h3>
+<p>
+See previous lab assignments for notes on general expectations.
+
+<h4>Goldbach (110 points)</h4>
+<pre>
+*15: Properly define the prime_partitioning class.
+*20: Implement the create_pset member function.
+*20: Implement the function operator().
+*40: Implement the compute_partitions member function.
+*15: Implement the print_partitions member function.
+</pre>
+
+<hr>
+
+Sat Apr 20 10:10:11 EDT 2019

@@ -1,0 +1,392 @@
+<title> CS140 -- Lab Assignment 5</title>
+
+<h1> CS140 -- Lab Assignment 5 (125 pts: Spring, 2019)</h1>
+
+<hr>
+<h3>Getting motivated</h3>
+
+In this lab, you will write a C++ program for solving a sudoku game. 
+The goal of the exercise is 
+for you gain experience with recursion and backtracking.
+
+<hr>
+<h3>Lab submission and due date</h3>
+All work
+should be contained the file called "Sudoku.cpp".
+The due date is 11:59pm on Tuesday Mar 26, 2019. 
+NOTE: You neither need nor do you have three weeks to do this 
+assignment as Exam 2 requires some of your attention plus
+Spring Break takes out a full week. 
+Get started early. You will thank yourself later.
+The assignment may be (much) more difficult than you think. 
+<p>
+
+<hr>
+<h3>Sudoku primer</h3>
+
+You presumably know how to play the Sudoku game, but if you don't,
+<href a=http://en.wikipedia.org/wiki/Sudoku> 
+wikipedia<a> gives an introduction that
+includes the history and other variants of the game. 
+Basically,
+the objective is to fill a 9-by-9 grid with numbers from 
+1 to 9 in such a way that the following simple condition is met:
+each row, column, and 3-by-3 block contains each number exactly once.
+If you like this kind of thing, Bob Harris (a former MS student
+of mine who went on to get a PhD from Penn State) maintains a 
+number of a Squiggly Sudoku puzzles on 
+his website (see <href a=http://www.bumblebeagle.org/dusumoh>
+www.bumblebeagle.org<a>). 
+His puzzles are so good, he had one printed
+in an issue of Scientific American.  Pretty cool!
+
+<hr>
+
+<h3>Code you need to write </h3>
+
+Write the following code.
+Be sure to check it rigorously. Don't submit code
+that doesn't compile, doesn't work, or doesn't come close
+to doing the right thing. See the TAs well in advance
+of the deadline to get your problems sorted out. 
+<p>
+
+</UL>
+<LI>
+Run the script /home/cs140/labs/lab5/copy to obtain
+a Hydra executable called "ssudoku"
+that can create and solve sudoku games.
+You will also get a makefile and a game
+to get you started. You can always generate more. 
+The underlying random number generator is seeded 
+differently each second meaning you are unlikely to
+reproduce a particular game. Therefore, make sure you 
+use unique file names for different runs.
+
+<p>
+Example sudoku output is shown below 
+in the form of simple ascii grids. 
+The makepdf script also given to you creates
+a nice printable version for pen-and-paper fun.
+This script only works on Hydra machines.
+
+<p>
+The solution executable has two modes, namely,
+create (-c) and solve (-s). You only need to 
+write code for the solve mode. The create mode generates
+a complete sudoku solution, then randomly
+resets as many grid cells to zero (equivalent to blank) 
+as possible while ensuring that the resulting puzzle
+has a unique solution. That way, you can compare the
+solution executable's output with your output when
+you start solving the puzzles.
+Generating a new game sometimes takes a bit long.
+If you get tired of waiting, kill the program (ctrl-C) and
+run it again.
+
+<p>
+To help you get going, the copy script also gives you a
+source code file called "Sudoku.cpp" that does all the
+boring work associated with checking commandline options,
+reading, writing, and displaying games. Your job is to
+add the missing pieces as described next.
+
+<LI>
+For 30 points,
+augment "Sudoku.cpp" with code for error checking
+both games that you read and solutions that you
+(ultimately) produce. 
+Specifically, update private member function 
+sudoku::read() to check that 
+grid indices and values are valid when reading 
+a new game; grid indices must be in the range
+0-8 while grid values must be in the range 0-9.
+The value check should be placed in its own
+private member function called 
+sudoku::error_check_value() as it must also be 
+performed on solutions before displaying them
+and writing them to file.
+Be forewarned that
+while 0 is a valid grid value for a new game
+when it is read from file, it is not a valid grid
+value
+after the game has been solved as it indicates
+a blank cell; you may consequently want
+sudoku::error_check_value() to take
+arguments that define the value range checked.
+Lastly, create and use private member function 
+sudoku::error_check_uniqueness() to make sure
+solutions are valid; the grid values must be unique for 
+each row, column and block. 
+All error checking should print offending data to stderr 
+before bailing out (exit(0)).
+See code behavior examples below.
+<p>
+
+<LI>
+For 95 points, update Sudoku.cpp to solve the 
+commandline specified game.
+Have public member function sudoku::solve() 
+initialize the computation and carry out
+the error checking described above.
+Have private member function sudoku::solve(arguments) 
+carry out the recursion. This function takes 
+arguments that tells it what to do and on what data.
+What the arguments depends on your choice of
+implementation.
+<p>
+
+Pseudo-code for the recursive solve() function looks
+as follows:
+<pre>
+solve(arguments) {
+  if solution found,
+    return solution-found
+
+  set cell index (i,j)
+  determine valid values
+  if no valid values left,
+    return road-to-nowhere
+
+  iterate thru valid values {
+    game[i][j] = next value
+    if solve(arguments) == solution-found
+      return solution-found
+  }
+
+  reset: game[i][j] = 0
+  return road-to-nowhere
+}
+</pre>
+In words,
+the recursive search for the solution is based 
+on enumerating valid values for each empty cell in numerical
+order. 
+When a particular sequence of choices makes it impossible to
+continue, backtracking is used to return to the last 
+viable configuration such that you can try the next value.
+As you have seen in class, recursion is a deceptively 
+simple way to solve a problem and it is easy to mess it up.
+Pay attention to your base cases as they stop
+the recursion. Likewise, pay attention to the 
+code that advances you toward the base cases,
+since if this doesn't work, your code will either
+stop prematurely or not at all!
+<p>
+
+Hint: Make sure your recursive code
+doesn't clobber the solution when it works its way
+back out to the original call to sudoku::solve()
+in the main function. Use call sudoku::display()
+to visualize the solution and use sudoku::write() 
+to write the solution to file.
+<p>
+
+Create private member function sudoko::valid_values() that 
+determines and returns the set of valid values for a 
+given grid cell. For a blank
+grid, the answer would be [1,2,...,9]. As the grid gets 
+filled out, numbers should be ruled out depending on the
+row, column and 3x3 block context. 
+Use the same logic for this as you did when writing 
+the sudoku::error_check_uniqueness() function.
+Add code to the recursive solve function to ensure that 
+the next cell considered has the lowest number of possible 
+valid values of those left.
+When the number of valid values is zero, 
+the recursion has backed itself into a corner.
+Go back to the previous grid cell and try a different 
+data value. If that doesn't work, go back yet another step, etc.
+This is the mentioned backtracking. 
+Do this automatically using appropriately placed "return" calls.
+Think long and hard about what information needs to be 
+passed back where and how.
+Eventually, you
+will find the solution. Consider that a base case.
+Not being to continue the recursion due is also a
+base case. Both stop the recursion. 
+<p>
+
+Hint: Draw inspiration from nqueens::placequeen() from the 
+nqueens_handout. The two games are clearly different but 
+their mode of operation is essentially the same.
+<p>
+
+</UL>
+
+<hr>
+<h3>Executable output examples</h3>
+
+<b>sudoku game creation (solution code only)</b>
+<pre>
+user> sudoku -c game.txt
+CREATE
+| --------------------------- |
+| 5  3  4 | 9  6  7 | 1  2  8 |
+| 2  8  7 | 4  1  3 | 6  5  9 |
+| 9  1  6 | 2  8  5 | 7  4  3 |
+| --------------------------- |
+| 6  4  1 | 5  7  8 | 3  9  2 |
+| 7  5  3 | 1  2  9 | 8  6  4 |
+| 8  2  9 | 3  4  6 | 5  1  7 |
+| --------------------------- |
+| 1  9  5 | 8  3  2 | 4  7  6 |
+| 4  7  8 | 6  9  1 | 2  3  5 |
+| 3  6  2 | 7  5  4 | 9  8  1 |
+| --------------------------- |
+REDUCE
+70% reduction
+| --------------------------- |
+| 0  0  0 | 0  6  0 | 0  0  8 |
+| 0  8  7 | 4  0  0 | 0  5  0 |
+| 0  1  0 | 2  0  5 | 7  0  0 |
+| --------------------------- |
+| 6  0  0 | 0  7  0 | 0  9  0 |
+| 0  5  3 | 0  0  9 | 0  6  4 |
+| 0  0  0 | 0  0  0 | 5  0  0 |
+| --------------------------- |
+| 0  9  5 | 0  0  0 | 0  0  0 |
+| 0  0  0 | 0  0  0 | 2  0  0 |
+| 0  0  0 | 7  0  4 | 0  0  0 |
+| --------------------------- |
+user> cat game.txt
+0 4 6
+0 8 8
+1 1 8
+1 2 7
+1 3 4
+1 7 5
+2 1 1
+2 3 2
+2 5 5
+2 6 7
+etc
+
+user> makepdf game
+user> acroread game.pdf
+</pre>
+
+<hr>
+<b>sudoku game solving</b>
+<pre>
+user> sudoku -s game.txt
+READ
+| --------------------------- |
+| 0  0  0 | 0  6  0 | 0  0  8 |
+| 0  8  7 | 4  0  0 | 0  5  0 |
+| 0  1  0 | 2  0  5 | 7  0  0 |
+| --------------------------- |
+| 6  0  0 | 0  7  0 | 0  9  0 |
+| 0  5  3 | 0  0  9 | 0  6  4 |
+| 0  0  0 | 0  0  0 | 5  0  0 |
+| --------------------------- |
+| 0  9  5 | 0  0  0 | 0  0  0 |
+| 0  0  0 | 0  0  0 | 2  0  0 |
+| 0  0  0 | 7  0  4 | 0  0  0 |
+| --------------------------- |
+SOLVE
+| --------------------------- |
+| 5  3  4 | 9  6  7 | 1  2  8 |
+| 2  8  7 | 4  1  3 | 6  5  9 |
+| 9  1  6 | 2  8  5 | 7  4  3 |
+| --------------------------- |
+| 6  4  1 | 5  7  8 | 3  9  2 |
+| 7  5  3 | 1  2  9 | 8  6  4 |
+| 8  2  9 | 3  4  6 | 5  1  7 |
+| --------------------------- |
+| 1  9  5 | 8  3  2 | 4  7  6 |
+| 4  7  8 | 6  9  1 | 2  3  5 |
+| 3  6  2 | 7  5  4 | 9  8  1 |
+| --------------------------- |
+user> cat game_solved.txt
+0 0 5
+0 1 3
+0 2 4
+0 3 9
+0 4 6
+0 5 7
+0 6 1
+0 7 2
+0 8 8
+1 0 2
+etc
+
+user> makepdf game_solved
+user> acroread game_solved.pdf
+</pre>
+
+<hr>
+<b>sudoku game error checking: grid indices </b>
+<pre>
+user> sudoku -s badgame1.txt
+READ
+line 4: 0 9 5 out-of-bounds grid index 
+line 7: 9 7 7 out-of-bounds grid index 
+</pre>
+
+The above was simulated by forcing two cells
+of game.txt to take on wrong values, namely
+<pre>
+  0 8 5 -> 0 9 5
+  1 7 7 -> 9 7 7
+</pre>
+
+<b>sudoku game error checking: grid values (simulated) </b>
+<pre>
+READ
+| --------------------------- |
+| 9  0  0 | 0  9  0 | 0  4  5 |
+| 0  0  4 | 0  2  0 | 0  7  1 |
+| 8  0  0 | 0  9  0 | 0  0  6 |
+| --------------------------- |
+| 0  9  0 | 0  0  0 | 0  0  0 |
+| 0  6  0 | 0  0  0 | 0  5  0 |
+| 0  0  0 | 3  0  3 | 0  1  0 |
+| --------------------------- |
+| 3  0  0 | 0  0  4 | 0  0  0 |
+| 0  2  0 | 0  0  3 | 0  0  3 |
+| 7  0  0 | 0  0  0 | 4  2  0 |
+| --------------------------- |
+cell 0 0: non-unique value 9
+cell 0 4: non-unique value 9
+cell 2 4: non-unique value 9
+cell 5 3: non-unique value 3
+cell 5 5: non-unique value 3
+cell 7 5: non-unique value 3
+cell 7 8: non-unique value 3
+</pre>
+
+The above was simulated by forcing three cells
+of game.txt to take on wrong values, namely
+<pre>
+  0 4 1 -> 0 4 9
+  5 3 8 -> 5 3 3
+  7 5 7 -> 7 5 3
+</pre>
+Notice the cascade of errors that resulted. 
+That is, each error generated multiple cases
+of non-uniqueness. While this may seem
+confusing, keeping track and only reporting
+the first instances is more trouble than it's
+worth. Use the simple error checking indicated
+here to help ensure you load a valid game and
+that your code produces a valid solution.
+<hr>
+
+<h3>Grade Rubric</h3>
+<p>
+See previous lab assignments for notes on general expectations.
+
+<h4>Sudoku (125 points)</h4>
+<pre>
+*10: Proper reporting of invalid grid indices
+*10: Proper reporting of invalid grid values
+*10: Proper reporting of non-unique grid values 
+*15: Finding the correct set of valid values for each empty cell
+*10: Correct set up of solve() -- which calls solve(arguments)
+*50: Correct use of recursion and backtracking for solve(arguments)
+*30: Make recursion always try cell with fewest valid values next
+</pre>
+
+<hr>
+Sun Mar  3 13:41:14 EST 2019

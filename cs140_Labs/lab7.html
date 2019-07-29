@@ -1,0 +1,405 @@
+<title> CS140 -- Lab Assignment 7</title>
+
+<h1> CS140 -- Lab Assignment 7 (200 pts: Spring, 2019)</h1>
+
+<hr>
+<h3>Getting motivated</h3>
+
+Yeah! You have made it to the last regular CS140 lab. This time,
+you will put much of what you have learned together into one program.
+That is, you will define multiple classes with public and private members,
+overload an operator or two,
+perform command-line option decoding, read data from a file, 
+use a list (std::vector), a balanced binary search tree (std::map),
+and a binary heap (std:make_heap) as well as associated iterators.
+When completed, the program will print info to stdout for your
+enjoyment. OK, maybe that's a stretch. But 
+after not having been able to compile your program,
+you will be glad to finally see it do something.
+
+<hr>
+<h3>Lab submission and due date</h3>
+Submit your work via Canvas as usual.
+All code should be contained in a file called Labscores1.cpp or
+Labscores2.cpp depending on far you make it.
+The due date is 11.59pm Tuesday Apr 23, 2019. 
+NOTE: Exam 3 is scheduled for Thursday Apr 18, 2019.
+<p>
+
+<hr>
+<h3>Programs you need to write </h3>
+
+Write the following code. Seek help well in advance
+of the deadline to clarify any points of confusion
+you may have. 
+
+<UL>
+<LI>
+Run the /home/cs140/labs/lab7/copy script 
+to obtain a Hydra exectuable called slabscores, example data files
+called name_scores1.txt, name_scores2.txt, name_scores3.txt,
+and a makefile.
+As usual, the executable showcases the functionality described next.
+When in doubt about what to do, run this executable and study
+the output.
+<p>
+
+<LI>
+For 100 points,
+create Labscores1.cpp as follows.
+Have the main function read an unknown number of lines from a commandline
+specified file.
+Each line contains a first name and a last name followed
+by an unknown number of integers representing 
+fictitious CS140 students and their lab scores.
+The data is to be reformatted and printed to stdout in sorted order
+along with simple stats, namely, the median and mean scores.
+See an output example below.
+<p>
+
+Create a class called name_t which holds and prints 
+the student name.
+Public members shall include a constructor if needed,
+an overloaded less-than comparison operator, i.e.,
+operator&lt;(),
+which returns true if the string "lastname, firstname"
+is lexicographically less than the corresponding string for a
+right hand side argument,
+and a function called print_name()
+which produces the required output format including the 
+printing of ellipses. Specifically, each "lastname, firstname"
+output should be followed first by a blank space and then
+by enough ellipses (...) to the point where the longest name
+has two ellipses.
+The first and last name strings must be private data members. 
+Post-instantiation access should be done using
+public set and get member functions if need be.
+Any such helper functions must be given and
+return references to strings instead of copies of strings. 
+<p>
+
+Hint: 
+Each name object only knows about itself and neither has 
+awareness nor access to other name objects (why?).
+The max length consequently <it>has</it> 
+to be determined elsewhere. For example,
+the main function can determine the length of the longest
+name when reading the input data. The max length can 
+subsequently be passed as an argument to the 
+name_t::print_name() function so that it knows how wide to 
+make the name field. 
+<p>
+
+Create a class called labscores_t which holds and prints the
+lab scores and stats.
+Public members shall include a constructor if needed,
+a function called add_data() for adding a lab score,
+a function called set_stats() 
+for sorting the lab scores and computing the median
+and mean scores,
+and a function called print_labscores() for printing
+the lab scores and stats to stdout.
+Use a vector to hold the lab scores. Make it and
+the stats private data members. 
+Depending on your overall implementation strategy,
+this may again necessitate the addition of public
+set and/or get functions.
+<p>
+
+Hint:
+The median is found at index (N-1)/2 in a sorted 
+N-element list.
+Use can use the STL algorithms sort() and 
+accumulate() to do some of the the heavy lifting.
+See cplusplus.com for details.
+<p>
+
+The main function shall 
+include command line parsing as well as
+reading, parsing, and processing of data 
+from a given input file.
+That is, your
+program must make sure that two commandline
+arguments
+are present where the first argument is
+"-byname" and the second argument
+specifies a file.
+Proper program usage should be printed to
+stderr if either argument is missing
+as well as if unknown arguments are specified.
+Mimic the behavior of the solution executable.
+<p>
+
+The main function shall use an std::map container
+to store pairs of name_t and labscores_t objects.
+The name_t object is the key that determines
+where the data goes in the map.
+The labscores_t object is the data that goes with it.
+You will not be allowed to change the name_t
+object once it has been inserted into the map.
+You can change the labscores_t object data 
+should you want or need to.
+Your program must silently
+reject insertion of new
+data if the map already contains a node with the
+same name_t object. 
+<p>
+
+For the Labscores1 program, data processing 
+simply means printing the output in alphabetical
+order. This in turn translates into an inorder
+traversal of the map 
+(which you may recall is a balanced BST).
+Use an iterator based loop to achieve this.
+<p>
+
+Make no assumptions about the number of lines in
+an input file. 
+You may assume that an input file is structurally
+consistent in that all students have a firstname
+and lastname and that they all have the same number
+of lab scores but make no assumptions what that
+number is (it may vary from file to file).
+<p>
+
+<LI>
+For 100 points,
+create Labscores2.cpp as a modified version of
+Labscores1.cpp which handles parsing of more
+commandline arguments and, most importantly,
+is able to produce and print sorted listings 
+of the student records based on their scores.
+You must use a binary heap to achieve the
+latter functionality.
+See an output example below.
+<p>
+
+The main function must be modified to accept either
+"-byname", "-byrank', or "-top10" as its first argument.
+You will need to keep track which of the
+three options is specified, so you can
+control the program behavior.
+All options cause data to be read from
+the given file as before. 
+<p>
+
+Create a class called heap_t which implements
+a heap for map iterators. 
+Public members shall include a constructor if needed,
+a function called empty() which returns true if the heap
+contains no data,
+and 
+a function called add_data() which adds a map iterator
+to a vector object; the map iterator should be passed 
+to the function by reference.
+Public members shall also include
+a function called heapify() which reorganizes the vector
+object data to produce a binary max-heap,
+and a function called extract_top() which pops and 
+returns a copy of the map iterator stored by the 
+max-element at the top the heap. 
+Private members shall include the aforementioned
+vector object which holds the map iterators that 
+give you access to the student records stored in 
+the map.
+<p>
+
+The map iterators must be wrapped in a private 
+subclass called data_t which includes an overloaded 
+less-than comparison operator.
+Doing this makes it easier to use the STL
+algorithms std::make_heap(), which heapifies a
+vector object, and std::pop_heap(), which helps
+maintain the heap as data is extracted. 
+See cplusplus.com for details.
+<p>
+
+The max-heap is defined by the following less-than
+comparision operator. An object specified by a
+student record map iterator is less than another 
+such iterator if
+the mean lab score is the smaller of the two.
+When two objects have the same mean score, 
+use the median score to determine which is less than
+the other.
+When two objects have the same mean and median scores, 
+use the name to determine which is less than the other.
+See the "-byrank" output examples below.
+<p>
+
+Update the main function to choose
+between printing the contents of the map in
+sorted order by name or by score rank. 
+Use the same heap based iterator loop to output
+all student records by rank and just the top 10. 
+That is, set the number of records to be output
+for option "-byrank" to have an upper limit of INT_MAX
+while option
+"-top10" should set the upper limit to 10. Other than
+that, these two modes work and operate in the exact
+same way.
+<p>
+
+
+<LI>
+Friendly warning: 
+The compiler may complain vigorously when you try 
+to compile your code.
+One of the things you need to watch out for when
+using iterator access of STL containers is
+whether they should provide read-only access.
+That is, you may need to use const references
+and you may need to declare member functions const.
+Of course, don't use a const reference if you plan
+to change the data. Like all painful exercises,
+you will learn an important lesson from this.
+Fingers crossed you learn it quickly!
+<p>
+
+In a pre-emptive strike, make all function reference
+arguments const unless the data needs to be changed.
+Likewise, declare all class member functions that
+do not alter the state of an object for const.
+Undo as necessary to make the compiler happy, but
+use read-only access as your default mode of
+operation.
+<p>
+
+</UL>
+
+<hr>
+<h3>Executable output examples</h3>
+
+Note: Extra white space has been added for ease of reading,
+and [snip] means output has been cut. 
+<p>
+
+<b>labscores input: name_scores1.txt</b>
+<pre>
+user> cat name_scores1.txt 
+
+OLIN TORRES         	81	73	58	54
+MARGARITA REED      	81	75	94	54
+FEDERICO CAMPOS     	95	88	80	79
+ADRIENNE NASH       	87	57	98	70
+JERROD SAUNDERS     	84	53	80	71
+GEORGIA BLACKWELL   	61	79	58	71
+LELA PHILLIPS       	75	57	53	50
+JON MEADOWS         	73	53	99	74
+KIRSTEN MURRAY      	69	65	73	90
+JOHNATHON FARMER    	68	88	66	89
+[snip]
+</pre>
+
+<b>labscores output: commandline error checking</b>
+
+<pre>
+user> ./labscores -badoption name_scores1.txt 
+
+usage: labscores -byname|byrank|top10 datafile.txt
+</pre>
+
+<b>labscores output: option -byname</b>
+
+<pre>
+user> ./labscores -byname name_scores1.txt 
+
+BLACKWELL, GEORGIA .. 58 61 71 79 : 61 67.2
+BROOKS, RANDELL ..... 75 85 92 94 : 85 86.5
+BROWNING, DALE ...... 63 68 76 96 : 68 75.8
+CAMPOS, FEDERICO .... 79 80 88 95 : 80 85.5
+CRUZ, JACK .......... 51 67 70 76 : 67 66.0
+FARMER, JOHNATHON ... 66 68 88 89 : 68 77.8
+FARRELL, HARRIET .... 50 55 59 78 : 55 60.5
+FINLEY, CHRISTINE ... 52 65 73 86 : 65 69.0
+HILL, WALKER ........ 57 61 90 93 : 61 75.2
+JACKSON, JAMAL ...... 80 81 88 98 : 81 86.8
+[snip]
+</pre>
+
+<b>labscores output: optione -byrank</b>
+
+<pre>
+user> ./labscores -byrank name_scores1.txt 
+
+WIGGINS, HARRIS ..... 72 93 93 93 : 93 87.8
+TATE, DENA .......... 82 83 90 95 : 83 87.5
+JACKSON, JAMAL ...... 80 81 88 98 : 81 86.8
+BROOKS, RANDELL ..... 75 85 92 94 : 85 86.5
+CAMPOS, FEDERICO .... 79 80 88 95 : 80 85.5
+KNAPP, KENYA ........ 51 81 92 95 : 81 79.8
+LOPEZ, WESLEY ....... 63 75 86 90 : 75 78.5
+NASH, ADRIENNE ...... 57 70 87 98 : 70 78.0
+FARMER, JOHNATHON ... 66 68 88 89 : 68 77.8
+REED, MARGARITA ..... 54 75 81 94 : 75 76.0
+SUMMERS, LEONARDO ... 70 70 71 92 : 70 75.8
+BROWNING, DALE ...... 63 68 76 96 : 68 75.8
+HILL, WALKER ........ 57 61 90 93 : 61 75.2
+MEADOWS, JON ........ 53 73 74 99 : 73 74.8
+MURRAY, KIRSTEN ..... 65 69 73 90 : 69 74.2
+STEIN, SOPHIE ....... 54 65 82 96 : 65 74.2
+NEWMAN, DEIDRE ...... 56 65 85 90 : 65 74.0
+WOODWARD, DUSTIN .... 60 66 79 88 : 66 73.2
+SAUNDERS, JERROD .... 53 71 80 84 : 71 72.0
+FINLEY, CHRISTINE ... 52 65 73 86 : 65 69.0
+BLACKWELL, GEORGIA .. 58 61 71 79 : 61 67.2
+TORRES, OLIN ........ 54 58 73 81 : 58 66.5
+CRUZ, JACK .......... 51 67 70 76 : 67 66.0
+FARRELL, HARRIET .... 50 55 59 78 : 55 60.5
+PHILLIPS, LELA ...... 50 53 57 75 : 53 58.8
+
+user> ./labscores -byrank name_scores2.txt 
+
+[snip]
+BLACK, SAL ........... 13 16 33 36 46 57 80 : 36 40.1
+STEPHENS, CHRISTIAN ..  3  5 17 31 45 75 87 : 31 37.6
+CASH, LAMAR ..........  8 12 15 22 49 62 95 : 22 37.6
+SHELTON, NOE .........  3  3 13 22 60 70 92 : 22 37.6
+OCHOA, JERROLD .......  3 15 25 31 38 59 91 : 31 37.4
+BERRY, JUDY .......... 16 18 25 32 35 62 73 : 32 37.3
+HOBBS, KATHIE ........  8 10 13 20 61 67 82 : 20 37.3
+[snip]
+</pre>
+
+<b>labscores output: option -top10</b>
+
+<pre>
+user> ./labscores -top10 name_scores1.txt 
+
+WIGGINS, HARRIS ..... 72 93 93 93 : 93 87.8
+TATE, DENA .......... 82 83 90 95 : 83 87.5
+JACKSON, JAMAL ...... 80 81 88 98 : 81 86.8
+BROOKS, RANDELL ..... 75 85 92 94 : 85 86.5
+CAMPOS, FEDERICO .... 79 80 88 95 : 80 85.5
+KNAPP, KENYA ........ 51 81 92 95 : 81 79.8
+LOPEZ, WESLEY ....... 63 75 86 90 : 75 78.5
+NASH, ADRIENNE ...... 57 70 87 98 : 70 78.0
+FARMER, JOHNATHON ... 66 68 88 89 : 68 77.8
+REED, MARGARITA ..... 54 75 81 94 : 75 76.0
+</pre>
+
+<hr>
+
+<h3>Grade Rubric</h3>
+
+<h4>Labscores1 (100 points)</h4>
+<pre>
+*20: Definition and implementation of name_t class. 
+*35: Definition and implementation of labscores_t class. 
+*35: Implementation of main function including commandline argument
+     processing, reading and parsing of input data from file,
+     object instantions and handling, and iterator based output loop.
+*10: Code structure and comments.
+
+</pre>
+
+<h4>Labscores2 (100 points)</h4>
+<pre>
+*45: Definition and implementation of heap_t class. 
+*45: Proper main function behavior including commandline argument
+     processing, output mode control, and heap based rank sorting.
+*10: Code structure and comments.
+</pre>
+<hr>
+
+Mon Apr  8 23:50:45 EDT 2019

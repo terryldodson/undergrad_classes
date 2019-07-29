@@ -1,0 +1,263 @@
+<title> CS140 -- Lab Assignment 2</title>
+
+<h1> CS140 -- Lab Assignment 2 (150 pts: Fall 2019)</h1>
+
+<hr>
+<h3>Getting motivated</h3>
+Want to play a game? In this lab you will have two programs
+repeat the process of shuffling and dealing an endless 
+deck of cards and until a specified condition is met.
+The real point of the exercise, though, is to have you work with 
+arrays and linked lists.
+<p>
+
+<h3>Lab submission and due date</h3>
+Your TAs will tell you how to submit your work in lab. 
+The due date for Prog2a is 11.59PM on Saturday February 2, 2019.
+while Prog2b is due 11.59PM on Saturday February 9, 2019.
+Thus, you have four days to finish Prog2a and seven days to
+finish Prog2b. If working on a Saturday is a problem for you, 
+finish the assignments on the Friday.
+
+<p>
+
+<hr>
+<h3>Dealing cards</h3>
+You are given a code sketch for Part A of the assignment. This code
+sketch
+includes a near-empty main program that you fill in as well as two 
+global arrays of strings representing the rank and suit of a card,
+and a function for generating random cards. Carry this code over from
+Part A to Part B. In fact, carry ALL the code from Part A
+over to Part B and modify what's needed to meet the change in specs.
+(The alternative is start over, but that would be a waste of time.)
+
+<hr>
+<h3>Getting started and what you need to do</h3>
+
+To help you get started,
+run the Hydra script
+/home/cs140/labs/lab2/copy to obtain
+the following files: Prog2a.cpp (sketch code for Part A), 
+prog2a, prog2b (Hydra solution executables), and a makefile.
+Your job is to write the missing source code which must
+behave as described next. 
+<p>
+
+The two executables
+take two optional arguments: -seed=N where N is
+a non-negative integer for seeding the random number generator; 
+and
+-verbose causes the random_card() function to print each card to stdout
+before returning it to the calling function. 
+Note: That there is no error
+checking on the command line arguments; if you feed the
+programs garbage, they may crash or get stuck in a infinite loop -- you get
+out of the latter by typing ctrl-C.
+<p>
+
+<UL>
+<LI>
+For 50 points, make Prog2a.cpp compile and do the following.
+Generate random cards until all the different face cards have 
+each been seen at least twice for
+a given suit (i.e., "Jack", "Queen", and "King").
+then print a table showing how many cards of each suit
+and rank you were dealt along the way. Flag the suit that
+caused termination by adding "**" at the end its output line.
+<p>
+
+The first step is to work out how to parse the string representing 
+a card into suit and rank and translate those into the indices for 
+the corresponding global string arrays. 
+That is, reverse engineer what the random_card() function does.
+Caveat: Do not simply use integer division to reverse the modulo 
+arithmetic, instead use string comparisons.
+Test the code by temporarily printing the suit and rank indices 
+to stdout.
+Break out of the loop after some small number of iterations.
+<p>
+
+The next step is to add a table that keeps track of which cards
+you are dealt (counts of suit and rank pairs).
+Implement this table using a static two-dimensional array
+whose content you initialize to zero before entering the while loop.
+The table should have 4 rows and 13 columns corresponding to the
+fixed number of suits and the number of ranks, respectively.
+Test the code by printing the table to stdout as shown below
+after you break out of the loop.
+Again, do so after some small number of iterations.
+<p>
+
+The last step is to replace the finite-number-of-iterations 
+termination criterion with the one requested which is based
+on all different cards having been seen at least once 
+for a given suit. 
+That is, step thru the table for each suit and set a Boolean
+variable to true if the condition is met. Use this variable
+to break out of the loop.
+<p>
+
+Test your Prog2a exectuable using different seed values. 
+Use the verbose command-line option to print the cards to stdout
+so you can double-check your table output.
+When the code works as intended, clean it up and add a few comments.
+
+<LI>
+For 100 points, write the non-existent Prog2b.cpp code and have it
+keep track of the order in which a card rank is observed for each
+suit. You do this by inserting the cards at the front of
+linked lists, using one list for each suit. 
+If a card had been encountered previously and thus found elsewhere in
+the list, that earlier instance of the card is removed.
+When the stopping criterion from Prog2a is encountered, break
+the infinite-loop and print the contents of each linked
+list to stdout as shown below.
+<p>
+
+Add an array of linked lists: the length of the array is fixed 
+at 4 like before, while the length of each linked list varies 
+from suit to suit. Each new card is added to
+the appropriate list thru use of an insert() function. Declare
+a list class based on a single linked list. The list class needs
+to define a private node datatype, and it must include a 
+constructor for 
+properly initializing an empty list, a destructor for deallocating
+all the nodes in a list as well as the list itself, and the mentioned
+insert function which works as described next; no other list class
+functions are needed and should not be implemented.
+Overload operator<<() used by ostream and have it print
+the contents of the list. Since access is needed to private data
+members, make the overloaded output operator a friend of the list
+class. See the code handouts for how to set this up.
+<p>
+
+The list::insert() function is where the fun work takes place.
+The function takes a single integer argument, namely, the
+rank index of a card where index refers to the position of the
+rank in the global rank string array. 
+A new node is created and added to the front of the list that 
+stores the rank index value.
+A search is then carried out to see if the rank index value
+is found downstream from the new node; if so, the older 
+node is removed from the list.
+<p>
+
+Hint: You are using a single linked list which means you cannot go
+back once you have a match on the rank index. One option is to 
+look ahead instead of advancing and then taking a look a the rank
+index. Another option is to maintain two pointers, namely, one pointing
+to previous node and one pointing to current node.
+<p>
+
+Hint: Write generic code that works under all circumstances rather
+than have several codes for special cases. For example, write the
+insert() function so that it can handle a rank match regardless of
+where the matching node resides in the list. Draw a sketch of the 
+different scenarios that need to be handled and infer from it how
+to do it generically.
+
+</UL>
+<hr>
+<h3>Prog2a example output</h3>
+<pre>
+UNIX> ./prog2a
+  Spades :   0   0   0   0   0   2   1   0   1   2   2   3   2 **
+  Hearts :   2   1   1   0   0   1   0   1   1   0   3   0   0
+Diamonds :   0   0   1   0   0   0   2   0   2   1   1   0   1
+   Clubs :   1   0   0   0   0   0   1   0   0   1   1   1   1
+UNIX>
+UNIX> ./prog2a -seed=140
+  Spades :   2   1   4   3   1   2   1   2   2   3   3   1   2
+  Hearts :   3   1   2   0   2   0   1   1   3   3   2   3   4 **
+Diamonds :   1   4   2   3   3   1   4   1   1   7   3   1   0
+   Clubs :   0   2   0   1   4   2   3   1   3   0   2   1   3
+</pre>
+
+Try first the verbose option, and then using different seeds.
+Make sure you understand the output.
+
+<h3>Prog2b example output</h3>
+<pre>
+UNIX> ./prog2b
+  Spades : Jack King 7 Queen 10 6 9 **
+  Hearts : 2 Ace 8 Jack 3 6 9
+Diamonds : 7 10 9 Jack King 3
+   Clubs : King 10 7 Jack Ace Queen
+UNIX> 
+UNIX> ./prog2b -seed=140
+  Spades : 3 Ace 9 10 5 Queen Jack 6 8 7 King 4 2
+  Hearts : Jack 10 King 9 Queen 3 Ace 5 2 7 8 **
+Diamonds : 4 9 10 7 3 5 Queen 2 8 Jack Ace 6
+   Clubs : 8 2 King 5 7 9 Jack 6 Queen 4
+</pre>
+<p>
+Using the verbose option, you once again see the sequence of cards dealt. 
+Write this sequence down on paper and track how cards move to the front 
+of the suit lists (or rather, disappear from the back). To reduce the
+amount of output, use grep to select a particular suit. For example,
+<pre>
+UNIX> ./prog2b -verbose | grep Spades
+Queen of Spades
+6 of Spades
+King of Spades
+10 of Spades
+9 of Spades
+6 of Spades
+10 of Spades
+Jack of Spades
+Queen of Spades
+Queen of Spades
+7 of Spades
+King of Spades
+Jack of Spades
+  Spades : Jack King 7 Queen 10 6 9 **
+UNIX> 
+</pre>
+Again, try using different seeds.
+Make sure you understand the output.
+
+<hr>
+
+
+<h3>Grade Rubric</h3>
+<p>
+NOTE 1: You must have a correctly functioning executable for each program you are assigned to 
+write.
+Verify your output against these working programs. The TAs will do the same when grading your
+submissions.  According  to lab grading guidelines, approximately half of the points awarded 
+for each assignment are determined by program <b>functionality</b>. Make sure your code does
+what it is supposed to!
+
+<p>
+NOTE 2: Use any <b>naming conventions</b> described in the lab assignment. 
+
+<p>
+NOTE 3: Add comments that what purpose major variables serve (not loop counters etc) and 
+what the computation is about at a fairly high level (not loop counter gets incremented etc). 
+Less is often more. Write only as many comments as you think somebody would need to 
+understand the flow of the code. You will not get points for comments, but you may loose
+points if you don't have any.
+
+<p>
+NOTE 4: These notes will not be listed on future lab assignments but they will remain in effect.
+
+
+<h4>Prog2a (50 points)<h4>
+<pre>
+*10: Using a 2D array for keeping track of cards counts.
+*10: Parsing the card string into suit and rank indices.
+*20: Stopping when a stop card is dealt.
+*10: Printing formatted table contents to stdout.
+
+</pre>
+
+<h4>Prog2b (100 points)<h4>
+<pre>
+*40: Linked-list class and use.
+*40: Function list::insert() implementation.
+*10: Overloaded operator<<() implementation.
+*10: Printing cards in order.
+</pre>
+
+Tue Jan 22 22:48:31 EST 2019

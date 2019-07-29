@@ -1,0 +1,328 @@
+<title> CS140 -- Lab Assignment 6</title>
+
+<h1> CS140 -- Lab Assignment 6 (200 pts: Spring, 2019)</h1>
+
+<hr>
+<h3>Getting motivated</h3>
+
+In this lab, you will gain familiarity with the binary search tree
+data structure and the iterator abstraction. The first is a core data
+structure. The latter is a core C++/STL concept.
+
+<hr>
+<h3>Lab submission and due date</h3>
+Submit your work via Canvas as usual.
+The BST.h header file that statisfies BST1 and
+drawings that illustrate the support functions needed by 
+BST2 and BST3 are due 11.59pm 
+Tuesday Apr 2, 2019; scan the drawings mentioned below to PDF or take photos and
+submit JPG or PNG files (make sure they are readable).
+The BST.h file that statisfies BST2 and BST3 is due 11.59pm Tuesday Apr 9, 2019.
+Do not submit any cpp files. Your task is to update the binary search tree
+template code which goes in the BST.h header file.
+<p>
+
+<hr>
+<h3>Programs you need to write </h3>
+
+Write the following code. See the TAs well in advance
+of the deadline to get your problems sorted out. This assignment
+may be more difficult than you first think.
+<b>
+Base your code on the bst1 handout, which uses left and right
+pointers, not the bst2 handout, which uses a link array of 
+pointers.</b>
+
+<UL>
+<LI>
+Run the /home/cs140/labs/lab6/copy script 
+to obtain a skeleton header file called bst.h,
+source code driver programs called
+bst1_usage.cpp, bst2_usage.cpp, and bst3_usage.cpp, 
+x86-Linux executables called bst1, bst2 and bst3,
+as well as data files called
+test1_int.txt and test2_int.txt for development purposes.
+The executables showcase the functionality described next.
+When in doubt about what to do, run these executables and study
+the output.
+Make sure your programs work on other data than the two files
+given to you.
+<p>
+
+<LI>
+For 40 points,
+create the BST.h file needed to compile and run the BST1
+program which is based on bst1_usage.cpp. Here is how you
+do it.
+<p>
+
+Copy bst.h to BST.h. Strip out comments as well as
+any code not needed like
+the iterator subclass and all undefined bst member functions.
+Add a node ID (int) and a parent pointer (node *) 
+to the bst::node subclass.
+Define
+define and implement the bst::node() constructor.
+Have the constructor take a node ID argument which is set
+to 0 if absent, and use this argument to initialize the node ID.
+Set the parent pointer to NULL.
+<p>
+
+The node ID is a unique integer assigned to nodes as they
+are created. Add a node ID to the bst class which is initialized 
+in the bst constructor and updated everytime a new node is 
+added to the binary search tree. Update bst::insert to do the
+latter and to pass the updated value along to the bst::node
+constructor.
+<p>
+
+With respect to the parent pointer (or link),
+be aware that bst::insert() is a recursive function which
+does not have access to the parent when processing a node. 
+You must therefore set the parent pointer as you ascend out 
+of the recursion (when you reach the parent, you have access to the 
+root of the subtree just processed).
+<p>
+
+Update bst::node::print() to output the node key, its ID,
+the parent ID, and the left and right subtree IDs (if they exist).
+See an output example below.
+<p>
+
+<LI>
+For 25 points, make simple drawings that illustrate how 
+the following three functions
+described below are meant to work, namely,
+bst::iterator::operator++() which implements a single step for
+an inorder traversal, and
+bst::lower_bound(key) and bst::upper_bound(key) which find nodes
+that bracket a search range for a given key, i.e.,
+lower_bound &le; key &lt; upper_bound.
+Add a few sentences to explain your drawings but be succinct.
+These drawings are meant for you to <b>think about functionality
+before you think about code</b>. That is, you can't code what
+you don't understand, and you don't understand what you can't
+explain. This makes you explain.
+<p>
+
+<LI>
+For 90 points,
+modify BST.h as necessary to compile and run the BST2
+program which is based on bst2_usage.cpp. A quick look
+at the latter should convince you that this is a matter
+of adding an iterator subclass to the bst class. Here
+is how you do it.
+<p>
+
+Add public member functions bst::begin() and bst::end()
+which respectively return an iterator that points to the node 
+which holds the smallest key and an iterator that contains
+a NULL pointer which indicates the binary
+search tree has been exhausted (analogous to the first node
+and the end of a single-linked list).
+Recall that the smallest key is found in the leftmost node. You
+find it by iteratively searching thru the sequence of
+left children starting at the root of the tree. 
+<p>
+
+The bst.h file lists a number of iterator operators 
+that must be included, namely:
+++ PRE increment for an inorder move to the next node,
+* for dereferencing and thus accessing the node key,
+== and != for comparing iterators.
+Base your code for these operators
+on the list::iterator code covered in class.
+This might be a good time
+to read and understand the corresponding code 
+handout which available from Canvas.
+
+<p>
+The ++ PRE increment operator is by far the most complicated
+code you will write in this lab assignment.
+Before you even think about programming it, make sure you
+know how to carry out an inorder traversal with focus on
+how to advance from one node to the next. Be aware that
+you will NOT be using recursion. Each call to 
+bst::iterator::operator++ must explicitly update the 
+underlying node pointer to the next node.
+<p>
+
+Hint:
+The bst::begin() function sets the node pointer to the
+leftmost node in the binary search tree. The next node
+is the parent thereof. The next node after that is the 
+leftmost node in the parent's right subtree (if it has any).
+You then return to that node's parent before you process
+it's right subtree. Eventually, you return to the root
+of the tree whereafter you descend into the main
+right subtree. See the pattern?
+Be very careful when you ascend out of the tree when
+the last node has been processed. That is, you must
+detect and handle an attempt to access the parent of the 
+root node since it doesn't exist.
+If you forget to this, your code will seg fault. Guaranteed.
+<p>
+
+When the bst::iterator subclass has been implemented, 
+the print() function in bst2_usage.cpp will output
+the content of the binary search tree in a lexicographically 
+sorted order. See an output example below.
+<p>
+
+<LI>
+For 45 points, 
+modify BST.h as necessary to compile and run the BST3
+program which is based on bst3_usage.cpp. A quick look
+at the latter should convince you that this is a matter
+of adding two public member functions to the bst class,
+namely, bst::lower_bound() and bst::upper_bound()
+which both take a key as input and return an iterator
+corresponding to node in the binary search tree.
+Here is how these functions are suppposed to work.
+<p>
+
+The bst::lower_bound(key) function must return an iterator to the
+first node in the binary search tree whose key is not less
+than the given key, i.e., lower_bound &le; key.
+If the key exists, the returned iterator points to that node.
+If the key does not exist, the returned iterator points to 
+the first node whose key value is greater. 
+Your search must be based on explicitly
+traversing the appropriate path from the root to the target
+node. That is, do not use an iterator based inorder traversal.
+<p>
+
+The bst::upper_bound() function must return an iterator to the
+first node in the binary search tree whose key is strictly
+greater than the given key, i.e., key &lt; upper_bound.
+If the key exists, the returned iterator points to the next 
+node when performing an inorder traversal.
+If the max key does not exist, the returned 
+iterator should represent a NULL pointer.
+Your search must be based on explicitly
+traversing the appropriate path from the root to the target
+node. That is, do not use an iterator based inorder traversal.
+<p>
+
+Hint: bst::lower_bound() and bst::upper_bound() are nearly
+identical; their only difference is the comparison operator
+used.
+<p>
+
+The iterators returned from bst::lower_bound() and
+bst::upper_bound() are passed to the global print()
+function which outputs the corresponding sequence of
+data stored in the binary search tree.
+See an output example below.
+
+</UL>
+
+<hr>
+<h3>Executable output examples</h3>
+
+Note: Extra white space has been added for ease of reading.
+
+<hr>
+<b>bst1</b>
+<pre>
+user> cat test1_int.txt
+
+4
+2
+1
+3
+2
+6
+5
+7
+
+user> ./bst1 test1_int.txt
+
+  4   1 : ROOT  L=  2 R=  5
+  2   2 : P=  1 L=  3 R=  4
+  6   5 : P=  1 L=  6 R=  7
+  1   3 : P=  2            
+  3   4 : P=  2            
+  5   6 : P=  5            
+  7   7 : P=  5            
+</pre>
+
+<hr>
+<b>bst2</b>
+<pre>
+user> ./bst2 test1_int.txt
+
+ 1 2 3 4 5 6 7
+</pre>
+
+<hr>
+<b>bst3</b>
+<pre>
+user> ./bst3 test1_int.txt
+
+ 1 2 3 4 5 6 7
+
+Print [key0:key1]: 5 8
+*** lower bound 5
+*** upper bound INF
+
+  5 6 7
+
+Print [key0:key1]: 0 2
+*** lower bound 1
+*** upper bound 3
+
+   1 2
+
+Print [key0:key1]: 3 3
+*** lower bound 3
+*** upper bound 4
+
+    3
+
+Print [key0:key1]: 10 20
+*** lower bound INF
+*** upper bound INF
+
+Print [key0:key1]: Ctrl-D
+</pre>
+
+<hr>
+
+<h3>Grade Rubric</h3>
+
+<h4>BST1 code (30 points)</h4>
+<pre>
+*15: Definition and use of bst::node::ID information
+*15: Definition and use bst::node::parent information
+</pre>
+
+<h4>BST2 understanding (15 points)</h4>
+<pre>
+*15: Drawing that illustrates bst::iterator++() mode of operation
+</pre>
+
+<h4>BST2 code (90 points)</h4>
+<pre>
+*20: Definition of bst::iterator subclass, implementation of all
+     member functions and operator overloads except operator++().
+*50: Implementation of bst::iterator::operator++() 
+*10: Implementation of bst::begin and bst::end member functions
+*10: Code structure and comments
+</pre>
+
+<h4>BST3 understanding (20 points)</h4>
+<pre>
+*10: Drawing of bst::lower_bound() computation
+*10: Drawing of bst::upper_bound() computation
+</pre>
+
+<h4>BST3 code (45 points)</h4>
+<pre>
+*20: Implementation of bst::lower_bound member function
+*20: Implementation of bst::upper_bound member function
+*5: Code structure and comments
+</pre>
+
+<hr>
+Sun Mar 24 21:20:44 EDT 2019

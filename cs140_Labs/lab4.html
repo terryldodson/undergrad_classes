@@ -1,0 +1,267 @@
+<title> CS140 -- Lab Assignment 4</title>
+
+<h1> CS140 -- Lab Assignment 4 (200 pts: Spring, 2019)</h1>
+
+<hr>
+<h3>Getting motivated</h3>
+This lab has you write a program called Hashtable
+which brings together many of the data structures and C++/STL concepts
+you have learned about.
+<p>
+
+<hr>
+<h3>Lab submission and due date</h3>
+The Hashtable program is due by 11.59pm on Tuesday, March 5, 2019.
+<p>
+
+<hr>
+<h3>Keeping track of words in files</h3>
+
+All ascii files contain alpha-numerically encoded words plus some
+punctuation and control characters such as newline. 
+Your task is to write a C++ program called Hashtable.cpp
+that reads the ascii file specified on the command-line 
+(and provides an error and exits if not present), 
+builds a hash table of the words in the file
+along with the unique line numbers at which they are found,
+and then allows the user to enter an unlimited number of
+search terms from stdin. Each search must print 
+the line number for each occurrence of the search
+term and the corresponding lines of text to stdout. 
+Only the first instance of a word on a line should be stored.
+
+See example output below. Note that the program you will
+write looks for word occurrences while the unix command
+grep looks for word and substring occurences (e.g. "so" is a word
+as well as a substring of "awesome").
+
+<p>
+All code is to be placed in a single file called
+"Hashtable.cpp" with class definitions and utility
+functions at the top and the main driver function at the bottom.
+Do not split your code into header and source code files.
+
+<hr>
+
+<h3>Code you need to write </h3>
+
+<UL>
+<LI>
+For 0 points,
+implement hashtable_qp.cpp from the hashtable2_handout. This will
+form the base for your work. Make sure the code compiles and runs
+as expected. You only need the hash function for string data.
+
+<p>
+<LI>
+For 60 points, modify the hash_table class code as follows. 
+
+<p>
+Augment the hash_table class with a private
+subclass called "key_line" which uses a string to hold a
+key (word) and a vector of integers to keep track of all the
+line numbers where the key is found in the input file. 
+You will neither need to implement a constructor or 
+a destructor (the defaults will do fine), 
+but you must implement a key_line::inuse() member function 
+that indicates whether the object holds a key or not.
+You will also need to overload the 
+comparison operator, i.e., operator==(). 
+That's it for key_line
+which should be based on a struct instead of a class to make
+it readily available to the hash_table member functions.
+
+<p>
+Remove all template references used by the hash_table class
+which should be modified to explicitly use the key_line
+subclass. This includes making
+member functions qprobe(), insert(), and resize() all
+use key_line::inuse() when checking to see
+if an entry exists.
+
+<p>
+Modify the hash_table::insert() function to add a 
+key if not present in the hash table. 
+Update each key_line object to have it
+maintain a sorted list of all <it>unique </it> 
+line numbers for it (no 
+That is, search the line number vector mentioned above
+and if not found, add the new line number at the end of
+the list. Use std::find() to carry out the search. 
+
+<p>
+Add a public member function hash_table::find() 
+that returns a constant reference to the vector
+of line numbers associated with the hash table entry 
+for a given key. If the key is not found, a reference to
+an empty vector is returned. You deal with this in 
+the main program.
+
+<LI>
+For 60 points, modify the main program as follows.
+
+<p>
+Check the command line arguments. 
+A file is specified as "-f textfile".
+If a file has not
+been specified, exit the program with a meaningful
+error message.
+
+<p>
+Open the input file specified by argv[2] and enter into
+an endless loop that reads and processes the text lines. 
+Save each text line in a cache 
+(e.g., vector&lt;string&gt;) for retrieval later on.
+Then change all so-called punctuation characters, 
+i.e., (, ), {, }, and ., to a blank space. 
+Specifically,
+wrap std::ispunct(), which can handle the detection 
+(see "man ispunct"), inside a function to be called
+replace_punctuation() that you pass along to
+std::transform() which sweeps thru the text line
+characters. Have function
+replace_punctuation() return either the character
+tested (give as its input argument) or a blank space.
+Finally, use a string stream to parse the
+resulting text line into words which you insert into
+a hash table along with the current line number.
+Close the input file when EOF is reached.
+
+<p>
+Add a second endless loop that prompts the user for
+words to search for. 
+Print all line numbers and the corresponding text for each
+successfull search. Print nothing for an unsuccessfull search.
+Use the vector of line numbers returned by hash_table::find()
+to do this. Look up the text in the above mentioned data cache
+for each line number.
+See output examples below.
+<p>
+
+Make no assumptions about the number of lines in the input file.
+Make no assumptions about the number of characters or words
+on each line.
+The test files may be pure ascii text, html code, or even a C++ 
+program. Your code should work regardless of the type of ascii
+data stored in the file.
+<p>
+
+<LI>
+For 30 points, modify the hash_table class and main program
+as follows.
+
+<p>
+The hash_table code is updated to optionally track and 
+print simple usage statistics, namely, number of hash table slots
+used and available, and total number of collisions
+encountered when inserting new data. Introduce needed
+boolean variables that control whether and when this is done.
+The constructor is given a boolean variable that says whether
+to do it. Member function qprobe() is updated to take a second
+argument that controls whether collisions are counted or not.
+A destructor is added that prints the statistics if collected.
+
+<p>
+The main program is updated to accept either of the following
+two command-line arguments: "-vf textfile" and "-f textfile". 
+The former causes the hash table to collect the mentioned
+usage statistics. The latter makes the program run as before.
+<p>
+
+<LI> 
+Run the script /home/cs140/labs/lab4/copy to obtain
+a Hydra executable that works as described above
+as well as a makefile.
+Other than that, you're on your own!
+
+</UL>
+
+<hr>
+
+<h3>Executable output examples</h3>
+Note: Blank lines have been inserted below for readability.
+<p>
+
+<b>Hashtable: command line checking</b>
+
+<pre>
+user> ./hashtable 
+usage: ./hashtable -vf|f textfile
+</pre>
+
+<b>Hashtable: data processing </b>
+
+<pre>
+user> cat -n sometext.txt
+
+    1    Wow!
+    2    Hash tables are so cool.
+    3    CS140 is great.
+    4    I learn so much.
+    5    This is awesome.
+
+user> ./hashtable -f sometext.txt
+
+find> Wow
+1:  Wow!
+
+find> so
+2:  Hash tables are so cool.
+4:  I learn so much.
+
+find> great
+3:  CS140 is great.
+
+find> CTRL-D
+</pre>
+
+<pre>
+user> ./hashtable -vf sometext.txt
+find> Wow
+1:  Wow!
+
+find> CTRL-D
+Run stats ...
+Number of slots used: 14
+Max number of slots:  23
+Number of collisions: 3
+</pre>
+
+<b>Examples with grep</b>
+
+<pre>
+user> grep -n Wow sometext.txt
+1: Wow!
+
+user> grep -n so sometext.txt
+2: Hash tables are so cool.
+4: I learn so much.
+5: This is awesome.
+
+user> grep -n great sometext.txt
+3: CS140 is great.
+</pre>
+
+<hr>
+
+<h3>Grade Rubric</h3>
+<p>
+See previous lab assignments for notes on general expectations.
+
+<h4>Hashtable: class code (60 points)</h4>
+<pre>
+*20: key_line subclass definition and implementation
+*20: hash_table use of key_line instead of template data
+*20: hash_table::insert() and hash_table::find() updates
+</pre>
+
+<h4>Hashtable: main code (90 points)</h4>
+<pre>
+*25: reading data, storing in cache, parsing into words
+*10: building hash table of words and line occurrences
+*25: prompting for search terms and outputting result
+*30: show_stats modification to main program, hash_table
+</pre>
+
+<hr>
+Tue Feb 19 16:07:55 EST 2019
