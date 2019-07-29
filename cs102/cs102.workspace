@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeLite_Workspace Name="cs102" Database="" Version="10.0.0">
+  <Project Name="helloworld" Path="helloworld/helloworld.project" Active="No"/>
+  <Project Name="hw1" Path="hw1/hw1.project" Active="No"/>
+  <Project Name="Case1" Path="Case1/Case1.project" Active="No"/>
+  <Project Name="hw3" Path="hw3/hw3.project" Active="No"/>
+  <Project Name="hw4" Path="hw4/hw4.project" Active="No"/>
+  <Project Name="1_25_18_LOOPS" Path="1_25_18_LOOPS/1_25_18_LOOPS.project" Active="No"/>
+  <Project Name="Case2_PartA" Path="Case2_PartA/Case2_PartA.project" Active="No"/>
+  <Project Name="hw9" Path="hw9/hw9.project" Active="No"/>
+  <Project Name="Case2_Final" Path="Case2_Final/Case2_Final.project" Active="No"/>
+  <Project Name="Sandbox_Loop_Practice" Path="Sandbox_Loop_Practice/Sandbox_Loop_Practice.project" Active="No"/>
+  <Project Name="hw10" Path="hw10/hw10.project" Active="No"/>
+  <Project Name="Case3_Part1" Path="Case3_Part1/Case3_Part1.project" Active="No"/>
+  <Project Name="Case3_Final" Path="Case3_Final/Case3_Final.project" Active="No"/>
+  <Project Name="guessing_game" Path="guessing_game/guessing_game.project" Active="No"/>
+  <Project Name="Case4" Path="Case4_Part1/Case4_Part1.project" Active="No"/>
+  <Project Name="Case5" Path="Case5/Case5.project" Active="No"/>
+  <Project Name="Case6" Path="Case6/Case6.project" Active="No"/>
+  <Project Name="Case7" Path="Case7/Case7.project" Active="No"/>
+  <Project Name="EF_Project" Path="EF_Project/EF_Project.project" Active="No"/>
+  <Project Name="Practice_4_10_18" Path="Practice_4_10_18/Practice_4_10_18.project" Active="No"/>
+  <Project Name="Case8" Path="Case8/Case8.project" Active="Yes"/>
+  <BuildMatrix>
+    <WorkspaceConfiguration Name="Debug" Selected="yes">
+      <Environment/>
+      <Project Name="helloworld" ConfigName="Debug"/>
+      <Project Name="hw1" ConfigName="Debug"/>
+      <Project Name="Case1" ConfigName="Debug"/>
+      <Project Name="Case1" ConfigName="Debug"/>
+      <Project Name="hw3" ConfigName="Debug"/>
+      <Project Name="hw4" ConfigName="Debug"/>
+      <Project Name="hw4" ConfigName="Debug"/>
+      <Project Name="1_25_18_LOOPS" ConfigName="Debug"/>
+      <Project Name="Case2_PartA" ConfigName="Debug"/>
+      <Project Name="Case2_Final" ConfigName="Debug"/>
+      <Project Name="Case2_PartA" ConfigName="Debug"/>
+      <Project Name="Case2_PartA" ConfigName="Debug"/>
+      <Project Name="hw9" ConfigName="Debug"/>
+      <Project Name="Case2_Final" ConfigName="Debug"/>
+      <Project Name="Sandbox_Loop_Practice" ConfigName="Debug"/>
+      <Project Name="hw10" ConfigName="Debug"/>
+      <Project Name="Case3_Part1" ConfigName="Debug"/>
+      <Project Name="Case3_Final" ConfigName="Debug"/>
+      <Project Name="guessing_game" ConfigName="Debug"/>
+      <Project Name="Case4" ConfigName="Debug"/>
+      <Project Name="Case5" ConfigName="Debug"/>
+      <Project Name="Case6" ConfigName="Debug"/>
+      <Project Name="Case7" ConfigName="Debug"/>
+      <Project Name="EF_Project" ConfigName="Debug"/>
+      <Project Name="Practice_4_10_18" ConfigName="Debug"/>
+      <Project Name="Case8" ConfigName="Debug"/>
+    </WorkspaceConfiguration>
+    <WorkspaceConfiguration Name="Release" Selected="yes">
+      <Environment/>
+      <Project Name="helloworld" ConfigName="Release"/>
+      <Project Name="hw1" ConfigName="Release"/>
+      <Project Name="Case1" ConfigName="Release"/>
+      <Project Name="Case1" ConfigName="Release"/>
+      <Project Name="hw3" ConfigName="Release"/>
+      <Project Name="hw4" ConfigName="Release"/>
+      <Project Name="hw4" ConfigName="Release"/>
+      <Project Name="1_25_18_LOOPS" ConfigName="Release"/>
+      <Project Name="Case2_PartA" ConfigName="Release"/>
+      <Project Name="Case2_Final" ConfigName="Release"/>
+      <Project Name="Case2_PartA" ConfigName="Release"/>
+      <Project Name="Case2_PartA" ConfigName="Release"/>
+      <Project Name="hw9" ConfigName="Release"/>
+      <Project Name="Case2_Final" ConfigName="Release"/>
+      <Project Name="Sandbox_Loop_Practice" ConfigName="Release"/>
+      <Project Name="hw10" ConfigName="Release"/>
+      <Project Name="Case3_Part1" ConfigName="Release"/>
+      <Project Name="Case3_Final" ConfigName="Release"/>
+      <Project Name="guessing_game" ConfigName="Release"/>
+      <Project Name="Case4" ConfigName="Release"/>
+      <Project Name="Case5" ConfigName="Release"/>
+      <Project Name="Case6" ConfigName="Release"/>
+      <Project Name="Case7" ConfigName="Release"/>
+      <Project Name="EF_Project" ConfigName="Release"/>
+      <Project Name="Practice_4_10_18" ConfigName="Release"/>
+      <Project Name="Case8" ConfigName="Release"/>
+    </WorkspaceConfiguration>
+  </BuildMatrix>
+</CodeLite_Workspace>
