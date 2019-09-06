@@ -1,7 +1,7 @@
 
 CC = g++
 CFLAGS = -g
-BIN = QsortA #QsortB
+BIN = QsortA QsortB
 
 all: $(BIN)
 
