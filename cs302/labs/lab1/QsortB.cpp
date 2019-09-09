@@ -61,17 +61,18 @@ void printlist(T i, T p) {
 
 template <typename T>
 int quicksort(std::vector<T> &A, int left, int right) {  
-	// sort: order left, middle and right elements  
+	//creating pindex value and setting it to pivot
 	if(left < right) {
 		int pindex = left + rand() % (right-left+1);
 		T pivot = A[pindex];  
 	
-		// partition A: {<=}, {pivot}, {=>}   
+		//swapping pindex with right (beginning stage)
 		swap(A[pindex], A[right]);  
 	
 		int i = left - 1;  
 		int j = right;   
 
+		//runs through until i is greater than pivot and j is less than pivot, then it swaps the two
 		while (1) {    
 			while (A[++i] < pivot) { 
 				if(i == right)
@@ -90,7 +91,8 @@ int quicksort(std::vector<T> &A, int left, int right) {
 	
 		pindex = i;  
 		swap(A[pindex], A[right]); 
-
+		
+		//calls itself to go through the rest of the vector
 		quicksort(A, left, pindex-1);
     	quicksort(A, pindex+1, right);
 
@@ -100,18 +102,18 @@ int quicksort(std::vector<T> &A, int left, int right) {
 
 template <typename T>
 void quickselect(vector<T> &A, int left, int k, int right) { 
-  // write this
+	//creating pindex value and setting it to the pivot
 	while(left < right) {
-        // select pivot: median-of-three
         int pindex = left + rand() % (right-left+1);
         T pivot = A[pindex];
     
-        // partition A: {<=}, {pivot}, {=>}   
-        swap(A[pindex], A[right]);
+        //swapping pindex with right (beginning stage)
+		swap(A[pindex], A[right]);
     
         int i = left - 1;
         int j = right;
 
+		//runs through until i is greater than pivot and j is less than pivot, then it swaps the two
         while (1) {
             while (A[++i] < pivot) {
                 if(i == right)
@@ -132,10 +134,11 @@ void quickselect(vector<T> &A, int left, int k, int right) {
         pindex = i;
         swap(A[pindex], A[right]);
         
-
+		//checks to see if the pindex in the now sorted list is equal to k, if so then you return
         if(pindex == k)
             return;
 
+		//if pindex is greater or less than k then you adjust right and left
         if (k < pindex) 
             right = pindex-1;
         else            
@@ -145,7 +148,7 @@ void quickselect(vector<T> &A, int left, int k, int right) {
 }
 
 int main(int argc, char *argv[]) {
-  // perform command-line error checking
+  //command-line error checking
 
 	if(argc != 2 && argc != 4) { 
 		cerr << "usage : QsortB -stl | -rpivot [k0 k1]" << endl;
@@ -154,6 +157,7 @@ int main(int argc, char *argv[]) {
 
 	vector<data> A;
 
+	//reading in data
   	data din;
 	while (cin >> din)
     	A.push_back(din);
@@ -162,6 +166,7 @@ int main(int argc, char *argv[]) {
   	int k0 = 0;
   	int k1 = N-1;
 
+	//checking the input to determine which code to run
 	if(argc == 2) {  		
 		if(string(argv[1]) == "-stl")
 			std::sort(A.begin(), A.end());
@@ -184,5 +189,6 @@ int main(int argc, char *argv[]) {
 		quicksort(A, k0, k1); //sorts the rest of the vector
 	}
 
+	//prints list
 	printlist(A.begin(), A.end());
 }
