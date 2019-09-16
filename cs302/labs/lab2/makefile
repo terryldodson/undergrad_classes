@@ -1,6 +1,6 @@
 
 CC = g++
-CFLAGS = -Wall
+CFLAGS = -Wall -g
 BIN = Slist_usage
 
 all: $(BIN)
