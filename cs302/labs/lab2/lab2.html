@@ -1,0 +1,216 @@
+<title> CS302 -- Lab Assignment 2</title>
+<style> p.page { page-break-after: always; } </style>
+
+<h1> CS302 -- Lab Assignment 2 (100 pts: Fall 2019)</h1>
+
+<hr>
+<h3>Getting motivated</h3>
+In this lab you will continue sorting the multi-column
+data from Lab 1 which consisted of
+a firstname, a lastname, and a phone number.
+The main difference is that data will
+now be stored in single linked list.
+In order to allow sorting by means of STL sorting algorithms
+(or any of the ones covered in class),
+you will embed the smart pointer concept within the single linked 
+list class and write the associated code for setting things up
+and applying the result.
+<p>
+
+<hr>
+<h3>Lab submission and due date</h3>
+Submit the Slist.h and Slist_usage.cpp files via Canvas no 
+later than 11:59pm Wednesday Sep 18, 2019.
+Note:
+The incremental development outlined below is merely intended 
+to make solving the problem more manageable. Do not submit
+the various stages of the code.
+<p>
+
+<hr>
+
+<h3>Getting started and what you need to do</h3>
+
+To help you get started,
+run the Hydra script
+/home/cs302/labs/lab2/copy to obtain the following files: 
+Slist.h and Slist_usage.cpp (skeleton code), sslist_usage 
+(Hydra solution executable), a makefile, and
+dbl_list[123].txt (test files).
+Your job is to write the missing source code which must
+behave as described next.
+<p>
+
+<UL>
+
+<LI>
+Slist.h Vers 1:
+Implement the slist::node::constructor that
+takes a data argument; 
+this functionality is needed by slist::push_back() 
+when it creates a new node.
+<p>
+
+Slist_usage.cpp Vers 1:
+Add the definition of class data from QsortA.cpp
+from Lab 1 along with the associated input and
+output operators 
+and the template based printlist function.
+Add needed header files and do whatever else 
+it takes for the code to compile (shouldn't be 
+much and may be as simple as commenting incomplete
+code out), then test and make sure you can 
+read the dbl_list[123].txt files and print
+them back to stdout.
+<p>
+
+<LI>
+Slist.h Vers 2:
+Add an overloaded less-than comparison operator
+to the node subclass.
+Embed the smart pointer code as a private slist subclass; 
+copy the code verbatim from the smartpointer_handout,
+then modify it to explicitly work for slist::node data.
+<p>
+
+Update the slist::sort() function to sort the 
+single linked list data using the std::sort() function.
+Determine the number of elements stored in the list.
+Allocate a vector of smart pointers of that size
+called Ap.
+Initialize the individual smart pointers 
+to point to the list nodes. 
+For example, if p = head, then Ap[0] = p-&gt;next, etc.
+Apply std::sort
+and use the sorted Ap vector to relink the list nodes.
+Do not simply repeat the array based
+rearrangement covered in class which used pointers
+to the data itself. Here, the smart pointers point
+to nodes that hold the data.
+Also, keep in mind that operator[] is not available. 
+You will need to use list node pointers.
+When the sorting is done, step through the smart 
+pointer vector while creating the linked list. 
+For example, if p = head, then p-&gt;next = Ap[0], etc.
+Simple as that (once you figure it out). You may
+want to draw a picture of what's going on to
+help visualize the process.
+<p>
+
+Slist_usage.cpp Vers 2:
+Update the main function to call slist::sort
+with an appropriate argument. Compile and
+test the code using the dbl_list[123].txt files.
+<p>
+
+<LI>
+Slist.h Vers 3:
+Add logic to call std::sort if slist::sort is
+called with the string "quicksort" and
+std::stable_sort if the argument is "mergesort".
+<p>
+
+Slist_usage.cpp Vers 3:
+Add command line argument handling. 
+Seek inspiration from QsortB.cpp.
+When completed, either of the following two ways of 
+executing Slist_usage will be valid:
+<p>
+
+<pre>
+unix> Slist_usage -quicksort < list.txt
+unix> Slist_usage -mergesort < list.txt
+</pre>
+
+The program should print usage information if
+given any other options or none.
+<p>
+Finally, add an integer ID to class data's private
+member section. Update the input operator to
+set this to the reflect the order of appearance
+of a data object in the input stream. Update
+the output operator to print this ID. 
+Compare performance for quicksort and mergesort.
+For some data, you will see that identical data
+objects appear in the wrong order for quicksort,
+while mergesort always maintains the correct
+order.
+
+<p>
+
+</UL>
+<hr>
+
+<!-- <p class="page"></p> -->
+<h3>Example runs based on dbl_list2.txt</h3>
+<pre>
+unix> cat dbl_list2.txt | head
+
+MILTON THOMAS       	202-113-5748
+ADA HERNANDEZ       	831-439-9852
+LELIA SHORT         	301-786-6603
+REUBEN JOYNER       	695-189-8800
+JUNIOR BENJAMIN     	482-984-7235
+ROWENA WEAVER       	530-184-8294
+PANSY HINTON        	757-313-3457
+ROBBY ROWLAND       	621-406-6482
+CAROL CLARK         	255-245-5868
+DENIS WILCOX        	961-597-5825
+
+unix> cat dbl_list2.txt | ./Slist_usage
+usage: ./Slist_usage -quicksort|mergesort < file.txt
+
+unix> cat dbl_list2.txt | ./Slist_usage -quicksort | head
+
+ ACEVEDO AURELIO         593-149-3903      251
+ ACEVEDO AURELIO         593-149-3903      704
+ ADKINS VANCE            978-845-2781      293
+ ADKINS VANCE            978-845-2781      746
+ AGUILAR BRITNEY         804-365-4978      807 **
+ AGUILAR BRITNEY         804-365-4978      354 **
+ ALBERT EDWARDO          228-986-5799      277
+ ALBERT EDWARDO          228-986-5799      730
+ ALLEN ALAN              805-953-9939       80
+ ALLEN ALAN              805-953-9939      533
+
+unix> cat dbl_list2.txt | ./Slist_usage -mergesort | head
+
+ ACEVEDO AURELIO         593-149-3903      251
+ ACEVEDO AURELIO         593-149-3903      704
+ ADKINS VANCE            978-845-2781      293
+ ADKINS VANCE            978-845-2781      746
+ AGUILAR BRITNEY         804-365-4978      354 **
+ AGUILAR BRITNEY         804-365-4978      807 **
+ ALBERT EDWARDO          228-986-5799      277
+ ALBERT EDWARDO          228-986-5799      730
+ ALLEN ALAN              805-953-9939       80
+ ALLEN ALAN              805-953-9939      533
+</pre>
+
+Notice that the AGUILAR BRITNEY entries are printed in reverse order of
+appearance for quicksort while mergesort (which is stable) prints them in the 
+correct order. You will see many more examples, if you look at all the output 
+for dbl_list2.txt and dbl_list3.txt.
+
+<hr>
+<h3>Grading rubric</h3>
+
+Note1: Output format of your program must MATCH 
+that of the solution executable.
+Use the diff command to compare.
+<br> 
+Note2: If your program does not compile, 
+it will likely not be graded and instead assigned a default score of 0.
+
+<h4> Slist_usage (100)</h4>
+<pre>
+10: Base code for reading and writing listX.txt files and storing data in an slist.
+15: Embedded smart pointer subclass with explicit application to slist::node data. 
+50: Function slist::sort which creates smart pointer array, sorts it using std::sort,
+    and applies results to relink slist nodes in sorted order.
+15: Command line option handling with corresponding slist::sort functionality.
+10: Line ID handling added to data class and associated input/output operators.
+</pre>
+
+<hr>
+Sat Sep  7 13:41:20 EDT 2019

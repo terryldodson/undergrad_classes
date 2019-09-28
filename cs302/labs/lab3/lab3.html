@@ -1,0 +1,377 @@
+<title> CS302 -- Lab Assignment 3</title>
+<style> p.page { page-break-after: always; } </style>
+
+<h1> CS302 -- Lab Assignment 3 (175+25 pts: Fall 2019)</h1>
+
+<hr>
+<h3>Getting motivated</h3>
+In this lab you will write a program for embedding ascii text
+within a PPM image using a randomized algorithm for selecting
+where to place the characters. 
+We will call the program "crypto" which makes it sound
+as if it is based on cryptography. In reality, it is a
+case of steganography which according to Wikipedia
+"is the art or practice of concealing a file, message, image, 
+or video within another file, message, image, or video."
+Either way, the program is actually pretty cool. 
+
+<p>
+Before you get any ideas to turn it into an app that
+will make your rich, be forewarned that somebody may
+hold a patent on a similar idea. 
+The goal of the exercise
+is to have you apply many of the things we have discussed since
+the begining of the semester. No attempt has been made to
+research the literature on the subjects of steganography
+and crytopgraphy.
+<p>
+
+<b>
+Please raise questions and concerns about the assignment 
+(including inconsistencies or unspoken design criteria)
+on piazza.com sooner rather than 
+later so that clarifications can be shared with the class
+as early in the two week window as possible.
+</b>
+
+<hr>
+<h3>Lab submission and due date</h3>
+Submit your work via Canvas no later than
+11:59pm Wednesday Oct 2, 2019.
+You submit three files, namely, Support.h, Support.cpp
+and Crypto.cpp.
+As usual, the incremental development outlined below is merely 
+intended to walk you through the process of completing
+the assignment.
+Note: The techniques needed to the write
+random number generator mentioned below 
+will not be covered till 
+Thursday Sep 19, 2019. But don't worry,
+you will have plenty to do before then.
+<p>
+
+<hr>
+
+<h3>Getting started and what you need to do</h3>
+
+To help you get started,
+run the Hydra script
+/home/cs302/labs/lab3/copy to obtain the following files: 
+scrypto1-3 (Hydra solution executables for the three incremental
+codes), Support.h, Support.cpp, and Crypto.cpp (skeleton code),
+plane.ppm, rocket.ppm, and truck.ppm (test images), and
+a makefile.
+Your job is to complete writing the program
+and make it behave as described next.
+<p>
+
+<UL>
+
+<LI>
+<b>Support.h</b>: This header file defines a template
+based 2D matrix class,  
+a pixel index class,
+an RGB class, and a ppm image class. 
+<p>
+
+The 2D matrix class can be any of the ones from 
+the CS140 matrix handout (available from Canvas). 
+The constructor should be changed to simply
+set the data pointer equal to NULL. 
+A new public member function called assign() 
+should be added that allocates the needed 
+memory given two parameters, viz., Nrows and Ncols.
+A new publich member function called data()
+should be added that returns a pointer to the
+matrix buffer. This is needed by the ppm::read() and
+ppm::write() functions. With this class being template
+based, all code needs to be included in the header
+file. If you like, it can even be included in the
+class definition.
+<p>
+
+The pixel index class is merely a struct that stores
+a pair of row and column indices. The constructor
+should allow instantiation both with and without 
+new values for these indices. The default
+constructor should set both indices to 0.
+With this class being so simple, all code can be
+included in the class definition.
+<p>
+
+The RBG class, which is also just a struct, defines
+a three char data structure with members R, G, and B.
+The default constructor sets the values of these to 0.
+With this class being so simple, all code can be
+included in the class definition.
+<p>
+
+The ppm image class must define all functionality
+needed to read, write, and store a P6 type ppm image.
+Public member functions include the constructor 
+which initializes member data as necessary, 
+read() and write()
+functions, an overloaded []-operator for index based
+lookup, and get_Nrows()and get_Ncols() functions for
+exporting these data variables. All member data must
+be private and the image must be stored as a
+matrix<RGB> object. The read() and write() functions
+are described below. The []-operator returns a pointer 
+to the image row corresponding to the integer index
+given to it.
+All but the read() and write() function code can be
+included in the class definition.
+
+<LI> 
+<b>Support.cpp</b>: This file contains the 
+implementation for the ppm::read() and ppm::write()
+functions which both take a single argument, namely,
+the name of the file.
+<p>
+
+The ppm::read() function opens the specified file,
+then reads the header information followed by the
+image data.
+Error checking must be included for 
+successful opening of the file 
+(hint: cf. fstream::is_open()), 
+the proper P6 format, 
+a max value of 255, and the correct number
+of bytes read.
+<p>
+
+The ppm::write() function creates file name
+"image_wmsg.ppm" (assuming the input file was "image.ppm")
+where "wmsg" is short
+for "with message" (in other words, an image which
+has text embedded within it), opens the file,
+then writes the header information followed by the 
+image data.
+Error checking must be included for 
+successful opening of the file 
+(hint: cf. ios::is_open()).
+<p>
+
+<LI>
+<b>Crypto.cpp</b>: This file implements the
+main() function, the encode() and decode()
+functions as all as all other support code
+which includes a set_pixel_list() function.
+<p>
+
+The main() function parses command line arguments
+"-encode|decode image.ppm" where
+the pipe symbol means logical OR (standard unix).
+A meaningful error message is printed if 
+the proper "-encode|decode" mode option is missing
+not present, as well as if an unknown option is 
+given.
+A ppm image object is instantiated. 
+The specified ppm file is read and passed
+to the encode() or decode() function as appropriate.
+<p>
+
+<b>Version 1</b>
+Crypto1 creates the framework for the asssignment. 
+First write the set_pixel_list() function which 
+adds pixel index objects to a vector list. The
+function is given two arguments: a reference to
+a ppm imge object and a reference to said vector
+vector list. For now, have the function add all
+even pixel index pairs, i.e., 
+(0,0), (0,2), (0,4), ..., (2,0), (2,2), ..., 
+etc. You change this in Crypto2.
+<p>
+
+The encode() function instantiates the vector
+list of pixel indices and calls the set_pixel_list()
+function to populate it.
+Then text is read from standard input (cin) and
+encoded into the ppm image. 
+The basic idea is to replace one RGB bit
+with one text bit in locations specified by the
+pixel index list. 
+Warning:
+You may have to read the how-to description 
+several times before you fully understand the process. 
+<p>
+
+Read and encode the text one character at a time
+including all white space
+(hint: cf. fstream::get()). Furthermore, extract
+and encode one character bit at a time. 
+Since the most significant bit (MSB) is always 0.
+you should only process the seven least significant
+bits (LSBs).
+The pixel index list tells you which pixels to
+target. Use one pixel per character bit. 
+Alternate between the red, green, and blue 
+color values. Use bit logic to extract the
+bits in order from LSB to MSB 
+(hint: x&gt;&gt;k shifts
+the k<i>th</i> bit to the LSB position and
+x &amp; 0x1 sets all but the LSB to 0). 
+Use bit logic to encode the extracted bit.
+That is, replace the LSB of the target pixel color
+with the extracted character bit
+(hint: x &amp;= 0xFE zeros out the x-LSB while
+x |= (y &amp; 0x1) sets it to the y-LSB).
+When all the text has been processed, add an ETX
+(0x3) character, so you know when to stop
+when decoding an image. The ETX has been included
+in the provided support files for your convenience.
+<p>
+
+The decode() function reverses the process. Once
+you understand how the encoding works, this is
+relatively simple. Create the same pixel index
+list and use it to extract the LSB from
+seven pixels. Combine these along with a leading 0-bit
+to form an 8-bit character that you print to standard out 
+(hint: cf. fstream::put()). Stop when the ETX
+character has been extracted.
+If you do it right, you see the same text as
+you encoded. If you don't, you get garbage.
+<p>
+
+<b>Version 2</b>
+Crypto2 adds randomness to the pixel index list.
+Without this, somebody might figure out how to 
+read your 
+secret text by detecting patterns. As unlikely as
+that is, we want to make it nearly impossible.
+Specifically, we will distribute the seven LSBs of 
+each text character across seven randomly chosen pixels.
+Instead of just using the standard random number 
+generator (which we could seed with a secret number),
+we will use a data driven distribution to make it
+even more unique. 
+For simplity we will use the ppm input image. A
+more sophisticated version would use another image,
+but we will not go there.
+<p>
+
+Modify the set_pixel_target() function as follows.
+First compute a histogram of the color values 
+for all pixels. To keep the size of the histogram managable,
+extract the five MSBs from each color byte
+and combine these to obtain a 15-bit color integer.
+That is, color =
+((R&gt;&gt;3) &lt;&lt 10) | ((G&gt;&gt;3) &lt;&lt 5) | (B&gt;&gt;3).
+Then instantiate a random number generator that can 
+produce random numbers with probabilities that are
+proportional to these histogram counts.
+Use this random number generator to permute 
+the pixel index list. 
+In order to support processing of more than 2^15 = 32768
+pixels, combine two of these random numbers to form
+a 30-bit number that allows processing of 2^30 = 1B pixels.
+That is, r30 = (r1_15 &lt;&lt; 15) | r2_15.
+The heavy lifting can be done using the code
+rnumgen and randperm handouts.
+Add the rnumgen class definition to Support.h,
+and add the member function implementations to
+Support.cpp. Use a seed value of 0.
+Incorporate the randperm idea into the set_pixel_list() 
+function.
+<p>
+
+If you do the above exactly the same way as the solution code,
+one can decode what the other encodes.
+If you do even the slightest thing differently 
+(including when and how many times you call the random number 
+generator), your code will not work with encodings produced 
+by the solution code, but you can 
+still have fun as it may work with its own encodings.
+Brilliant!
+<p>
+
+<b>Version 3</b>
+<i>Crypto3 is required in order for CS307 students to get full credit but optional and available
+for extra credit for CS302 students. That is, CS307 students will have up to 25 points deducted
+if the functionality described next is not included or doesn't work right. CS302 students 
+will have up to 25 points added, if they complete this successfully.</i>
+<p>
+
+A simple, but effective encryption method consists of repeatly applying XOR to the characters
+of the text with characters in a secret key known only to the sender and the receiver. Say the
+text character is c and the key character is k, then it is easily shown that c=XOR(XOR(c,k)).
+We will apply this idea as follows. The main() function will accept -key="text" as
+an optional third argument. The encode() and decode() functions will be given this text as a
+second argument. The length of the key will be passed to the set_pixel_list() function which
+uses it to seed the random number generator. When a key is not specified, the key text is the
+empty string which has a length of 0 as used for Version 2. The encode() and decode() functions
+apply XOR to each character before encoding and after decoding, respectively
+(hint: XOR(x,y) = x^y). When the key text consists of multiple characters, use these in 
+an alternating fashion.
+<p>
+
+</UL>
+<hr>
+
+<!-- <p class="page"></p> -->
+<h3>Example crypto1 output</h3>
+<pre>
+unix> ./crypto1 -encode plane.ppm 
+this is a secret message
+embedded within an image
+
+unix> ./crypto1 -decode plane_wmsg.ppm 
+this is a secret message
+embedded within an image
+</pre>
+
+The plane_wmsg.ppm image will look similar to the
+plane.ppm image, but if you compare them at the bit level,
+they are not identical.
+
+<h3>Example crypto2 output</h3>
+
+<pre>
+unix> ./crypto2 -encode plane.ppm 
+this is a secret message
+embedded within an image
+
+unix> ./crypto2 -decode plane_wmsg.ppm 
+this is a secret message
+embedded within an image
+</pre>
+
+The plane_wmsg.ppm image produced by crypto2 will
+will look similar to the one produced by crypto1,
+but if you compare them at the bit level,
+they are not identical.
+
+<h3>Example crypto3 output</h3>
+
+<pre>
+unix> ./crypto3 -encode -key="encryption key" plane.ppm 
+this is a secret message
+embedded within an image
+
+unix> ./crypto3 -decode -key="wild guess" plane_wmsg.ppm
+G95<'h'/p!nw9S\]
+                d
+                 UWcO0CC!]mFJ{Dn9msb}'tafYki5=n c!
+</pre>
+
+The plane_wmsg.ppm image produced by crypto3 will
+will look similar to the one produced by crypto1 and crypto2,
+but if you compare them at the bit level,
+they are not identical.
+
+<hr>
+
+<h3>Grading rubric</h3>
+
+<pre>
+15: Command line arguments, error reporting
+50: ppm class incl. matrix<RGB> read/write
+60: Crypto1: implementation of basic encode/decode functionality
+50: Crypto2: implementation and use of image based random number generator
+-- Below task is required for CS307 but optional for CS302 (extra credit)
+25: Crypto3: key based XOR encoding/decoding of message
+</pre>
+
+<hr>
+Mon Sep 16 18:58:38 EDT 2019
