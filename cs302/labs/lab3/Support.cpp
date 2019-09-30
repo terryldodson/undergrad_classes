@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 
 using namespace std;
 
@@ -24,6 +25,12 @@ ppm::ppm() {
 	pixels = NULL;
 }
 
+
+void ERROR_AND_DIE(string err, int code) {
+	cerr << (err);
+	exit(code);
+}
+
 void ppm::read(const char* fname) { 
   ifstream fp;
   string p6;
@@ -34,8 +41,17 @@ void ppm::read(const char* fname) {
 
   //check for if file was opened successfully
   if(!fp.is_open()) {
-	/*print out error message*/
+	//cerr << "Error: cannot open " << fname << " for reading!\n";
+	//exit(0);
+	//
+	ERROR_AND_DIE(string("Error: cannot open ") + fname + " for reading!\n", 0);
   }
+
+  fp >> p6;
+
+  //check "P6" header
+  if(p6 != "P6")
+	  ERROR_AND_DIE("Error: magicid not P6!\n", 0);
 
   //check invalid width/height and max depth
   //reads in w, h and depth. If it can't read those in it will print out error
