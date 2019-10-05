@@ -36,14 +36,12 @@ void ppm::read(const char* fname) {
   string p6;
   int depth;
   int w,h,x,y;
-
+	
+  //opens file
   fp.open(fname);
 
   //check for if file was opened successfully
   if(!fp.is_open()) {
-	//cerr << "Error: cannot open " << fname << " for reading!\n";
-	//exit(0);
-	//
 	ERROR_AND_DIE(string("Error: cannot open ") + fname + " for reading!\n", 0);
   }
 
@@ -83,14 +81,31 @@ void ppm::read(const char* fname) {
 	  }
   }
 
+  //closes file
   fp.close();
 
+}
+
+rnumgen::rnumgen(int seedvalue, vector<int> &v) {  
+	srand(seedvalue);  
+	
+	F.resize(v.size());  
+	partial_sum(v.begin(), v.end(), F.begin());  
+	transform(F.begin(), F.end(), F.begin(),  bind2nd(divides<float>(), F.back()));
+}
+
+int rnumgen::rand() {  
+	const double randmax = RAND_MAX+1.0;  
+	const double p = (double)std::rand()/randmax;  
+	
+	return upper_bound(F.begin(), F.end(), p) - F.begin();
 }
 
 void ppm::write(const char* fname) { 
   ofstream op;
   int x, y;
 
+  //opens file
   op.open(fname);
 
   op << "P6\n" << get_Ncols() << " " << get_Nrows() << "\n255\n";
@@ -101,7 +116,8 @@ void ppm::write(const char* fname) {
 		op << ref.r << ref.g << ref.b;
 	}
   }
-
+	
+  //closes file
   op.close();
 }
 

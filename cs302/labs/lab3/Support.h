@@ -47,22 +47,31 @@ class matrix {
 
 	private:
 		int Nrows, Ncols;
-		//should there be 2 asteriks or 1
 		T **buf;
 };
 
+class rnumgen {  
+	public:    
+		rnumgen(int seedvalue, std::vector<int> &v);    
+		int rand();  
+	private:    
+		std::vector<float> F;
+};
+
 struct pixel { 
-	//should there be a variable before "=0" (like i or j)
+	//stores a pair of row and colummn indices 
 	pixel(int = 0, int = 0);
 	int x, y;
 };
 
 struct RGB {
+	//sets the three character values to 0
 	RGB(uchar = 0, uchar = 0, uchar = 0);
 	uchar r, g, b;
 };
 
 class ppm {
+	//contains all functionality in order to 
 	public:
 		ppm();
 		void read(const char*);
