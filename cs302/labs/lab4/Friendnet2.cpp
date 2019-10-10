@@ -11,11 +11,11 @@
 
 using namespace std;
 
-void set_oldfriends(vector <string> &name, vector<vector<bool> > &friends, int M0, int M1) {
+void set_oldfriends(vector <string> &name, vector<vector<int> > &friends, int M0, int M1) {
   	int N = (int) name.size();
 	int i,j;
 
-	friends.assign(N, vector<bool>()); //assign friends vector (0 because they're not friends yet)		
+	friends.assign(N, vector<int>()); //assign friends vector	
 
   	for (int i=0; i<N; i++) {
 		set<int> doknow;
@@ -43,37 +43,39 @@ void set_oldfriends(vector <string> &name, vector<vector<bool> > &friends, int M
 		}
 	}
 
+	//erased duplicates so one name doesn't appear twice consecutively
 	for(int i = 0; i < N; i++) {
 		sort(friends[i].begin(), friends[i].end());
 		friends[i].erase(unique(friends[i].begin(), friends[i].end()), friends[i].end());
 	}
 }
 
-void set_newfriends(vector<vector<bool> > &friends, vector<vector<bool> > &new_friends) {
+void set_newfriends(vector<vector<int> > &friends, vector<vector<int> > &new_friends) {
   	int N = (int) friends.size();
 
-  	new_friends.assign(N, vector<bool>()); //assign new_friends vector (0 because they're not friends yet)
+  	new_friends.assign(N, vector<int>()); //assign new_friends vector
 
   	for (int i=0; i<N; i++) {
-		for (int j=0; j<N; j++) { //for each adjacent friend (friends[i][j] == 1)
+		for (int j=0; j<friends[i].size(); j++) { //looks through friends of i
 			int jj = friends[i][j];
-			for (int k=0; k<N; k++) { //for each adjacent friend-of-friend (friends[k][i] == 1)
+			for (int k=0; k<friends[jj].size(); k++) { //looks through friends of jj (which are friends of i and j)
 				int kk = friends[jj][k];
-				if (kk != i && find(friends[i].begin(), friends[i].end(), kk) == friends[i].end()) { //if k is not i and k is not friend of i
+				if (kk != i && find(friends[i].begin(), friends[i].end(), kk) == friends[i].end()) { //checks to see if there is a friend that kk knows that i also knows (kk is a friend of jj and k, and jj is a friend of i and j)
 					new_friends[i].push_back(kk); //update the corresponding pairs of new_friends entries
 					new_friends[kk].push_back(i);
 				}
 			}
 		}
     }
-
+	
+	//erase duplicates
 	for(int i = 0; i < N; i++) {
 		sort(new_friends[i].begin(), new_friends[i].end());
-		new_friends[i].erase(unique(friends[i].begin(), friends[i].end()), friends[i].end());
+		new_friends[i].erase(unique(new_friends[i].begin(), new_friends[i].end()), new_friends[i].end());
 	}
 }
 
-void writetofile(const char *fname, vector<string> &name, vector<vector<bool> > &friends) {
+void writetofile(const char *fname, vector<string> &name, vector<vector<int> > &friends) {
 	ofstream op;
 
 	op.open(fname);
@@ -92,8 +94,6 @@ void writetofile(const char *fname, vector<string> &name, vector<vector<bool> > 
 		count = 0;
 		op << setw(max) << left << name[i] << " :"; 
 		for (int j = 0; j < friends[i].size(); j++) {
-				//	op << " " << setw(max) << left  << name[j]; //pretty-print name[i] and name[j] (see assignment) 
-				//	count++;
 				if(count >= 8) {
 					count = 0;
 					op << endl << setw(max) << left << name[i] << " :";
@@ -103,9 +103,8 @@ void writetofile(const char *fname, vector<string> &name, vector<vector<bool> > 
 				count++;
 			}
 
-		}
 		op << endl;
-
+	}
 		op.close();
 }
 
@@ -136,8 +135,8 @@ int main(int argc, char *argv[]) {
  	int M0 = 1; // min number of friends
   	int M1 = 3; // potential extra friends
 
-	vector<vector<bool> > friends;  
-	vector<vector<bool> > new_friends;
+	vector<vector<int> > friends;  
+	vector<vector<int> > new_friends;
 
   	set_oldfriends(name, friends, M0, M1);
   	writetofile("doknow2.txt", name, friends);

@@ -1,71 +1,135 @@
-#include <...>
+#include <time.h>
+#include <stdlib.h>
+#include <vector>
+#include <string>
+#include <string.h>
+#include <fstream>
+#include <iostream>
+#include <set>
+#include <iomanip>
+
 using namespace std;
 
-void set_oldfriends(vector <string> &name, 2D-vector-array &friends, int M0, int M1) {
-  int N = (int)name.size();
-  initialize 2D-vector-array friends (hint: use vector::assign())
+void set_oldfriends(vector <string> &name, vector<vector<bool> > &friends, int M0, int M1) {
+  	int N = (int) name.size();
+	int j;
 
-  for (int i=0; i<N; i++) {
-	declare std::set called doknow
+	friends.assign(N, vector<bool>(N,0)); //assign friends vector (0 because they're not friends yet)		
 
-	initialize M (random number of friends: function of M0, M1)
+  	for (int i=0; i<N; i++) {
+		set<int> doknow;
 
-	while ((int)doknow.size() < M) {
-	  compute j (random friend index: hint j != i)
-	  doknow.insert(j);
+		int M = M0 + rand() % M1;	
+		
+		while ((int) doknow.size() < M) {
+			do {
+				j = rand() % N; //compute j (random friend index: hint j != i)
+			} while(i == j);
+
+			doknow.insert(j);
+
+		}
+
+		//use iterator to sweep thru doknow set
+		//update the corresponding pairs of friends entries
+		set<int>::iterator it;
+
+		for(it = doknow.begin(); it != doknow.end(); ++it) {
+			j = *it;
+
+			friends[i][j] = friends[j][i] = 1;
+		}
+  	}
+}
+
+void set_newfriends(vector<vector<bool> > &friends, vector<vector<bool> > &new_friends) {
+  	int N = (int) friends.size();
+
+  	new_friends.assign(N, vector<bool>(N,0)); //assign new_friends vector (0 because they're not friends yet)
+
+  	for (int i=0; i<N; i++) {
+		for (int j=0; j<N; j++) { //for each adjacent friend (friends[i][j] == 1)
+			if(i != j && friends[i][j] == 1) {
+				for (int k=0; k<N; k++) { //for each adjacent friend-of-friend (friends[k][i] == 1)
+					if (friends[k][j] == 1 && k != i && friends[i][k]==0) //if k is not i and k is not friend of i
+						new_friends[i][k] = new_friends[k][i] = 1; //update the corresponding pairs of new_friends entries
+				}
+			}
+    	}
+  	}
+}
+
+void writetofile(const char *fname, vector<string> &name, vector<vector<bool> > &friends) {
+	ofstream op;
+
+	op.open(fname);
+
+  	int N = (int) name.size();
+	int max = 0;
+	int count = 0;
+
+	//determine max name length
+	for(int i = 0; i < N; i++) {
+		if(name[i].length() > max)
+			max = name[i].length();
 	}
 
-	use iterator to sweep thru doknow set
-	update the corresponding pairs of friends entries
-  }
+	for (int i=0; i<N; i++) {
+		count = 0;
+		op << setw(max) << left << name[i] << " :"; 
+		for (int j = 0; j < N; j++) {
+			if(friends[i][j] == 1) { //for each adjacent friend
+				//	op << " " << setw(max) << left  << name[j]; //pretty-print name[i] and name[j] (see assignment) 
+				//	count++;
+				if(count >= 8) {
+					count = 0;
+					op << endl << setw(max) << left << name[i] << " :";
+
+				}
+				op << " " << setw(max) << left << name[j];
+				count++;
+			}
+
+		}
+		op << endl;
+
+	}
+	op.close();
 }
 
-void set_newfriends(2D-vector-array &friends, 2D-vector-array &new_friends) {
-  int N = (int)friends.size();
-  initialize 2D-vector-array new_friends (hint: use vector::assign())
-
-  for (int i=0; i<N; i++) {
-	for (each adjacent friend: friends[i][j] == 1) {
-	  for (each adjacent friend-of-friend: friends[j][k] == 1) {
-	    if (k-is-not-i && k-is-not-friend-of-i)
-	      update the corresponding pairs of new_friends entries
-	  }
-    }
-  }
-}
-
-void writetofile(const char *fname, vector<string> &name, 2D-vector-array &friends) {
-  open file
-
-  int N = (int)name.size();
-  determine max name length
-
-  for (int i=0; i<N; i++) {
-	for (each adjacent friend: friends[i][j] == 1) {
-	  pretty-print name[i] and name[j] (see assignment) 
-  }
-
-  close file
+void print_error() {
+	cerr << "usage: datafile.txt | Friendnet1 [-seed N]\n";
+	exit(0);
 }
 
 int main(int argc, char *argv[]) {
-  parse argc, argv arguments
-  print usage message and exit if invalid
+  	if(argc != 1 && argc != 3) {
+		print_error();
+  	}
 
-  seed random number generator
+	int seednum = atoi(argv[2]);
+	string names;
 
-  vector<string> name;
-  read strings from stdin into name vector
+	if(argc == 1)
+		srand(time(NULL));
+	else
+		srand(seednum);
 
-  int M0 = 1; // min number of friends
-  int M1 = 2; // potential extra friends
+  	vector<string> name;
 
-  declare 2D-vector-array called friends
-  declare 2D-vector-array called new_friends
+	while(cin >> names) {
+		name.push_back(names);
+	}
 
-  set_oldfriends(name, friends, M0, M1);
-  writetofile("doknow1.txt", name, friends);
+ 	int M0 = 1; // min number of friends
+  	int M1 = 3; // potential extra friends
 
-  set_newfriends(friends, new_friends);
-  writetofile("mightknow1.txt", name, new_friends);
+	vector<vector<bool> > friends;  
+	vector<vector<bool> > new_friends;
+
+  	set_oldfriends(name, friends, M0, M1);
+  	writetofile("doknow1.txt", name, friends);
+
+  	set_newfriends(friends, new_friends);
+  	writetofile("mightknow1.txt", name, new_friends);
 }
