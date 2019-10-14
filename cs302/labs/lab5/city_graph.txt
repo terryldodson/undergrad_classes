@@ -1,0 +1,247 @@
+CITY GRAPH:
+
+  0 Cairo_EG
+     1 Johannesburg_SA     3925.0 miles   7.5 hours
+     5 Tokyo_JP            5975.0 miles  11.5 hours
+     7 Bangalore_IN        3200.0 miles   6.2 hours
+     9 Singapore_SG        5150.0 miles   9.9 hours
+    13 London_UK           2200.0 miles   4.2 hours
+    16 Frankfurt_DE        1825.0 miles   3.5 hours
+    25 New_York_NY         5650.0 miles  10.9 hours
+
+  1 Johannesburg_SA
+     0 Cairo_EG            3925.0 miles   7.5 hours
+     7 Bangalore_IN        4325.0 miles   8.3 hours
+    16 Frankfurt_DE        5425.0 miles  10.4 hours
+    28 Santiago_CL         5725.0 miles  11.0 hours
+    29 Rio_de_Janeiro_BR   4450.0 miles   8.6 hours
+
+  2 Beijing_CN
+     3 Hong_Kong_CN        1225.0 miles  18.8 hours
+     4 Taipei_TW           1075.0 miles  16.5 hours
+     5 Tokyo_JP            1325.0 miles   2.5 hours
+     6 Seoul_KR             600.0 miles   9.2 hours
+     8 New_Delhi_IN        2350.0 miles  36.2 hours
+
+  3 Hong_Kong_CN
+     2 Beijing_CN          1225.0 miles  18.8 hours
+     4 Taipei_TW            500.0 miles   7.7 hours
+     6 Seoul_KR            1300.0 miles  20.0 hours
+     8 New_Delhi_IN        2350.0 miles  36.2 hours
+     9 Singapore_SG        1625.0 miles   3.1 hours
+
+  4 Taipei_TW
+     2 Beijing_CN          1075.0 miles  16.5 hours
+     3 Hong_Kong_CN         500.0 miles   7.7 hours
+     5 Tokyo_JP            1325.0 miles   2.5 hours
+     6 Seoul_KR             925.0 miles  14.2 hours
+     8 New_Delhi_IN        2750.0 miles  42.3 hours
+
+  5 Tokyo_JP
+     0 Cairo_EG            5975.0 miles  11.5 hours
+     2 Beijing_CN          1325.0 miles   2.5 hours
+     4 Taipei_TW           1325.0 miles   2.5 hours
+     6 Seoul_KR             725.0 miles   1.4 hours
+     7 Bangalore_IN        4175.0 miles   8.0 hours
+     9 Singapore_SG        3325.0 miles   6.4 hours
+    10 Sydney_AU           4900.0 miles   9.4 hours
+    16 Frankfurt_DE        5825.0 miles  11.2 hours
+    19 Honolulu_HI         3875.0 miles   7.5 hours
+    22 Los_Angeles_CA      5500.0 miles  10.6 hours
+
+  6 Seoul_KR
+     2 Beijing_CN           600.0 miles   9.2 hours
+     3 Hong_Kong_CN        1300.0 miles  20.0 hours
+     4 Taipei_TW            925.0 miles  14.2 hours
+     5 Tokyo_JP             725.0 miles   1.4 hours
+     8 New_Delhi_IN        2925.0 miles  45.0 hours
+
+  7 Bangalore_IN
+     0 Cairo_EG            3200.0 miles   6.2 hours
+     1 Johannesburg_SA     4325.0 miles   8.3 hours
+     5 Tokyo_JP            4175.0 miles   8.0 hours
+     8 New_Delhi_IN        1075.0 miles   2.1 hours
+     9 Singapore_SG        1975.0 miles   3.8 hours
+    10 Sydney_AU           5850.0 miles  11.2 hours
+    13 London_UK           5025.0 miles   9.7 hours
+    16 Frankfurt_DE        4625.0 miles   8.9 hours
+
+  8 New_Delhi_IN
+     2 Beijing_CN          2350.0 miles  36.2 hours
+     3 Hong_Kong_CN        2350.0 miles  36.2 hours
+     4 Taipei_TW           2750.0 miles  42.3 hours
+     6 Seoul_KR            2925.0 miles  45.0 hours
+     7 Bangalore_IN        1075.0 miles   2.1 hours
+
+  9 Singapore_SG
+     0 Cairo_EG            5150.0 miles   9.9 hours
+     3 Hong_Kong_CN        1625.0 miles   3.1 hours
+     5 Tokyo_JP            3325.0 miles   6.4 hours
+     7 Bangalore_IN        1975.0 miles   3.8 hours
+    10 Sydney_AU           3950.0 miles   7.6 hours
+
+ 10 Sydney_AU
+     5 Tokyo_JP            4900.0 miles   9.4 hours
+     7 Bangalore_IN        5850.0 miles  11.2 hours
+     9 Singapore_SG        3950.0 miles   7.6 hours
+    19 Honolulu_HI         5100.0 miles   9.8 hours
+
+ 11 Bucarest_RM
+    12 Copenhagen_DK        975.0 miles  15.0 hours
+    14 Madrid_ES           1550.0 miles  23.8 hours
+    15 Moscow_RU            925.0 miles  14.2 hours
+    16 Frankfurt_DE         900.0 miles   1.7 hours
+
+ 12 Copenhagen_DK
+    11 Bucarest_RM          975.0 miles  15.0 hours
+    14 Madrid_ES           1300.0 miles  20.0 hours
+    15 Moscow_RU            975.0 miles  15.0 hours
+    16 Frankfurt_DE         425.0 miles   0.8 hours
+
+ 13 London_UK
+     0 Cairo_EG            2200.0 miles   4.2 hours
+     7 Bangalore_IN        5025.0 miles   9.7 hours
+    14 Madrid_ES            800.0 miles   1.5 hours
+    16 Frankfurt_DE         400.0 miles   0.8 hours
+    22 Los_Angeles_CA      5475.0 miles  10.5 hours
+    24 Miami_FL            4450.0 miles   8.6 hours
+    25 New_York_NY         3475.0 miles   6.7 hours
+    29 Rio_de_Janeiro_BR   5800.0 miles  11.2 hours
+
+ 14 Madrid_ES
+    11 Bucarest_RM         1550.0 miles  23.8 hours
+    12 Copenhagen_DK       1300.0 miles  20.0 hours
+    13 London_UK            800.0 miles   1.5 hours
+    15 Moscow_RU           2150.0 miles  33.1 hours
+
+ 15 Moscow_RU
+    11 Bucarest_RM          925.0 miles  14.2 hours
+    12 Copenhagen_DK        975.0 miles  15.0 hours
+    14 Madrid_ES           2150.0 miles  33.1 hours
+    16 Frankfurt_DE        1275.0 miles   2.5 hours
+
+ 16 Frankfurt_DE
+     0 Cairo_EG            1825.0 miles   3.5 hours
+     1 Johannesburg_SA     5425.0 miles  10.4 hours
+     5 Tokyo_JP            5825.0 miles  11.2 hours
+     7 Bangalore_IN        4625.0 miles   8.9 hours
+    11 Bucarest_RM          900.0 miles   1.7 hours
+    12 Copenhagen_DK        425.0 miles   0.8 hours
+    13 London_UK            400.0 miles   0.8 hours
+    15 Moscow_RU           1275.0 miles   2.5 hours
+    25 New_York_NY         3875.0 miles   7.5 hours
+
+ 17 Minneapolis_MN
+    18 Denver_CO            700.0 miles  10.8 hours
+    20 Houston_TX          1075.0 miles  16.5 hours
+    21 Knoxville_TN         800.0 miles  12.3 hours
+    23 Mexico_City_MX      1800.0 miles  27.7 hours
+    25 New_York_NY         1025.0 miles   2.0 hours
+    26 San_Fransisco_CA    1600.0 miles  24.6 hours
+    27 Seattle_WA          1400.0 miles  21.5 hours
+
+ 18 Denver_CO
+    17 Minneapolis_MN       700.0 miles  10.8 hours
+    20 Houston_TX           875.0 miles  13.5 hours
+    21 Knoxville_TN        1175.0 miles  18.1 hours
+    22 Los_Angeles_CA       850.0 miles   1.6 hours
+    23 Mexico_City_MX      1450.0 miles  22.3 hours
+    26 San_Fransisco_CA     950.0 miles  14.6 hours
+    27 Seattle_WA          1025.0 miles  15.8 hours
+
+ 19 Honolulu_HI
+     5 Tokyo_JP            3875.0 miles   7.5 hours
+    10 Sydney_AU           5100.0 miles   9.8 hours
+    22 Los_Angeles_CA      2575.0 miles   5.0 hours
+    24 Miami_FL            4875.0 miles   9.4 hours
+    25 New_York_NY         4975.0 miles   9.6 hours
+
+ 20 Houston_TX
+    17 Minneapolis_MN      1075.0 miles  16.5 hours
+    18 Denver_CO            875.0 miles  13.5 hours
+    21 Knoxville_TN         800.0 miles  12.3 hours
+    23 Mexico_City_MX       750.0 miles  11.5 hours
+    24 Miami_FL             975.0 miles   1.9 hours
+    26 San_Fransisco_CA    1650.0 miles  25.4 hours
+    27 Seattle_WA          1900.0 miles  29.2 hours
+
+ 21 Knoxville_TN
+    17 Minneapolis_MN       800.0 miles  12.3 hours
+    18 Denver_CO           1175.0 miles  18.1 hours
+    20 Houston_TX           800.0 miles  12.3 hours
+    23 Mexico_City_MX      1475.0 miles  22.7 hours
+    25 New_York_NY          625.0 miles   1.2 hours
+    26 San_Fransisco_CA    2125.0 miles  32.7 hours
+    27 Seattle_WA          2125.0 miles  32.7 hours
+
+ 22 Los_Angeles_CA
+     5 Tokyo_JP            5500.0 miles  10.6 hours
+    13 London_UK           5475.0 miles  10.5 hours
+    18 Denver_CO            850.0 miles   1.6 hours
+    19 Honolulu_HI         2575.0 miles   5.0 hours
+    24 Miami_FL            2350.0 miles   4.5 hours
+    25 New_York_NY         2450.0 miles   4.7 hours
+    26 San_Fransisco_CA     350.0 miles   0.7 hours
+    27 Seattle_WA           975.0 miles   1.9 hours
+    28 Santiago_CL         5625.0 miles  10.8 hours
+
+ 23 Mexico_City_MX
+    17 Minneapolis_MN      1800.0 miles  27.7 hours
+    18 Denver_CO           1450.0 miles  22.3 hours
+    20 Houston_TX           750.0 miles  11.5 hours
+    21 Knoxville_TN        1475.0 miles  22.7 hours
+    24 Miami_FL            1300.0 miles   2.5 hours
+    26 San_Fransisco_CA    1900.0 miles  29.2 hours
+    27 Seattle_WA          2350.0 miles  36.2 hours
+
+ 24 Miami_FL
+    13 London_UK           4450.0 miles   8.6 hours
+    19 Honolulu_HI         4875.0 miles   9.4 hours
+    20 Houston_TX           975.0 miles   1.9 hours
+    22 Los_Angeles_CA      2350.0 miles   4.5 hours
+    23 Mexico_City_MX      1300.0 miles   2.5 hours
+    25 New_York_NY         1100.0 miles   2.1 hours
+    28 Santiago_CL         4175.0 miles   8.0 hours
+    29 Rio_de_Janeiro_BR   4200.0 miles   8.1 hours
+
+ 25 New_York_NY
+     0 Cairo_EG            5650.0 miles  10.9 hours
+    13 London_UK           3475.0 miles   6.7 hours
+    16 Frankfurt_DE        3875.0 miles   7.5 hours
+    17 Minneapolis_MN      1025.0 miles   2.0 hours
+    19 Honolulu_HI         4975.0 miles   9.6 hours
+    21 Knoxville_TN         625.0 miles   1.2 hours
+    22 Los_Angeles_CA      2450.0 miles   4.7 hours
+    24 Miami_FL            1100.0 miles   2.1 hours
+    29 Rio_de_Janeiro_BR   4850.0 miles   9.3 hours
+
+ 26 San_Fransisco_CA
+    17 Minneapolis_MN      1600.0 miles  24.6 hours
+    18 Denver_CO            950.0 miles  14.6 hours
+    20 Houston_TX          1650.0 miles  25.4 hours
+    21 Knoxville_TN        2125.0 miles  32.7 hours
+    22 Los_Angeles_CA       350.0 miles   0.7 hours
+    23 Mexico_City_MX      1900.0 miles  29.2 hours
+    27 Seattle_WA           675.0 miles  10.4 hours
+
+ 27 Seattle_WA
+    17 Minneapolis_MN      1400.0 miles  21.5 hours
+    18 Denver_CO           1025.0 miles  15.8 hours
+    20 Houston_TX          1900.0 miles  29.2 hours
+    21 Knoxville_TN        2125.0 miles  32.7 hours
+    22 Los_Angeles_CA       975.0 miles   1.9 hours
+    23 Mexico_City_MX      2350.0 miles  36.2 hours
+    26 San_Fransisco_CA     675.0 miles  10.4 hours
+
+ 28 Santiago_CL
+     1 Johannesburg_SA     5725.0 miles  11.0 hours
+    22 Los_Angeles_CA      5625.0 miles  10.8 hours
+    24 Miami_FL            4175.0 miles   8.0 hours
+    29 Rio_de_Janeiro_BR   1825.0 miles   3.5 hours
+
+ 29 Rio_de_Janeiro_BR
+     1 Johannesburg_SA     4450.0 miles   8.6 hours
+    13 London_UK           5800.0 miles  11.2 hours
+    24 Miami_FL            4200.0 miles   8.1 hours
+    25 New_York_NY         4850.0 miles   9.3 hours
+    28 Santiago_CL         1825.0 miles   3.5 hours

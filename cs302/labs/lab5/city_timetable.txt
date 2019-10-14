@@ -1,0 +1,466 @@
+TIME TABLE:
+
+  1 Johannesburg_SA to Cairo_EG ..........  7.5 hours
+
+  2 Beijing_CN to Cairo_EG ...............  9.1 hours
+  2 Beijing_CN to Johannesburg_SA ........ 14.1 hours
+
+  3 Hong_Kong_CN to Cairo_EG .............  9.8 hours
+  3 Hong_Kong_CN to Johannesburg_SA ...... 12.9 hours
+  3 Hong_Kong_CN to Beijing_CN ........... 18.8 hours
+
+  4 Taipei_TW to Cairo_EG ................ 10.4 hours
+  4 Taipei_TW to Johannesburg_SA ......... 13.8 hours
+  4 Taipei_TW to Beijing_CN .............. 16.5 hours
+  4 Taipei_TW to Hong_Kong_CN ............  7.7 hours
+
+  5 Tokyo_JP to Cairo_EG ................. 11.5 hours
+  5 Tokyo_JP to Johannesburg_SA .......... 16.3 hours
+  5 Tokyo_JP to Beijing_CN ...............  2.5 hours
+  5 Tokyo_JP to Hong_Kong_CN .............  3.5 hours
+  5 Tokyo_JP to Taipei_TW ................  2.5 hours
+
+  6 Seoul_KR to Cairo_EG ................. 10.2 hours
+  6 Seoul_KR to Johannesburg_SA .......... 15.0 hours
+  6 Seoul_KR to Beijing_CN ...............  9.2 hours
+  6 Seoul_KR to Hong_Kong_CN ............. 20.0 hours
+  6 Seoul_KR to Taipei_TW ................ 14.2 hours
+  6 Seoul_KR to Tokyo_JP .................  1.4 hours
+
+  7 Bangalore_IN to Cairo_EG .............  6.2 hours
+  7 Bangalore_IN to Johannesburg_SA ......  8.3 hours
+  7 Bangalore_IN to Beijing_CN ...........  5.8 hours
+  7 Bangalore_IN to Hong_Kong_CN .........  4.8 hours
+  7 Bangalore_IN to Taipei_TW ............  5.8 hours
+  7 Bangalore_IN to Tokyo_JP .............  8.0 hours
+  7 Bangalore_IN to Seoul_KR .............  6.7 hours
+
+  8 New_Delhi_IN to Cairo_EG .............  5.3 hours
+  8 New_Delhi_IN to Johannesburg_SA ......  9.7 hours
+  8 New_Delhi_IN to Beijing_CN ........... 36.2 hours
+  8 New_Delhi_IN to Hong_Kong_CN ......... 36.2 hours
+  8 New_Delhi_IN to Taipei_TW ............ 42.3 hours
+  8 New_Delhi_IN to Tokyo_JP .............  7.0 hours
+  8 New_Delhi_IN to Seoul_KR ............. 45.0 hours
+  8 New_Delhi_IN to Bangalore_IN .........  2.1 hours
+
+  9 Singapore_SG to Cairo_EG .............  9.9 hours
+  9 Singapore_SG to Johannesburg_SA ...... 10.4 hours
+  9 Singapore_SG to Beijing_CN ...........  5.4 hours
+  9 Singapore_SG to Hong_Kong_CN .........  3.1 hours
+  9 Singapore_SG to Taipei_TW ............  3.9 hours
+  9 Singapore_SG to Tokyo_JP .............  6.4 hours
+  9 Singapore_SG to Seoul_KR .............  5.6 hours
+  9 Singapore_SG to Bangalore_IN .........  3.8 hours
+  9 Singapore_SG to New_Delhi_IN .........  5.0 hours
+
+ 10 Sydney_AU to Cairo_EG ................ 17.3 hours
+ 10 Sydney_AU to Johannesburg_SA ......... 13.3 hours
+ 10 Sydney_AU to Beijing_CN .............. 10.8 hours
+ 10 Sydney_AU to Hong_Kong_CN ............  8.8 hours
+ 10 Sydney_AU to Taipei_TW ...............  8.8 hours
+ 10 Sydney_AU to Tokyo_JP ................  9.4 hours
+ 10 Sydney_AU to Seoul_KR ................ 10.0 hours
+ 10 Sydney_AU to Bangalore_IN ............ 11.2 hours
+ 10 Sydney_AU to New_Delhi_IN ............ 12.5 hours
+ 10 Sydney_AU to Singapore_SG ............  7.6 hours
+
+ 11 Bucarest_RM to Cairo_EG ..............  2.0 hours
+ 11 Bucarest_RM to Johannesburg_SA .......  9.4 hours
+ 11 Bucarest_RM to Beijing_CN ............ 67.7 hours
+ 11 Bucarest_RM to Hong_Kong_CN .......... 78.5 hours
+ 11 Bucarest_RM to Taipei_TW ............. 81.5 hours
+ 11 Bucarest_RM to Tokyo_JP .............. 10.7 hours
+ 11 Bucarest_RM to Seoul_KR .............. 76.2 hours
+ 11 Bucarest_RM to Bangalore_IN ..........  7.2 hours
+ 11 Bucarest_RM to New_Delhi_IN .......... 46.2 hours
+ 11 Bucarest_RM to Singapore_SG .......... 10.7 hours
+ 11 Bucarest_RM to Sydney_AU ............. 18.3 hours
+
+ 12 Copenhagen_DK to Cairo_EG ............  3.8 hours
+ 12 Copenhagen_DK to Johannesburg_SA ..... 11.1 hours
+ 12 Copenhagen_DK to Beijing_CN .......... 69.2 hours
+ 12 Copenhagen_DK to Hong_Kong_CN ........ 83.5 hours
+ 12 Copenhagen_DK to Taipei_TW ........... 85.0 hours
+ 12 Copenhagen_DK to Tokyo_JP ............ 10.4 hours
+ 12 Copenhagen_DK to Seoul_KR ............ 76.5 hours
+ 12 Copenhagen_DK to Bangalore_IN ........  8.8 hours
+ 12 Copenhagen_DK to New_Delhi_IN ........ 56.2 hours
+ 12 Copenhagen_DK to Singapore_SG ........ 12.0 hours
+ 12 Copenhagen_DK to Sydney_AU ........... 19.3 hours
+ 12 Copenhagen_DK to Bucarest_RM ......... 15.0 hours
+
+ 13 London_UK to Cairo_EG ................  4.2 hours
+ 13 London_UK to Johannesburg_SA ......... 10.9 hours
+ 13 London_UK to Beijing_CN ..............  9.8 hours
+ 13 London_UK to Hong_Kong_CN ............ 11.6 hours
+ 13 London_UK to Taipei_TW ............... 11.7 hours
+ 13 London_UK to Tokyo_JP ................ 11.5 hours
+ 13 London_UK to Seoul_KR ................ 10.6 hours
+ 13 London_UK to Bangalore_IN ............  9.7 hours
+ 13 London_UK to New_Delhi_IN ............  8.1 hours
+ 13 London_UK to Singapore_SG ............ 13.0 hours
+ 13 London_UK to Sydney_AU ............... 20.4 hours
+ 13 London_UK to Bucarest_RM .............  2.5 hours
+ 13 London_UK to Copenhagen_DK ...........  1.2 hours
+
+ 14 Madrid_ES to Cairo_EG ................  4.0 hours
+ 14 Madrid_ES to Johannesburg_SA .........  9.8 hours
+ 14 Madrid_ES to Beijing_CN .............. 88.8 hours
+ 14 Madrid_ES to Hong_Kong_CN ............101.5 hours
+ 14 Madrid_ES to Taipei_TW ...............103.8 hours
+ 14 Madrid_ES to Tokyo_JP ................ 12.9 hours
+ 14 Madrid_ES to Seoul_KR ................ 96.2 hours
+ 14 Madrid_ES to Bangalore_IN ............ 10.0 hours
+ 14 Madrid_ES to New_Delhi_IN ............ 70.0 hours
+ 14 Madrid_ES to Singapore_SG ............ 13.7 hours
+ 14 Madrid_ES to Sydney_AU ............... 21.2 hours
+ 14 Madrid_ES to Bucarest_RM ............. 23.8 hours
+ 14 Madrid_ES to Copenhagen_DK ........... 20.0 hours
+ 14 Madrid_ES to London_UK ...............  1.5 hours
+
+ 15 Moscow_RU to Cairo_EG ................  3.5 hours
+ 15 Moscow_RU to Johannesburg_SA ......... 11.0 hours
+ 15 Moscow_RU to Beijing_CN .............. 55.8 hours
+ 15 Moscow_RU to Hong_Kong_CN ............ 68.8 hours
+ 15 Moscow_RU to Taipei_TW ............... 70.8 hours
+ 15 Moscow_RU to Tokyo_JP ................  9.0 hours
+ 15 Moscow_RU to Seoul_KR ................ 63.5 hours
+ 15 Moscow_RU to Bangalore_IN ............  7.1 hours
+ 15 Moscow_RU to New_Delhi_IN ............ 41.9 hours
+ 15 Moscow_RU to Singapore_SG ............ 10.1 hours
+ 15 Moscow_RU to Sydney_AU ............... 17.4 hours
+ 15 Moscow_RU to Bucarest_RM ............. 14.2 hours
+ 15 Moscow_RU to Copenhagen_DK ........... 15.0 hours
+ 15 Moscow_RU to London_UK ...............  3.0 hours
+ 15 Moscow_RU to Madrid_ES ............... 33.1 hours
+
+ 16 Frankfurt_DE to Cairo_EG .............  3.5 hours
+ 16 Frankfurt_DE to Johannesburg_SA ...... 10.4 hours
+ 16 Frankfurt_DE to Beijing_CN ...........  9.3 hours
+ 16 Frankfurt_DE to Hong_Kong_CN ......... 11.0 hours
+ 16 Frankfurt_DE to Taipei_TW ............ 11.2 hours
+ 16 Frankfurt_DE to Tokyo_JP ............. 11.2 hours
+ 16 Frankfurt_DE to Seoul_KR ............. 10.3 hours
+ 16 Frankfurt_DE to Bangalore_IN .........  8.9 hours
+ 16 Frankfurt_DE to New_Delhi_IN .........  7.4 hours
+ 16 Frankfurt_DE to Singapore_SG ......... 12.3 hours
+ 16 Frankfurt_DE to Sydney_AU ............ 19.8 hours
+ 16 Frankfurt_DE to Bucarest_RM ..........  1.7 hours
+ 16 Frankfurt_DE to Copenhagen_DK ........  0.8 hours
+ 16 Frankfurt_DE to London_UK ............  0.8 hours
+ 16 Frankfurt_DE to Madrid_ES ............  1.7 hours
+ 16 Frankfurt_DE to Moscow_RU ............  2.5 hours
+
+ 17 Minneapolis_MN to Cairo_EG ........... 12.0 hours
+ 17 Minneapolis_MN to Johannesburg_SA .... 17.4 hours
+ 17 Minneapolis_MN to Beijing_CN ......... 97.3 hours
+ 17 Minneapolis_MN to Hong_Kong_CN .......115.8 hours
+ 17 Minneapolis_MN to Taipei_TW ..........110.4 hours
+ 17 Minneapolis_MN to Tokyo_JP ........... 11.5 hours
+ 17 Minneapolis_MN to Seoul_KR ........... 96.2 hours
+ 17 Minneapolis_MN to Bangalore_IN ....... 16.2 hours
+ 17 Minneapolis_MN to New_Delhi_IN .......113.1 hours
+ 17 Minneapolis_MN to Singapore_SG ....... 17.5 hours
+ 17 Minneapolis_MN to Sydney_AU .......... 17.4 hours
+ 17 Minneapolis_MN to Bucarest_RM ........ 80.8 hours
+ 17 Minneapolis_MN to Copenhagen_DK ...... 65.8 hours
+ 17 Minneapolis_MN to London_UK ..........  7.7 hours
+ 17 Minneapolis_MN to Madrid_ES .......... 66.9 hours
+ 17 Minneapolis_MN to Moscow_RU .......... 76.2 hours
+ 17 Minneapolis_MN to Frankfurt_DE .......  8.5 hours
+
+ 18 Denver_CO to Cairo_EG ................ 13.3 hours
+ 18 Denver_CO to Johannesburg_SA ......... 18.6 hours
+ 18 Denver_CO to Beijing_CN .............. 98.1 hours
+ 18 Denver_CO to Hong_Kong_CN ............115.4 hours
+ 18 Denver_CO to Taipei_TW ...............109.2 hours
+ 18 Denver_CO to Tokyo_JP ................ 11.2 hours
+ 18 Denver_CO to Seoul_KR ................ 95.4 hours
+ 18 Denver_CO to Bangalore_IN ............ 17.0 hours
+ 18 Denver_CO to New_Delhi_IN ............119.2 hours
+ 18 Denver_CO to Singapore_SG ............ 17.5 hours
+ 18 Denver_CO to Sydney_AU ............... 16.1 hours
+ 18 Denver_CO to Bucarest_RM ............. 90.8 hours
+ 18 Denver_CO to Copenhagen_DK ........... 75.8 hours
+ 18 Denver_CO to London_UK ...............  9.0 hours
+ 18 Denver_CO to Madrid_ES ............... 77.3 hours
+ 18 Denver_CO to Moscow_RU ............... 84.6 hours
+ 18 Denver_CO to Frankfurt_DE ............  9.8 hours
+ 18 Denver_CO to Minneapolis_MN .......... 10.8 hours
+
+ 19 Honolulu_HI to Cairo_EG .............. 17.1 hours
+ 19 Honolulu_HI to Johannesburg_SA ....... 23.1 hours
+ 19 Honolulu_HI to Beijing_CN ............  9.8 hours
+ 19 Honolulu_HI to Hong_Kong_CN .......... 10.7 hours
+ 19 Honolulu_HI to Taipei_TW .............  9.8 hours
+ 19 Honolulu_HI to Tokyo_JP ..............  7.5 hours
+ 19 Honolulu_HI to Seoul_KR ..............  8.8 hours
+ 19 Honolulu_HI to Bangalore_IN .......... 15.5 hours
+ 19 Honolulu_HI to New_Delhi_IN .......... 14.3 hours
+ 19 Honolulu_HI to Singapore_SG .......... 13.0 hours
+ 19 Honolulu_HI to Sydney_AU .............  9.8 hours
+ 19 Honolulu_HI to Bucarest_RM ........... 15.2 hours
+ 19 Honolulu_HI to Copenhagen_DK ......... 13.7 hours
+ 19 Honolulu_HI to London_UK ............. 14.0 hours
+ 19 Honolulu_HI to Madrid_ES ............. 15.2 hours
+ 19 Honolulu_HI to Moscow_RU ............. 13.6 hours
+ 19 Honolulu_HI to Frankfurt_DE .......... 14.4 hours
+ 19 Honolulu_HI to Minneapolis_MN ........  7.6 hours
+ 19 Honolulu_HI to Denver_CO .............  6.5 hours
+
+ 20 Houston_TX to Cairo_EG ............... 13.6 hours
+ 20 Houston_TX to Johannesburg_SA ........ 17.5 hours
+ 20 Houston_TX to Beijing_CN .............111.5 hours
+ 20 Houston_TX to Hong_Kong_CN ...........128.8 hours
+ 20 Houston_TX to Taipei_TW ..............122.7 hours
+ 20 Houston_TX to Tokyo_JP ............... 12.9 hours
+ 20 Houston_TX to Seoul_KR ...............108.8 hours
+ 20 Houston_TX to Bangalore_IN ........... 18.3 hours
+ 20 Houston_TX to New_Delhi_IN ...........129.6 hours
+ 20 Houston_TX to Singapore_SG ........... 19.2 hours
+ 20 Houston_TX to Sydney_AU .............. 16.6 hours
+ 20 Houston_TX to Bucarest_RM ............ 94.6 hours
+ 20 Houston_TX to Copenhagen_DK .......... 80.0 hours
+ 20 Houston_TX to London_UK ..............  9.4 hours
+ 20 Houston_TX to Madrid_ES .............. 77.3 hours
+ 20 Houston_TX to Moscow_RU .............. 91.5 hours
+ 20 Houston_TX to Frankfurt_DE ........... 10.1 hours
+ 20 Houston_TX to Minneapolis_MN ......... 16.5 hours
+ 20 Houston_TX to Denver_CO .............. 13.5 hours
+ 20 Houston_TX to Honolulu_HI ............  7.5 hours
+
+ 21 Knoxville_TN to Cairo_EG ............. 12.1 hours
+ 21 Knoxville_TN to Johannesburg_SA ...... 16.3 hours
+ 21 Knoxville_TN to Beijing_CN ...........108.8 hours
+ 21 Knoxville_TN to Hong_Kong_CN .........127.7 hours
+ 21 Knoxville_TN to Taipei_TW ............122.3 hours
+ 21 Knoxville_TN to Tokyo_JP ............. 13.0 hours
+ 21 Knoxville_TN to Seoul_KR .............108.1 hours
+ 21 Knoxville_TN to Bangalore_IN ......... 17.1 hours
+ 21 Knoxville_TN to New_Delhi_IN .........120.8 hours
+ 21 Knoxville_TN to Singapore_SG ......... 19.0 hours
+ 21 Knoxville_TN to Sydney_AU ............ 18.1 hours
+ 21 Knoxville_TN to Bucarest_RM .......... 83.1 hours
+ 21 Knoxville_TN to Copenhagen_DK ........ 68.8 hours
+ 21 Knoxville_TN to London_UK ............  7.9 hours
+ 21 Knoxville_TN to Madrid_ES ............ 65.4 hours
+ 21 Knoxville_TN to Moscow_RU ............ 80.8 hours
+ 21 Knoxville_TN to Frankfurt_DE .........  8.7 hours
+ 21 Knoxville_TN to Minneapolis_MN ....... 12.3 hours
+ 21 Knoxville_TN to Denver_CO ............ 18.1 hours
+ 21 Knoxville_TN to Honolulu_HI ..........  8.7 hours
+ 21 Knoxville_TN to Houston_TX ........... 12.3 hours
+
+ 22 Los_Angeles_CA to Cairo_EG ........... 14.7 hours
+ 22 Los_Angeles_CA to Johannesburg_SA .... 20.0 hours
+ 22 Los_Angeles_CA to Beijing_CN ......... 12.1 hours
+ 22 Los_Angeles_CA to Hong_Kong_CN ....... 14.0 hours
+ 22 Los_Angeles_CA to Taipei_TW .......... 13.1 hours
+ 22 Los_Angeles_CA to Tokyo_JP ........... 10.6 hours
+ 22 Los_Angeles_CA to Seoul_KR ........... 11.5 hours
+ 22 Los_Angeles_CA to Bangalore_IN ....... 17.5 hours
+ 22 Los_Angeles_CA to New_Delhi_IN ....... 15.5 hours
+ 22 Los_Angeles_CA to Singapore_SG ....... 17.0 hours
+ 22 Los_Angeles_CA to Sydney_AU .......... 14.5 hours
+ 22 Los_Angeles_CA to Bucarest_RM ........ 12.7 hours
+ 22 Los_Angeles_CA to Copenhagen_DK ...... 10.8 hours
+ 22 Los_Angeles_CA to London_UK .......... 10.5 hours
+ 22 Los_Angeles_CA to Madrid_ES .......... 11.2 hours
+ 22 Los_Angeles_CA to Moscow_RU .......... 11.7 hours
+ 22 Los_Angeles_CA to Frankfurt_DE ....... 11.2 hours
+ 22 Los_Angeles_CA to Minneapolis_MN .....  2.9 hours
+ 22 Los_Angeles_CA to Denver_CO ..........  1.6 hours
+ 22 Los_Angeles_CA to Honolulu_HI ........  5.0 hours
+ 22 Los_Angeles_CA to Houston_TX .........  2.6 hours
+ 22 Los_Angeles_CA to Knoxville_TN .......  3.8 hours
+
+ 23 Mexico_City_MX to Cairo_EG ........... 14.9 hours
+ 23 Mexico_City_MX to Johannesburg_SA .... 17.5 hours
+ 23 Mexico_City_MX to Beijing_CN .........119.6 hours
+ 23 Mexico_City_MX to Hong_Kong_CN .......135.8 hours
+ 23 Mexico_City_MX to Taipei_TW ..........128.8 hours
+ 23 Mexico_City_MX to Tokyo_JP ........... 13.6 hours
+ 23 Mexico_City_MX to Seoul_KR ...........115.8 hours
+ 23 Mexico_City_MX to Bangalore_IN ....... 19.7 hours
+ 23 Mexico_City_MX to New_Delhi_IN .......140.8 hours
+ 23 Mexico_City_MX to Singapore_SG ....... 20.0 hours
+ 23 Mexico_City_MX to Sydney_AU .......... 15.6 hours
+ 23 Mexico_City_MX to Bucarest_RM ........105.8 hours
+ 23 Mexico_City_MX to Copenhagen_DK ...... 91.5 hours
+ 23 Mexico_City_MX to London_UK .......... 10.7 hours
+ 23 Mexico_City_MX to Madrid_ES .......... 87.3 hours
+ 23 Mexico_City_MX to Moscow_RU ..........103.1 hours
+ 23 Mexico_City_MX to Frankfurt_DE ....... 11.5 hours
+ 23 Mexico_City_MX to Minneapolis_MN ..... 27.7 hours
+ 23 Mexico_City_MX to Denver_CO .......... 22.3 hours
+ 23 Mexico_City_MX to Honolulu_HI ........  7.3 hours
+ 23 Mexico_City_MX to Houston_TX ......... 11.5 hours
+ 23 Mexico_City_MX to Knoxville_TN ....... 22.7 hours
+ 23 Mexico_City_MX to Los_Angeles_CA .....  3.0 hours
+
+ 24 Miami_FL to Cairo_EG ................. 12.5 hours
+ 24 Miami_FL to Johannesburg_SA .......... 15.6 hours
+ 24 Miami_FL to Beijing_CN ............... 15.0 hours
+ 24 Miami_FL to Hong_Kong_CN ............. 17.4 hours
+ 24 Miami_FL to Taipei_TW ................ 16.7 hours
+ 24 Miami_FL to Tokyo_JP ................. 14.4 hours
+ 24 Miami_FL to Seoul_KR ................. 15.0 hours
+ 24 Miami_FL to Bangalore_IN ............. 18.1 hours
+ 24 Miami_FL to New_Delhi_IN ............. 16.2 hours
+ 24 Miami_FL to Singapore_SG ............. 20.4 hours
+ 24 Miami_FL to Sydney_AU ................ 18.1 hours
+ 24 Miami_FL to Bucarest_RM .............. 11.1 hours
+ 24 Miami_FL to Copenhagen_DK ............  9.4 hours
+ 24 Miami_FL to London_UK ................  8.6 hours
+ 24 Miami_FL to Madrid_ES ................  8.5 hours
+ 24 Miami_FL to Moscow_RU ................ 11.1 hours
+ 24 Miami_FL to Frankfurt_DE .............  9.3 hours
+ 24 Miami_FL to Minneapolis_MN ...........  2.9 hours
+ 24 Miami_FL to Denver_CO ................  3.3 hours
+ 24 Miami_FL to Honolulu_HI ..............  9.4 hours
+ 24 Miami_FL to Houston_TX ...............  1.9 hours
+ 24 Miami_FL to Knoxville_TN .............  1.4 hours
+ 24 Miami_FL to Los_Angeles_CA ...........  4.5 hours
+ 24 Miami_FL to Mexico_City_MX ...........  2.5 hours
+
+ 25 New_York_NY to Cairo_EG .............. 10.9 hours
+ 25 New_York_NY to Johannesburg_SA ....... 15.4 hours
+ 25 New_York_NY to Beijing_CN ............ 13.2 hours
+ 25 New_York_NY to Hong_Kong_CN .......... 15.6 hours
+ 25 New_York_NY to Taipei_TW ............. 15.0 hours
+ 25 New_York_NY to Tokyo_JP .............. 13.0 hours
+ 25 New_York_NY to Seoul_KR .............. 13.3 hours
+ 25 New_York_NY to Bangalore_IN .......... 16.1 hours
+ 25 New_York_NY to New_Delhi_IN .......... 14.1 hours
+ 25 New_York_NY to Singapore_SG .......... 18.4 hours
+ 25 New_York_NY to Sydney_AU ............. 19.2 hours
+ 25 New_York_NY to Bucarest_RM ...........  9.2 hours
+ 25 New_York_NY to Copenhagen_DK .........  7.5 hours
+ 25 New_York_NY to London_UK .............  6.7 hours
+ 25 New_York_NY to Madrid_ES .............  6.9 hours
+ 25 New_York_NY to Moscow_RU .............  9.0 hours
+ 25 New_York_NY to Frankfurt_DE ..........  7.5 hours
+ 25 New_York_NY to Minneapolis_MN ........  2.0 hours
+ 25 New_York_NY to Denver_CO .............  3.1 hours
+ 25 New_York_NY to Honolulu_HI ...........  9.6 hours
+ 25 New_York_NY to Houston_TX ............  2.7 hours
+ 25 New_York_NY to Knoxville_TN ..........  1.2 hours
+ 25 New_York_NY to Los_Angeles_CA ........  4.7 hours
+ 25 New_York_NY to Mexico_City_MX ........  4.0 hours
+ 25 New_York_NY to Miami_FL ..............  2.1 hours
+
+ 26 San_Fransisco_CA to Cairo_EG ......... 14.4 hours
+ 26 San_Fransisco_CA to Johannesburg_SA .. 20.4 hours
+ 26 San_Fransisco_CA to Beijing_CN ....... 91.5 hours
+ 26 San_Fransisco_CA to Hong_Kong_CN .....106.5 hours
+ 26 San_Fransisco_CA to Taipei_TW ........ 99.6 hours
+ 26 San_Fransisco_CA to Tokyo_JP ......... 10.0 hours
+ 26 San_Fransisco_CA to Seoul_KR ......... 86.9 hours
+ 26 San_Fransisco_CA to Bangalore_IN ..... 16.8 hours
+ 26 San_Fransisco_CA to New_Delhi_IN .....118.8 hours
+ 26 San_Fransisco_CA to Singapore_SG ..... 16.3 hours
+ 26 San_Fransisco_CA to Sydney_AU ........ 14.4 hours
+ 26 San_Fransisco_CA to Bucarest_RM ...... 99.6 hours
+ 26 San_Fransisco_CA to Copenhagen_DK .... 84.6 hours
+ 26 San_Fransisco_CA to London_UK ........ 10.3 hours
+ 26 San_Fransisco_CA to Madrid_ES ........ 89.6 hours
+ 26 San_Fransisco_CA to Moscow_RU ........ 90.8 hours
+ 26 San_Fransisco_CA to Frankfurt_DE ..... 11.0 hours
+ 26 San_Fransisco_CA to Minneapolis_MN ... 24.6 hours
+ 26 San_Fransisco_CA to Denver_CO ........ 14.6 hours
+ 26 San_Fransisco_CA to Honolulu_HI ......  4.6 hours
+ 26 San_Fransisco_CA to Houston_TX ....... 25.4 hours
+ 26 San_Fransisco_CA to Knoxville_TN ..... 32.7 hours
+ 26 San_Fransisco_CA to Los_Angeles_CA ...  0.7 hours
+ 26 San_Fransisco_CA to Mexico_City_MX ... 29.2 hours
+ 26 San_Fransisco_CA to Miami_FL .........  5.0 hours
+ 26 San_Fransisco_CA to New_York_NY ......  5.0 hours
+
+ 27 Seattle_WA to Cairo_EG ............... 13.2 hours
+ 27 Seattle_WA to Johannesburg_SA ........ 19.9 hours
+ 27 Seattle_WA to Beijing_CN ............. 83.5 hours
+ 27 Seattle_WA to Hong_Kong_CN ...........100.0 hours
+ 27 Seattle_WA to Taipei_TW .............. 93.5 hours
+ 27 Seattle_WA to Tokyo_JP ...............  9.2 hours
+ 27 Seattle_WA to Seoul_KR ............... 80.0 hours
+ 27 Seattle_WA to Bangalore_IN ........... 15.6 hours
+ 27 Seattle_WA to New_Delhi_IN ...........108.8 hours
+ 27 Seattle_WA to Singapore_SG ........... 15.6 hours
+ 27 Seattle_WA to Sydney_AU .............. 15.0 hours
+ 27 Seattle_WA to Bucarest_RM ............ 89.6 hours
+ 27 Seattle_WA to Copenhagen_DK .......... 75.0 hours
+ 27 Seattle_WA to London_UK ..............  9.2 hours
+ 27 Seattle_WA to Madrid_ES .............. 81.9 hours
+ 27 Seattle_WA to Moscow_RU .............. 80.4 hours
+ 27 Seattle_WA to Frankfurt_DE ...........  9.9 hours
+ 27 Seattle_WA to Minneapolis_MN ......... 21.5 hours
+ 27 Seattle_WA to Denver_CO .............. 15.8 hours
+ 27 Seattle_WA to Honolulu_HI ............  5.2 hours
+ 27 Seattle_WA to Houston_TX ............. 29.2 hours
+ 27 Seattle_WA to Knoxville_TN ........... 32.7 hours
+ 27 Seattle_WA to Los_Angeles_CA .........  1.9 hours
+ 27 Seattle_WA to Mexico_City_MX ......... 36.2 hours
+ 27 Seattle_WA to Miami_FL ...............  5.3 hours
+ 27 Seattle_WA to New_York_NY ............  4.7 hours
+ 27 Seattle_WA to San_Fransisco_CA ....... 10.4 hours
+
+ 28 Santiago_CL to Cairo_EG .............. 15.4 hours
+ 28 Santiago_CL to Johannesburg_SA ....... 11.0 hours
+ 28 Santiago_CL to Beijing_CN ............ 22.9 hours
+ 28 Santiago_CL to Hong_Kong_CN .......... 22.5 hours
+ 28 Santiago_CL to Taipei_TW ............. 22.3 hours
+ 28 Santiago_CL to Tokyo_JP .............. 20.7 hours
+ 28 Santiago_CL to Seoul_KR .............. 22.1 hours
+ 28 Santiago_CL to Bangalore_IN .......... 19.3 hours
+ 28 Santiago_CL to New_Delhi_IN .......... 20.3 hours
+ 28 Santiago_CL to Singapore_SG .......... 19.7 hours
+ 28 Santiago_CL to Sydney_AU ............. 13.7 hours
+ 28 Santiago_CL to Bucarest_RM ........... 15.7 hours
+ 28 Santiago_CL to Copenhagen_DK ......... 15.2 hours
+ 28 Santiago_CL to London_UK ............. 14.0 hours
+ 28 Santiago_CL to Madrid_ES ............. 12.8 hours
+ 28 Santiago_CL to Moscow_RU ............. 17.0 hours
+ 28 Santiago_CL to Frankfurt_DE .......... 14.6 hours
+ 28 Santiago_CL to Minneapolis_MN ........ 10.8 hours
+ 28 Santiago_CL to Denver_CO ............. 10.7 hours
+ 28 Santiago_CL to Honolulu_HI ........... 13.3 hours
+ 28 Santiago_CL to Houston_TX ............  9.0 hours
+ 28 Santiago_CL to Knoxville_TN ..........  9.4 hours
+ 28 Santiago_CL to Los_Angeles_CA ........ 10.8 hours
+ 28 Santiago_CL to Mexico_City_MX ........  7.9 hours
+ 28 Santiago_CL to Miami_FL ..............  8.0 hours
+ 28 Santiago_CL to New_York_NY ...........  9.9 hours
+ 28 Santiago_CL to San_Fransisco_CA ...... 11.5 hours
+ 28 Santiago_CL to Seattle_WA ............ 12.5 hours
+
+ 29 Rio_de_Janeiro_BR to Cairo_EG ........ 11.9 hours
+ 29 Rio_de_Janeiro_BR to Johannesburg_SA .  8.6 hours
+ 29 Rio_de_Janeiro_BR to Beijing_CN ...... 20.8 hours
+ 29 Rio_de_Janeiro_BR to Hong_Kong_CN .... 21.2 hours
+ 29 Rio_de_Janeiro_BR to Taipei_TW ....... 22.2 hours
+ 29 Rio_de_Janeiro_BR to Tokyo_JP ........ 22.3 hours
+ 29 Rio_de_Janeiro_BR to Seoul_KR ........ 21.8 hours
+ 29 Rio_de_Janeiro_BR to Bangalore_IN .... 16.4 hours
+ 29 Rio_de_Janeiro_BR to New_Delhi_IN .... 16.9 hours
+ 29 Rio_de_Janeiro_BR to Singapore_SG .... 18.9 hours
+ 29 Rio_de_Janeiro_BR to Sydney_AU ....... 16.2 hours
+ 29 Rio_de_Janeiro_BR to Bucarest_RM ..... 12.4 hours
+ 29 Rio_de_Janeiro_BR to Copenhagen_DK ... 12.3 hours
+ 29 Rio_de_Janeiro_BR to London_UK ....... 11.2 hours
+ 29 Rio_de_Janeiro_BR to Madrid_ES .......  9.8 hours
+ 29 Rio_de_Janeiro_BR to Moscow_RU ....... 13.9 hours
+ 29 Rio_de_Janeiro_BR to Frankfurt_DE .... 11.5 hours
+ 29 Rio_de_Janeiro_BR to Minneapolis_MN .. 10.9 hours
+ 29 Rio_de_Janeiro_BR to Denver_CO ....... 11.3 hours
+ 29 Rio_de_Janeiro_BR to Honolulu_HI ..... 16.0 hours
+ 29 Rio_de_Janeiro_BR to Houston_TX ......  9.7 hours
+ 29 Rio_de_Janeiro_BR to Knoxville_TN ....  9.4 hours
+ 29 Rio_de_Janeiro_BR to Los_Angeles_CA .. 12.2 hours
+ 29 Rio_de_Janeiro_BR to Mexico_City_MX ..  9.2 hours
+ 29 Rio_de_Janeiro_BR to Miami_FL ........  8.1 hours
+ 29 Rio_de_Janeiro_BR to New_York_NY .....  9.3 hours
+ 29 Rio_de_Janeiro_BR to San_Fransisco_CA  12.8 hours
+ 29 Rio_de_Janeiro_BR to Seattle_WA ...... 13.3 hours
+ 29 Rio_de_Janeiro_BR to Santiago_CL .....  3.5 hours
+

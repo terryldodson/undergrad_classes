@@ -1,0 +1,32 @@
+CITY INFO (N=30):
+
+  0 Cairo_EG          GATEWAY     1   17800000   30.06   31.23
+  1 Johannesburg_SA   GATEWAY     1    7151500  -26.20   28.05
+  2 Beijing_CN        REGIONAL    2   21700000   39.92  116.38
+  3 Hong_Kong_CN      REGIONAL    2    7400000   22.30  114.20
+  4 Taipei_TW         REGIONAL    2    8500000   25.07  121.52
+  5 Tokyo_JP          GATEWAY     2   35000000   35.68  139.77
+  6 Seoul_KR          REGIONAL    2   24472000   37.55  126.98
+  7 Bangalore_IN      GATEWAY     2   12350000   12.97   77.57
+  8 New_Delhi_IN      REGIONAL    2   13850000   28.61   77.21
+  9 Singapore_SG      GATEWAY     2    4800000    1.37  103.80
+ 10 Sydney_AU         GATEWAY     3    4280000  -33.86  151.21
+ 11 Bucarest_RM       REGIONAL    4    1700000   44.43   26.10
+ 12 Copenhagen_DK     REGIONAL    4    1900000   55.68   12.57
+ 13 London_UK         GATEWAY     4    8800000   51.51   -0.13
+ 14 Madrid_ES         REGIONAL    4    7000000   40.38   -3.72
+ 15 Moscow_RU         REGIONAL    4   10500000   55.75   37.62
+ 16 Frankfurt_DE      GATEWAY     4    2260000   50.11    8.68
+ 17 Minneapolis_MN    REGIONAL    5    3500000   44.98  -93.27
+ 18 Denver_CO         REGIONAL    5    2800000   39.76 -104.88
+ 19 Honolulu_HI       GATEWAY     5     372000   21.31 -157.83
+ 20 Houston_TX        REGIONAL    5    6300000   29.76  -95.38
+ 21 Knoxville_TN      REGIONAL    5     600000   35.97  -83.94
+ 22 Los_Angeles_CA    GATEWAY     5   12150000   34.05 -118.25
+ 23 Mexico_City_MX    REGIONAL    5   19800000   19.43  -99.13
+ 24 Miami_FL          GATEWAY     5    5400000   25.79  -80.22
+ 25 New_York_NY       GATEWAY     5   19000000   40.72  -74.00
+ 26 San_Fransisco_CA  REGIONAL    5    4700000   37.78 -122.42
+ 27 Seattle_WA        REGIONAL    5    3400000   47.61 -122.33
+ 28 Santiago_CL       GATEWAY     6    7000000  -33.44  -70.65
+ 29 Rio_de_Janeiro_BR GATEWAY     6   14400000  -22.91  -43.20

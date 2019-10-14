@@ -1,0 +1,466 @@
+DISTANCE TABLE:
+
+  1 Johannesburg_SA to Cairo_EG .......... 3925.0 miles
+
+  2 Beijing_CN to Cairo_EG ............... 4725.0 miles
+  2 Beijing_CN to Johannesburg_SA ........ 7325.0 miles
+
+  3 Hong_Kong_CN to Cairo_EG ............. 5100.0 miles
+  3 Hong_Kong_CN to Johannesburg_SA ...... 6700.0 miles
+  3 Hong_Kong_CN to Beijing_CN ........... 1225.0 miles
+
+  4 Taipei_TW to Cairo_EG ................ 5425.0 miles
+  4 Taipei_TW to Johannesburg_SA ......... 7200.0 miles
+  4 Taipei_TW to Beijing_CN .............. 1075.0 miles
+  4 Taipei_TW to Hong_Kong_CN ............  500.0 miles
+
+  5 Tokyo_JP to Cairo_EG ................. 5975.0 miles
+  5 Tokyo_JP to Johannesburg_SA .......... 8475.0 miles
+  5 Tokyo_JP to Beijing_CN ............... 1325.0 miles
+  5 Tokyo_JP to Hong_Kong_CN ............. 1800.0 miles
+  5 Tokyo_JP to Taipei_TW ................ 1325.0 miles
+
+  6 Seoul_KR to Cairo_EG ................. 5300.0 miles
+  6 Seoul_KR to Johannesburg_SA .......... 7800.0 miles
+  6 Seoul_KR to Beijing_CN ...............  600.0 miles
+  6 Seoul_KR to Hong_Kong_CN ............. 1300.0 miles
+  6 Seoul_KR to Taipei_TW ................  925.0 miles
+  6 Seoul_KR to Tokyo_JP .................  725.0 miles
+
+  7 Bangalore_IN to Cairo_EG ............. 3200.0 miles
+  7 Bangalore_IN to Johannesburg_SA ...... 4325.0 miles
+  7 Bangalore_IN to Beijing_CN ........... 3025.0 miles
+  7 Bangalore_IN to Hong_Kong_CN ......... 2500.0 miles
+  7 Bangalore_IN to Taipei_TW ............ 3000.0 miles
+  7 Bangalore_IN to Tokyo_JP ............. 4175.0 miles
+  7 Bangalore_IN to Seoul_KR ............. 3500.0 miles
+
+  8 New_Delhi_IN to Cairo_EG ............. 2775.0 miles
+  8 New_Delhi_IN to Johannesburg_SA ...... 5025.0 miles
+  8 New_Delhi_IN to Beijing_CN ........... 2350.0 miles
+  8 New_Delhi_IN to Hong_Kong_CN ......... 2350.0 miles
+  8 New_Delhi_IN to Taipei_TW ............ 2750.0 miles
+  8 New_Delhi_IN to Tokyo_JP ............. 3650.0 miles
+  8 New_Delhi_IN to Seoul_KR ............. 2925.0 miles
+  8 New_Delhi_IN to Bangalore_IN ......... 1075.0 miles
+
+  9 Singapore_SG to Cairo_EG ............. 5150.0 miles
+  9 Singapore_SG to Johannesburg_SA ...... 5400.0 miles
+  9 Singapore_SG to Beijing_CN ........... 2800.0 miles
+  9 Singapore_SG to Hong_Kong_CN ......... 1625.0 miles
+  9 Singapore_SG to Taipei_TW ............ 2025.0 miles
+  9 Singapore_SG to Tokyo_JP ............. 3325.0 miles
+  9 Singapore_SG to Seoul_KR ............. 2925.0 miles
+  9 Singapore_SG to Bangalore_IN ......... 1975.0 miles
+  9 Singapore_SG to New_Delhi_IN ......... 2575.0 miles
+
+ 10 Sydney_AU to Cairo_EG ................ 9000.0 miles
+ 10 Sydney_AU to Johannesburg_SA ......... 6900.0 miles
+ 10 Sydney_AU to Beijing_CN .............. 5600.0 miles
+ 10 Sydney_AU to Hong_Kong_CN ............ 4600.0 miles
+ 10 Sydney_AU to Taipei_TW ............... 4550.0 miles
+ 10 Sydney_AU to Tokyo_JP ................ 4900.0 miles
+ 10 Sydney_AU to Seoul_KR ................ 5200.0 miles
+ 10 Sydney_AU to Bangalore_IN ............ 5850.0 miles
+ 10 Sydney_AU to New_Delhi_IN ............ 6525.0 miles
+ 10 Sydney_AU to Singapore_SG ............ 3950.0 miles
+
+ 11 Bucarest_RM to Cairo_EG .............. 1050.0 miles
+ 11 Bucarest_RM to Johannesburg_SA ....... 4900.0 miles
+ 11 Bucarest_RM to Beijing_CN ............ 4400.0 miles
+ 11 Bucarest_RM to Hong_Kong_CN .......... 5100.0 miles
+ 11 Bucarest_RM to Taipei_TW ............. 5300.0 miles
+ 11 Bucarest_RM to Tokyo_JP .............. 5550.0 miles
+ 11 Bucarest_RM to Seoul_KR .............. 4950.0 miles
+ 11 Bucarest_RM to Bangalore_IN .......... 3750.0 miles
+ 11 Bucarest_RM to New_Delhi_IN .......... 3000.0 miles
+ 11 Bucarest_RM to Singapore_SG .......... 5575.0 miles
+ 11 Bucarest_RM to Sydney_AU ............. 9525.0 miles
+
+ 12 Copenhagen_DK to Cairo_EG ............ 2000.0 miles
+ 12 Copenhagen_DK to Johannesburg_SA ..... 5775.0 miles
+ 12 Copenhagen_DK to Beijing_CN .......... 4500.0 miles
+ 12 Copenhagen_DK to Hong_Kong_CN ........ 5425.0 miles
+ 12 Copenhagen_DK to Taipei_TW ........... 5525.0 miles
+ 12 Copenhagen_DK to Tokyo_JP ............ 5425.0 miles
+ 12 Copenhagen_DK to Seoul_KR ............ 4975.0 miles
+ 12 Copenhagen_DK to Bangalore_IN ........ 4550.0 miles
+ 12 Copenhagen_DK to New_Delhi_IN ........ 3650.0 miles
+ 12 Copenhagen_DK to Singapore_SG ........ 6225.0 miles
+ 12 Copenhagen_DK to Sydney_AU ...........10025.0 miles
+ 12 Copenhagen_DK to Bucarest_RM .........  975.0 miles
+
+ 13 London_UK to Cairo_EG ................ 2200.0 miles
+ 13 London_UK to Johannesburg_SA ......... 5675.0 miles
+ 13 London_UK to Beijing_CN .............. 5075.0 miles
+ 13 London_UK to Hong_Kong_CN ............ 6025.0 miles
+ 13 London_UK to Taipei_TW ............... 6100.0 miles
+ 13 London_UK to Tokyo_JP ................ 5975.0 miles
+ 13 London_UK to Seoul_KR ................ 5525.0 miles
+ 13 London_UK to Bangalore_IN ............ 5025.0 miles
+ 13 London_UK to New_Delhi_IN ............ 4200.0 miles
+ 13 London_UK to Singapore_SG ............ 6775.0 miles
+ 13 London_UK to Sydney_AU ...............10625.0 miles
+ 13 London_UK to Bucarest_RM ............. 1300.0 miles
+ 13 London_UK to Copenhagen_DK ...........  600.0 miles
+
+ 14 Madrid_ES to Cairo_EG ................ 2100.0 miles
+ 14 Madrid_ES to Johannesburg_SA ......... 5075.0 miles
+ 14 Madrid_ES to Beijing_CN .............. 5775.0 miles
+ 14 Madrid_ES to Hong_Kong_CN ............ 6600.0 miles
+ 14 Madrid_ES to Taipei_TW ............... 6750.0 miles
+ 14 Madrid_ES to Tokyo_JP ................ 6725.0 miles
+ 14 Madrid_ES to Seoul_KR ................ 6250.0 miles
+ 14 Madrid_ES to Bangalore_IN ............ 5225.0 miles
+ 14 Madrid_ES to New_Delhi_IN ............ 4550.0 miles
+ 14 Madrid_ES to Singapore_SG ............ 7125.0 miles
+ 14 Madrid_ES to Sydney_AU ...............11050.0 miles
+ 14 Madrid_ES to Bucarest_RM ............. 1550.0 miles
+ 14 Madrid_ES to Copenhagen_DK ........... 1300.0 miles
+ 14 Madrid_ES to London_UK ...............  800.0 miles
+
+ 15 Moscow_RU to Cairo_EG ................ 1825.0 miles
+ 15 Moscow_RU to Johannesburg_SA ......... 5725.0 miles
+ 15 Moscow_RU to Beijing_CN .............. 3625.0 miles
+ 15 Moscow_RU to Hong_Kong_CN ............ 4475.0 miles
+ 15 Moscow_RU to Taipei_TW ............... 4600.0 miles
+ 15 Moscow_RU to Tokyo_JP ................ 4675.0 miles
+ 15 Moscow_RU to Seoul_KR ................ 4125.0 miles
+ 15 Moscow_RU to Bangalore_IN ............ 3675.0 miles
+ 15 Moscow_RU to New_Delhi_IN ............ 2725.0 miles
+ 15 Moscow_RU to Singapore_SG ............ 5250.0 miles
+ 15 Moscow_RU to Sydney_AU ............... 9050.0 miles
+ 15 Moscow_RU to Bucarest_RM .............  925.0 miles
+ 15 Moscow_RU to Copenhagen_DK ...........  975.0 miles
+ 15 Moscow_RU to London_UK ............... 1575.0 miles
+ 15 Moscow_RU to Madrid_ES ............... 2150.0 miles
+
+ 16 Frankfurt_DE to Cairo_EG ............. 1825.0 miles
+ 16 Frankfurt_DE to Johannesburg_SA ...... 5425.0 miles
+ 16 Frankfurt_DE to Beijing_CN ........... 4850.0 miles
+ 16 Frankfurt_DE to Hong_Kong_CN ......... 5725.0 miles
+ 16 Frankfurt_DE to Taipei_TW ............ 5850.0 miles
+ 16 Frankfurt_DE to Tokyo_JP ............. 5825.0 miles
+ 16 Frankfurt_DE to Seoul_KR ............. 5350.0 miles
+ 16 Frankfurt_DE to Bangalore_IN ......... 4625.0 miles
+ 16 Frankfurt_DE to New_Delhi_IN ......... 3825.0 miles
+ 16 Frankfurt_DE to Singapore_SG ......... 6400.0 miles
+ 16 Frankfurt_DE to Sydney_AU ............10300.0 miles
+ 16 Frankfurt_DE to Bucarest_RM ..........  900.0 miles
+ 16 Frankfurt_DE to Copenhagen_DK ........  425.0 miles
+ 16 Frankfurt_DE to London_UK ............  400.0 miles
+ 16 Frankfurt_DE to Madrid_ES ............  900.0 miles
+ 16 Frankfurt_DE to Moscow_RU ............ 1275.0 miles
+
+ 17 Minneapolis_MN to Cairo_EG ........... 6225.0 miles
+ 17 Minneapolis_MN to Johannesburg_SA .... 9025.0 miles
+ 17 Minneapolis_MN to Beijing_CN ......... 6325.0 miles
+ 17 Minneapolis_MN to Hong_Kong_CN ....... 7525.0 miles
+ 17 Minneapolis_MN to Taipei_TW .......... 7175.0 miles
+ 17 Minneapolis_MN to Tokyo_JP ........... 6000.0 miles
+ 17 Minneapolis_MN to Seoul_KR ........... 6250.0 miles
+ 17 Minneapolis_MN to Bangalore_IN ....... 8450.0 miles
+ 17 Minneapolis_MN to New_Delhi_IN ....... 7350.0 miles
+ 17 Minneapolis_MN to Singapore_SG ....... 9125.0 miles
+ 17 Minneapolis_MN to Sydney_AU .......... 9050.0 miles
+ 17 Minneapolis_MN to Bucarest_RM ........ 5250.0 miles
+ 17 Minneapolis_MN to Copenhagen_DK ...... 4275.0 miles
+ 17 Minneapolis_MN to London_UK .......... 4025.0 miles
+ 17 Minneapolis_MN to Madrid_ES .......... 4350.0 miles
+ 17 Minneapolis_MN to Moscow_RU .......... 4950.0 miles
+ 17 Minneapolis_MN to Frankfurt_DE ....... 4400.0 miles
+
+ 18 Denver_CO to Cairo_EG ................ 6900.0 miles
+ 18 Denver_CO to Johannesburg_SA ......... 9650.0 miles
+ 18 Denver_CO to Beijing_CN .............. 6375.0 miles
+ 18 Denver_CO to Hong_Kong_CN ............ 7500.0 miles
+ 18 Denver_CO to Taipei_TW ............... 7100.0 miles
+ 18 Denver_CO to Tokyo_JP ................ 5825.0 miles
+ 18 Denver_CO to Seoul_KR ................ 6200.0 miles
+ 18 Denver_CO to Bangalore_IN ............ 8850.0 miles
+ 18 Denver_CO to New_Delhi_IN ............ 7750.0 miles
+ 18 Denver_CO to Singapore_SG ............ 9125.0 miles
+ 18 Denver_CO to Sydney_AU ............... 8375.0 miles
+ 18 Denver_CO to Bucarest_RM ............. 5900.0 miles
+ 18 Denver_CO to Copenhagen_DK ........... 4925.0 miles
+ 18 Denver_CO to London_UK ............... 4700.0 miles
+ 18 Denver_CO to Madrid_ES ............... 5025.0 miles
+ 18 Denver_CO to Moscow_RU ............... 5500.0 miles
+ 18 Denver_CO to Frankfurt_DE ............ 5075.0 miles
+ 18 Denver_CO to Minneapolis_MN ..........  700.0 miles
+
+ 19 Honolulu_HI to Cairo_EG .............. 8900.0 miles
+ 19 Honolulu_HI to Johannesburg_SA .......12000.0 miles
+ 19 Honolulu_HI to Beijing_CN ............ 5100.0 miles
+ 19 Honolulu_HI to Hong_Kong_CN .......... 5575.0 miles
+ 19 Honolulu_HI to Taipei_TW ............. 5075.0 miles
+ 19 Honolulu_HI to Tokyo_JP .............. 3875.0 miles
+ 19 Honolulu_HI to Seoul_KR .............. 4575.0 miles
+ 19 Honolulu_HI to Bangalore_IN .......... 8050.0 miles
+ 19 Honolulu_HI to New_Delhi_IN .......... 7450.0 miles
+ 19 Honolulu_HI to Singapore_SG .......... 6750.0 miles
+ 19 Honolulu_HI to Sydney_AU ............. 5100.0 miles
+ 19 Honolulu_HI to Bucarest_RM ........... 7925.0 miles
+ 19 Honolulu_HI to Copenhagen_DK ......... 7125.0 miles
+ 19 Honolulu_HI to London_UK ............. 7275.0 miles
+ 19 Honolulu_HI to Madrid_ES ............. 7900.0 miles
+ 19 Honolulu_HI to Moscow_RU ............. 7075.0 miles
+ 19 Honolulu_HI to Frankfurt_DE .......... 7475.0 miles
+ 19 Honolulu_HI to Minneapolis_MN ........ 3975.0 miles
+ 19 Honolulu_HI to Denver_CO ............. 3375.0 miles
+
+ 20 Houston_TX to Cairo_EG ............... 7050.0 miles
+ 20 Houston_TX to Johannesburg_SA ........ 9075.0 miles
+ 20 Houston_TX to Beijing_CN ............. 7250.0 miles
+ 20 Houston_TX to Hong_Kong_CN ........... 8375.0 miles
+ 20 Houston_TX to Taipei_TW .............. 7975.0 miles
+ 20 Houston_TX to Tokyo_JP ............... 6700.0 miles
+ 20 Houston_TX to Seoul_KR ............... 7075.0 miles
+ 20 Houston_TX to Bangalore_IN ........... 9500.0 miles
+ 20 Houston_TX to New_Delhi_IN ........... 8425.0 miles
+ 20 Houston_TX to Singapore_SG ...........10000.0 miles
+ 20 Houston_TX to Sydney_AU .............. 8625.0 miles
+ 20 Houston_TX to Bucarest_RM ............ 6150.0 miles
+ 20 Houston_TX to Copenhagen_DK .......... 5200.0 miles
+ 20 Houston_TX to London_UK .............. 4875.0 miles
+ 20 Houston_TX to Madrid_ES .............. 5025.0 miles
+ 20 Houston_TX to Moscow_RU .............. 5950.0 miles
+ 20 Houston_TX to Frankfurt_DE ........... 5275.0 miles
+ 20 Houston_TX to Minneapolis_MN ......... 1075.0 miles
+ 20 Houston_TX to Denver_CO ..............  875.0 miles
+ 20 Houston_TX to Honolulu_HI ............ 3925.0 miles
+
+ 21 Knoxville_TN to Cairo_EG ............. 6275.0 miles
+ 21 Knoxville_TN to Johannesburg_SA ...... 8475.0 miles
+ 21 Knoxville_TN to Beijing_CN ........... 7075.0 miles
+ 21 Knoxville_TN to Hong_Kong_CN ......... 8300.0 miles
+ 21 Knoxville_TN to Taipei_TW ............ 7950.0 miles
+ 21 Knoxville_TN to Tokyo_JP ............. 6775.0 miles
+ 21 Knoxville_TN to Seoul_KR ............. 7025.0 miles
+ 21 Knoxville_TN to Bangalore_IN ......... 8900.0 miles
+ 21 Knoxville_TN to New_Delhi_IN ......... 7850.0 miles
+ 21 Knoxville_TN to Singapore_SG ......... 9875.0 miles
+ 21 Knoxville_TN to Sydney_AU ............ 9400.0 miles
+ 21 Knoxville_TN to Bucarest_RM .......... 5400.0 miles
+ 21 Knoxville_TN to Copenhagen_DK ........ 4475.0 miles
+ 21 Knoxville_TN to London_UK ............ 4100.0 miles
+ 21 Knoxville_TN to Madrid_ES ............ 4250.0 miles
+ 21 Knoxville_TN to Moscow_RU ............ 5250.0 miles
+ 21 Knoxville_TN to Frankfurt_DE ......... 4500.0 miles
+ 21 Knoxville_TN to Minneapolis_MN .......  800.0 miles
+ 21 Knoxville_TN to Denver_CO ............ 1175.0 miles
+ 21 Knoxville_TN to Honolulu_HI .......... 4525.0 miles
+ 21 Knoxville_TN to Houston_TX ...........  800.0 miles
+
+ 22 Los_Angeles_CA to Cairo_EG ........... 7625.0 miles
+ 22 Los_Angeles_CA to Johannesburg_SA ....10425.0 miles
+ 22 Los_Angeles_CA to Beijing_CN ......... 6300.0 miles
+ 22 Los_Angeles_CA to Hong_Kong_CN ....... 7275.0 miles
+ 22 Los_Angeles_CA to Taipei_TW .......... 6825.0 miles
+ 22 Los_Angeles_CA to Tokyo_JP ........... 5500.0 miles
+ 22 Los_Angeles_CA to Seoul_KR ........... 6000.0 miles
+ 22 Los_Angeles_CA to Bangalore_IN ....... 9075.0 miles
+ 22 Los_Angeles_CA to New_Delhi_IN ....... 8050.0 miles
+ 22 Los_Angeles_CA to Singapore_SG ....... 8825.0 miles
+ 22 Los_Angeles_CA to Sydney_AU .......... 7550.0 miles
+ 22 Los_Angeles_CA to Bucarest_RM ........ 6600.0 miles
+ 22 Los_Angeles_CA to Copenhagen_DK ...... 5625.0 miles
+ 22 Los_Angeles_CA to London_UK .......... 5475.0 miles
+ 22 Los_Angeles_CA to Madrid_ES .......... 5850.0 miles
+ 22 Los_Angeles_CA to Moscow_RU .......... 6100.0 miles
+ 22 Los_Angeles_CA to Frankfurt_DE ....... 5825.0 miles
+ 22 Los_Angeles_CA to Minneapolis_MN ..... 1525.0 miles
+ 22 Los_Angeles_CA to Denver_CO ..........  850.0 miles
+ 22 Los_Angeles_CA to Honolulu_HI ........ 2575.0 miles
+ 22 Los_Angeles_CA to Houston_TX ......... 1375.0 miles
+ 22 Los_Angeles_CA to Knoxville_TN ....... 1950.0 miles
+
+ 23 Mexico_City_MX to Cairo_EG ........... 7725.0 miles
+ 23 Mexico_City_MX to Johannesburg_SA .... 9125.0 miles
+ 23 Mexico_City_MX to Beijing_CN ......... 7775.0 miles
+ 23 Mexico_City_MX to Hong_Kong_CN ....... 8825.0 miles
+ 23 Mexico_City_MX to Taipei_TW .......... 8375.0 miles
+ 23 Mexico_City_MX to Tokyo_JP ........... 7075.0 miles
+ 23 Mexico_City_MX to Seoul_KR ........... 7525.0 miles
+ 23 Mexico_City_MX to Bangalore_IN .......10250.0 miles
+ 23 Mexico_City_MX to New_Delhi_IN ....... 9150.0 miles
+ 23 Mexico_City_MX to Singapore_SG .......10375.0 miles
+ 23 Mexico_City_MX to Sydney_AU .......... 8100.0 miles
+ 23 Mexico_City_MX to Bucarest_RM ........ 6875.0 miles
+ 23 Mexico_City_MX to Copenhagen_DK ...... 5950.0 miles
+ 23 Mexico_City_MX to London_UK .......... 5575.0 miles
+ 23 Mexico_City_MX to Madrid_ES .......... 5675.0 miles
+ 23 Mexico_City_MX to Moscow_RU .......... 6700.0 miles
+ 23 Mexico_City_MX to Frankfurt_DE ....... 5975.0 miles
+ 23 Mexico_City_MX to Minneapolis_MN ..... 1800.0 miles
+ 23 Mexico_City_MX to Denver_CO .......... 1450.0 miles
+ 23 Mexico_City_MX to Honolulu_HI ........ 3800.0 miles
+ 23 Mexico_City_MX to Houston_TX .........  750.0 miles
+ 23 Mexico_City_MX to Knoxville_TN ....... 1475.0 miles
+ 23 Mexico_City_MX to Los_Angeles_CA ..... 1550.0 miles
+
+ 24 Miami_FL to Cairo_EG ................. 6525.0 miles
+ 24 Miami_FL to Johannesburg_SA .......... 8100.0 miles
+ 24 Miami_FL to Beijing_CN ............... 7825.0 miles
+ 24 Miami_FL to Hong_Kong_CN ............. 9025.0 miles
+ 24 Miami_FL to Taipei_TW ................ 8675.0 miles
+ 24 Miami_FL to Tokyo_JP ................. 7500.0 miles
+ 24 Miami_FL to Seoul_KR ................. 7775.0 miles
+ 24 Miami_FL to Bangalore_IN ............. 9425.0 miles
+ 24 Miami_FL to New_Delhi_IN ............. 8450.0 miles
+ 24 Miami_FL to Singapore_SG .............10600.0 miles
+ 24 Miami_FL to Sydney_AU ................ 9400.0 miles
+ 24 Miami_FL to Bucarest_RM .............. 5750.0 miles
+ 24 Miami_FL to Copenhagen_DK ............ 4900.0 miles
+ 24 Miami_FL to London_UK ................ 4450.0 miles
+ 24 Miami_FL to Madrid_ES ................ 4425.0 miles
+ 24 Miami_FL to Moscow_RU ................ 5775.0 miles
+ 24 Miami_FL to Frankfurt_DE ............. 4850.0 miles
+ 24 Miami_FL to Minneapolis_MN ........... 1525.0 miles
+ 24 Miami_FL to Denver_CO ................ 1725.0 miles
+ 24 Miami_FL to Honolulu_HI .............. 4875.0 miles
+ 24 Miami_FL to Houston_TX ...............  975.0 miles
+ 24 Miami_FL to Knoxville_TN .............  750.0 miles
+ 24 Miami_FL to Los_Angeles_CA ........... 2350.0 miles
+ 24 Miami_FL to Mexico_City_MX ........... 1300.0 miles
+
+ 25 New_York_NY to Cairo_EG .............. 5650.0 miles
+ 25 New_York_NY to Johannesburg_SA ....... 8025.0 miles
+ 25 New_York_NY to Beijing_CN ............ 6875.0 miles
+ 25 New_York_NY to Hong_Kong_CN .......... 8100.0 miles
+ 25 New_York_NY to Taipei_TW ............. 7825.0 miles
+ 25 New_York_NY to Tokyo_JP .............. 6775.0 miles
+ 25 New_York_NY to Seoul_KR .............. 6900.0 miles
+ 25 New_York_NY to Bangalore_IN .......... 8350.0 miles
+ 25 New_York_NY to New_Delhi_IN .......... 7350.0 miles
+ 25 New_York_NY to Singapore_SG .......... 9575.0 miles
+ 25 New_York_NY to Sydney_AU .............10000.0 miles
+ 25 New_York_NY to Bucarest_RM ........... 4775.0 miles
+ 25 New_York_NY to Copenhagen_DK ......... 3875.0 miles
+ 25 New_York_NY to London_UK ............. 3475.0 miles
+ 25 New_York_NY to Madrid_ES ............. 3600.0 miles
+ 25 New_York_NY to Moscow_RU ............. 4700.0 miles
+ 25 New_York_NY to Frankfurt_DE .......... 3875.0 miles
+ 25 New_York_NY to Minneapolis_MN ........ 1025.0 miles
+ 25 New_York_NY to Denver_CO ............. 1625.0 miles
+ 25 New_York_NY to Honolulu_HI ........... 4975.0 miles
+ 25 New_York_NY to Houston_TX ............ 1425.0 miles
+ 25 New_York_NY to Knoxville_TN ..........  625.0 miles
+ 25 New_York_NY to Los_Angeles_CA ........ 2450.0 miles
+ 25 New_York_NY to Mexico_City_MX ........ 2100.0 miles
+ 25 New_York_NY to Miami_FL .............. 1100.0 miles
+
+ 26 San_Fransisco_CA to Cairo_EG ......... 7500.0 miles
+ 26 San_Fransisco_CA to Johannesburg_SA ..10600.0 miles
+ 26 San_Fransisco_CA to Beijing_CN ....... 5950.0 miles
+ 26 San_Fransisco_CA to Hong_Kong_CN ..... 6925.0 miles
+ 26 San_Fransisco_CA to Taipei_TW ........ 6475.0 miles
+ 26 San_Fransisco_CA to Tokyo_JP ......... 5175.0 miles
+ 26 San_Fransisco_CA to Seoul_KR ......... 5650.0 miles
+ 26 San_Fransisco_CA to Bangalore_IN ..... 8750.0 miles
+ 26 San_Fransisco_CA to New_Delhi_IN ..... 7725.0 miles
+ 26 San_Fransisco_CA to Singapore_SG ..... 8500.0 miles
+ 26 San_Fransisco_CA to Sydney_AU ........ 7475.0 miles
+ 26 San_Fransisco_CA to Bucarest_RM ...... 6475.0 miles
+ 26 San_Fransisco_CA to Copenhagen_DK .... 5500.0 miles
+ 26 San_Fransisco_CA to London_UK ........ 5375.0 miles
+ 26 San_Fransisco_CA to Madrid_ES ........ 5825.0 miles
+ 26 San_Fransisco_CA to Moscow_RU ........ 5900.0 miles
+ 26 San_Fransisco_CA to Frankfurt_DE ..... 5700.0 miles
+ 26 San_Fransisco_CA to Minneapolis_MN ... 1600.0 miles
+ 26 San_Fransisco_CA to Denver_CO ........  950.0 miles
+ 26 San_Fransisco_CA to Honolulu_HI ...... 2400.0 miles
+ 26 San_Fransisco_CA to Houston_TX ....... 1650.0 miles
+ 26 San_Fransisco_CA to Knoxville_TN ..... 2125.0 miles
+ 26 San_Fransisco_CA to Los_Angeles_CA ...  350.0 miles
+ 26 San_Fransisco_CA to Mexico_City_MX ... 1900.0 miles
+ 26 San_Fransisco_CA to Miami_FL ......... 2600.0 miles
+ 26 San_Fransisco_CA to New_York_NY ...... 2575.0 miles
+
+ 27 Seattle_WA to Cairo_EG ............... 6875.0 miles
+ 27 Seattle_WA to Johannesburg_SA ........10325.0 miles
+ 27 Seattle_WA to Beijing_CN ............. 5425.0 miles
+ 27 Seattle_WA to Hong_Kong_CN ........... 6500.0 miles
+ 27 Seattle_WA to Taipei_TW .............. 6075.0 miles
+ 27 Seattle_WA to Tokyo_JP ............... 4800.0 miles
+ 27 Seattle_WA to Seoul_KR ............... 5200.0 miles
+ 27 Seattle_WA to Bangalore_IN ........... 8125.0 miles
+ 27 Seattle_WA to New_Delhi_IN ........... 7075.0 miles
+ 27 Seattle_WA to Singapore_SG ........... 8100.0 miles
+ 27 Seattle_WA to Sydney_AU .............. 7800.0 miles
+ 27 Seattle_WA to Bucarest_RM ............ 5825.0 miles
+ 27 Seattle_WA to Copenhagen_DK .......... 4875.0 miles
+ 27 Seattle_WA to London_UK .............. 4800.0 miles
+ 27 Seattle_WA to Madrid_ES .............. 5325.0 miles
+ 27 Seattle_WA to Moscow_RU .............. 5225.0 miles
+ 27 Seattle_WA to Frankfurt_DE ........... 5125.0 miles
+ 27 Seattle_WA to Minneapolis_MN ......... 1400.0 miles
+ 27 Seattle_WA to Denver_CO .............. 1025.0 miles
+ 27 Seattle_WA to Honolulu_HI ............ 2700.0 miles
+ 27 Seattle_WA to Houston_TX ............. 1900.0 miles
+ 27 Seattle_WA to Knoxville_TN ........... 2125.0 miles
+ 27 Seattle_WA to Los_Angeles_CA .........  975.0 miles
+ 27 Seattle_WA to Mexico_City_MX ......... 2350.0 miles
+ 27 Seattle_WA to Miami_FL ............... 2750.0 miles
+ 27 Seattle_WA to New_York_NY ............ 2425.0 miles
+ 27 Seattle_WA to San_Fransisco_CA .......  675.0 miles
+
+ 28 Santiago_CL to Cairo_EG .............. 8000.0 miles
+ 28 Santiago_CL to Johannesburg_SA ....... 5725.0 miles
+ 28 Santiago_CL to Beijing_CN ............11925.0 miles
+ 28 Santiago_CL to Hong_Kong_CN ..........11675.0 miles
+ 28 Santiago_CL to Taipei_TW .............11575.0 miles
+ 28 Santiago_CL to Tokyo_JP ..............10775.0 miles
+ 28 Santiago_CL to Seoul_KR ..............11475.0 miles
+ 28 Santiago_CL to Bangalore_IN ..........10050.0 miles
+ 28 Santiago_CL to New_Delhi_IN ..........10575.0 miles
+ 28 Santiago_CL to Singapore_SG ..........10250.0 miles
+ 28 Santiago_CL to Sydney_AU ............. 7100.0 miles
+ 28 Santiago_CL to Bucarest_RM ........... 8150.0 miles
+ 28 Santiago_CL to Copenhagen_DK ......... 7900.0 miles
+ 28 Santiago_CL to London_UK ............. 7300.0 miles
+ 28 Santiago_CL to Madrid_ES ............. 6675.0 miles
+ 28 Santiago_CL to Moscow_RU ............. 8825.0 miles
+ 28 Santiago_CL to Frankfurt_DE .......... 7575.0 miles
+ 28 Santiago_CL to Minneapolis_MN ........ 5625.0 miles
+ 28 Santiago_CL to Denver_CO ............. 5550.0 miles
+ 28 Santiago_CL to Honolulu_HI ........... 6900.0 miles
+ 28 Santiago_CL to Houston_TX ............ 4675.0 miles
+ 28 Santiago_CL to Knoxville_TN .......... 4900.0 miles
+ 28 Santiago_CL to Los_Angeles_CA ........ 5625.0 miles
+ 28 Santiago_CL to Mexico_City_MX ........ 4125.0 miles
+ 28 Santiago_CL to Miami_FL .............. 4175.0 miles
+ 28 Santiago_CL to New_York_NY ........... 5150.0 miles
+ 28 Santiago_CL to San_Fransisco_CA ...... 5975.0 miles
+ 28 Santiago_CL to Seattle_WA ............ 6475.0 miles
+
+ 29 Rio_de_Janeiro_BR to Cairo_EG ........ 6175.0 miles
+ 29 Rio_de_Janeiro_BR to Johannesburg_SA . 4450.0 miles
+ 29 Rio_de_Janeiro_BR to Beijing_CN ......10825.0 miles
+ 29 Rio_de_Janeiro_BR to Hong_Kong_CN ....11050.0 miles
+ 29 Rio_de_Janeiro_BR to Taipei_TW .......11525.0 miles
+ 29 Rio_de_Janeiro_BR to Tokyo_JP ........11600.0 miles
+ 29 Rio_de_Janeiro_BR to Seoul_KR ........11325.0 miles
+ 29 Rio_de_Janeiro_BR to Bangalore_IN .... 8550.0 miles
+ 29 Rio_de_Janeiro_BR to New_Delhi_IN .... 8800.0 miles
+ 29 Rio_de_Janeiro_BR to Singapore_SG .... 9825.0 miles
+ 29 Rio_de_Janeiro_BR to Sydney_AU ....... 8450.0 miles
+ 29 Rio_de_Janeiro_BR to Bucarest_RM ..... 6425.0 miles
+ 29 Rio_de_Janeiro_BR to Copenhagen_DK ... 6375.0 miles
+ 29 Rio_de_Janeiro_BR to London_UK ....... 5800.0 miles
+ 29 Rio_de_Janeiro_BR to Madrid_ES ....... 5075.0 miles
+ 29 Rio_de_Janeiro_BR to Moscow_RU ....... 7225.0 miles
+ 29 Rio_de_Janeiro_BR to Frankfurt_DE .... 6000.0 miles
+ 29 Rio_de_Janeiro_BR to Minneapolis_MN .. 5675.0 miles
+ 29 Rio_de_Janeiro_BR to Denver_CO ....... 5900.0 miles
+ 29 Rio_de_Janeiro_BR to Honolulu_HI ..... 8325.0 miles
+ 29 Rio_de_Janeiro_BR to Houston_TX ...... 5050.0 miles
+ 29 Rio_de_Janeiro_BR to Knoxville_TN .... 4900.0 miles
+ 29 Rio_de_Janeiro_BR to Los_Angeles_CA .. 6350.0 miles
+ 29 Rio_de_Janeiro_BR to Mexico_City_MX .. 4800.0 miles
+ 29 Rio_de_Janeiro_BR to Miami_FL ........ 4200.0 miles
+ 29 Rio_de_Janeiro_BR to New_York_NY ..... 4850.0 miles
+ 29 Rio_de_Janeiro_BR to San_Fransisco_CA  6675.0 miles
+ 29 Rio_de_Janeiro_BR to Seattle_WA ...... 6925.0 miles
+ 29 Rio_de_Janeiro_BR to Santiago_CL ..... 1825.0 miles
+
