@@ -189,6 +189,17 @@ void create_citygraph(vector<city> &cities, travelcost &tc, vector< vector<int> 
 			for(int j = 0; j < cities.size(); j++) { 
 				if(i == j) //dont want them to be the same
 					continue;
+
+				if(cities[j].get_type() == "REGIONAL" && cities[i].get_zone() == cities[j].get_zone()) {
+					graph[i].push_back(j);
+					graph[j].push_back(i);
+				}
+				
+				if(k != -1 && j == k) {
+					graph[i].push_back(j);
+					graph[j].push_back(i);
+				}
+
 				if(cities[j].get_type() == "GATEWAY" && cities[i].get_zone() == cities[j].get_zone() && k == -1) {
 					k = j;
 
@@ -201,11 +212,11 @@ void create_citygraph(vector<city> &cities, travelcost &tc, vector< vector<int> 
 						graph[i].push_back(k);
 						graph[k].push_back(i);
 					}
-
 				}
 			}
+		}
 			
-			for(int j = 0; j < cities.size(); j++) {
+		/*	for(int j = 0; j < cities.size(); j++) {
 				if(i == j)
 					continue;
 
@@ -219,7 +230,7 @@ void create_citygraph(vector<city> &cities, travelcost &tc, vector< vector<int> 
 					graph[j].push_back(i);
 				}
 			}
-		}
+		}*/
 
 		if(cities[i].get_type() == "GATEWAY") {
 			for(int j = 0; j < cities.size(); j++) {
