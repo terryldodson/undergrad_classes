@@ -8,10 +8,9 @@
 #include <iomanip>
 #include <sstream>
 #include <cmath>
+#include <algorithm>
 
-#define EARTH_RADIUS = 3982;
-
-const static double ER = 6372.8; //earth radius in km
+const static double ER = 3982; //earth radius in miles
 
 using namespace std;
 
@@ -37,14 +36,12 @@ class city {
 
 class travelcost {
 	public:
-		double Haversine(city &, city &);
-
-		float &operator()(travelcost::mode, int, int);
-
+		float HaversineDistance(city &, city &);
+		float &operator()(int , int , int );
+		void fill_vector(vector<city>&);
 	private:
 		vector<float> dist_table;
 		vector<float> time_table;
-	
 };
 
 istream &operator>>(istream &in, city &c) { 
@@ -85,8 +82,6 @@ void read_cityinfo(vector<city> &cities) {
   }
 }
 
-
-
 void write_cityinfo(vector<city> &cities) {
 	vector<city>::iterator it;
 
@@ -119,43 +114,170 @@ int city::get_population() {
 	return population;
 }
 
-void travelcost::city2city(vector<city> &cities) {
-	for(int i = 0; i < cities.size(); i++) {
+void travelcost::fill_vector(vector<city> &cities) {
+	//resize vectors then fill the vectors
+	dist_table.resize(cities.size() * (cities.size() + 1) / 2);
+	time_table.resize(cities.size() * (cities.size() + 1) / 2);
+
+	for(int i = 1; i < cities.size(); i++) {
 		for(int j = 0; j < i; j++) {
 			float dist = HaversineDistance(cities[i], cities[j]); //from one city to every other city
-			dist = 25.0 * round(dist/25.0);
-			dist_table.resize(cities.size() * (cities.size() + 1)) / 2;
-			time_table.resize(cities.size() * (cities.size() + 1)) / 2;
+			(*this)(0,i,j) = 25.0 * round(dist/25.0);
 
+			if(cities[i].get_zone() == cities[j].get_zone() && cities[i].get_type() == "REGIONAL" && cities[j].get_type() == "REGIONAL")
+				(*this)(1,i,j) = ((*this)(0,i,j))/65.0f;
+			
+			else if(cities[i].get_zone() == cities[j].get_zone() && ((cities[i].get_type() == "REGIONAL" && cities[j].get_type() == "GATEWAY") || (cities[i].get_type() == "GATEWAY" && cities[j].get_type() == "REGIONAL")))
+				(*this)(1,i,j) = ((*this)(0,i,j))/520.0f;
+
+			else if(cities[i].get_type() == "GATEWAY" && cities[j].get_type() == "GATEWAY")
+				(*this)(1,i,j) = ((*this)(0,i,j))/520.0f;
+			
+			else
+				(*this)(1,i,j) = ((*this)(0,i,j))/520.0f;
 		}
 	}
 }
 
-float &operator()(travelcost::mode m, int i, int j) {
-	return (i < j) { //i and j is city1 and city2 in integers
-		? table[m][((j * (j + 1)) / 2) + i] : table[m][((i * (i + 1)) / 2) + j];
-	}	
+void write_travelcost(travelcost tc, vector<city> &cities) {
+    for(int i = 1; i < cities.size(); i++) {
+		for(int j = 0; j < i; j++) {
+			cout << cities[i].get_name() << " to " << cities[j].get_name() << "........." << tc(0,i,j) << " miles" <<  endl;
+			cout << cities[i].get_name() << " to " << cities[j].get_name() << "........." << setprecision(1) << fixed << tc(1,i,j) << " hours" <<  endl;
+		}
+
+		cout << endl;
+	}
+}
+
+float &travelcost::operator()(int m, int i, int j) {
+	//i and j is city1 and city2 in integers
+	if(i < j)
+		swap(i, j);
+
+	if(m == 0)
+		return dist_table[((i * (i + 1)) / 2) + j];
+	else
+		return time_table[((i * (i + 1)) / 2) + j];
 }
 
 float deg_to_rad(float angle) { //degrees to radians
 	return angle * M_PI/180.0;
+}
 
-float HaversineDistance(const city &city1, const city &city2)
-{
+float travelcost::HaversineDistance(city &city1, city &city2) {
 	float latitudeRad1 = deg_to_rad(city1.get_latitude());
 	float longitudeRad1 = deg_to_rad(city1.get_longitude());
 	float latitudeRad2 = deg_to_rad(city2.get_latitude());
 	float longitudeRad2 = deg_to_rad(city2.get_longitude());
+
+	float diffLa = fabsf(latitudeRad2 - latitudeRad1);
+	float diffLo = fabsf(longitudeRad2 - longitudeRad1);
  
-	float diffLa = latitudeRad2 - latitudeRad1;
-	float diffLo = longitudeRad2 - longitudeRad1;
- 
-	float computation = asin(sqrt(sin(diffLa / 2) * sin(diffLa / 2) + cos(latitudeRad1) * cos(latitudeRad2) * sin(diffLo / 2) * sin(diffLo / 2)));
+	float computation = asin(sqrt(pow(sin(diffLa / 2), 2) + cos(latitudeRad1) * cos(latitudeRad2) * pow(sin(diffLo / 2), 2)));
 	
 	return 2 * ER * computation;
 }
 
-//create_citygraph() { }
+void create_citygraph(vector<city> &cities, travelcost &tc, vector< vector<int> > &graph) { 
+	int k = -1;
+	graph.resize(cities.size());
+
+	for(int i = 0; i < cities.size(); i++) {
+		if(cities[i].get_type() == "REGIONAL") {	
+
+			for(int j = 0; j < cities.size(); j++) { 
+				if(i == j) //dont want them to be the same
+					continue;
+				if(cities[j].get_type() == "GATEWAY" && cities[i].get_zone() == cities[j].get_zone() && k == -1) {
+					k = j;
+
+					if(k != -1 && tc(0,i,j) < tc(0,i,k)) {
+						graph[i].push_back(j);
+						graph[j].push_back(i);
+					}
+
+					if(k != -1 && tc(0,i,j) > tc(0,i,k)) {
+						graph[i].push_back(k);
+						graph[k].push_back(i);
+					}
+
+				}
+			}
+			
+			for(int j = 0; j < cities.size(); j++) {
+				if(i == j)
+					continue;
+
+				if(cities[j].get_type() == "REGIONAL" && cities[i].get_zone() == cities[j].get_zone()) {
+					graph[i].push_back(j);
+					graph[j].push_back(i);
+				}
+
+				if(k != -1 && j == k) {
+					graph[i].push_back(j);
+					graph[j].push_back(i);
+				}
+			}
+		}
+
+		if(cities[i].get_type() == "GATEWAY") {
+			for(int j = 0; j < cities.size(); j++) {
+				if(i == j)
+					continue;
+
+				if(cities[j].get_type() == "GATEWAY" && cities[i].get_zone() == cities[j].get_zone()) {
+					graph[i].push_back(j);
+					graph[j].push_back(i);
+				}
+
+				if(cities[i].get_zone() != cities[j].get_zone() && cities[j].get_type() == "GATEWAY") {
+					if(k != -1 && tc(0,i,j) < tc(0,i,k) && tc(0,i,j) <= 6000) {
+						graph[i].push_back(j);
+						graph[j].push_back(i);
+					}
+
+					if(k != -1 && tc(0,i,j) > tc(0,i,k) && tc(0,i,k) <= 6000) {
+						graph[i].push_back(k);
+						graph[k].push_back(i);
+					}
+				}
+
+			}
+		}
+	}
+
+	for(int i = 0; i < cities.size(); i++) {
+		sort(graph[i].begin(), graph[i].end());
+		graph[i].erase(unique(graph[i].begin(), graph[i].end()), graph[i].end());
+	}
+}
+
+void write_citygraph(vector<city> &cities, travelcost &tc, vector<vector<int> > &graph, ostream &out) {
+	
+	unsigned int i, j, sz, jsz, c_id;
+
+	sz = cities.size();
+	out << "CITY GRAPH:\n";
+
+	cout << graph.size() << endl;
+
+	for(i = 0; i < sz; i++) {
+		jsz = graph[i].size();
+		out << "\n" << setw(3) << right << i << " " << cities[i].get_name() << "\n";
+
+		for(j = 0; j < jsz; j++) {
+			c_id = graph[i][j];
+
+			out << setw(6) << right << c_id << " " 
+				<< setw(8) << left << cities[c_id].get_name() << " "
+				<< fixed << setprecision(1) 
+				<< setw(7) << right << tc(0, i, c_id) << " miles "
+				<< setw(5) << right << tc(1, i, c_id) << " hours\n";
+		}
+	}
+}
+
 //dijkstra_route() { }
 
 int main(int argc, char *argv[])
@@ -163,15 +285,19 @@ int main(int argc, char *argv[])
   //option decoding
 
   //object declarations
+	travelcost tc;
 	vector<city> c_list;
+	vector<vector<int> > g_list;
 
 	read_cityinfo(c_list);
-
-	write_cityinfo(c_list);
+//	write_cityinfo(c_list);
 
   //set up travelcosts
+	tc.fill_vector(c_list);
+//	write_travelcost(tc, c_list);
 
-  //create_citygraph()
+  create_citygraph(c_list, tc, g_list);
+  write_citygraph(c_list, tc, g_list, cout);
 
  /* while (not done) {
 	ask for form, to cities
