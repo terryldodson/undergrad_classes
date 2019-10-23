@@ -9,6 +9,7 @@
 #include <sstream>
 #include <cmath>
 #include <algorithm>
+#include <limits.h>
 
 const static double ER = 3982; //earth radius in miles
 
@@ -180,12 +181,42 @@ float travelcost::HaversineDistance(city &city1, city &city2) {
 }
 
 void create_citygraph(vector<city> &cities, travelcost &tc, vector< vector<int> > &graph) { 
-	int k = -1;
 	graph.resize(cities.size());
 
-	for(int i = 0; i < cities.size(); i++) {
-		if(cities[i].get_type() == "REGIONAL") {	
+	vector<int> adjgateway;
+	vector<vector<int> > zone;
+	zone.assign(6, vector<int>()); //puts 6 vectors into zone
+	
+//	int k = -1;
 
+	//find gateway cities in each zone
+	for(int i = 0; i < 6; i++) {
+		for(int j = 0; j < cities.size(); j++) {
+			if(cities[j].get_zone() == i+1 && cities[j].get_type() == "GATEWAY")
+				zone[i].push_back(j);
+		}
+	}
+
+	//find the minimum distance gateway city and push it back to a vector 
+	for(int i = 0; i < cities.size(); i++) {
+		if(cities[i].get_type() == "GATEWAY") {
+			for(int j = 0; j < 6; j++) {
+				int mindistance = INT_MAX;
+				for(int q = 0; q < zone[j].size(); q++) {
+					if(cities[zone[j][q]].get_zone() != cities[i].get_zone() && tc(0,i,j) <= 6000 && tc(0,i,j) < mindistance)
+							mindistance = tc(0, i, zone[j][q]);
+					if(mindistance != INT_MAX) 
+						adjgateway.push_back(mindistance);
+				}
+			}
+		}
+	}
+
+	for(int i = 0; i < cities.size(); i++) {
+		
+		int k = -1;
+
+		if(cities[i].get_type() == "REGIONAL") {	
 			for(int j = 0; j < cities.size(); j++) { 
 				if(i == j) //dont want them to be the same
 					continue;
@@ -195,42 +226,19 @@ void create_citygraph(vector<city> &cities, travelcost &tc, vector< vector<int> 
 					graph[j].push_back(i);
 				}
 				
-				if(k != -1 && j == k) {
-					graph[i].push_back(j);
-					graph[j].push_back(i);
-				}
-
 				if(cities[j].get_type() == "GATEWAY" && cities[i].get_zone() == cities[j].get_zone() && k == -1) {
-					k = j;
-
-					if(k != -1 && tc(0,i,j) < tc(0,i,k)) {
-						graph[i].push_back(j);
-						graph[j].push_back(i);
-					}
-
-					if(k != -1 && tc(0,i,j) > tc(0,i,k)) {
-						graph[i].push_back(k);
-						graph[k].push_back(i);
-					}
+					if(k == -1)
+						k = j;
+					else if(tc(0,i,j) < tc(0,i,k))
+						k = j;
 				}
+			}
+
+			if(k != -1) {
+				graph[i].push_back(k);
+				graph[k].push_back(i);
 			}
 		}
-			
-		/*	for(int j = 0; j < cities.size(); j++) {
-				if(i == j)
-					continue;
-
-				if(cities[j].get_type() == "REGIONAL" && cities[i].get_zone() == cities[j].get_zone()) {
-					graph[i].push_back(j);
-					graph[j].push_back(i);
-				}
-
-				if(k != -1 && j == k) {
-					graph[i].push_back(j);
-					graph[j].push_back(i);
-				}
-			}
-		}*/
 
 		if(cities[i].get_type() == "GATEWAY") {
 			for(int j = 0; j < cities.size(); j++) {
@@ -241,27 +249,20 @@ void create_citygraph(vector<city> &cities, travelcost &tc, vector< vector<int> 
 					graph[i].push_back(j);
 					graph[j].push_back(i);
 				}
-
-				if(cities[i].get_zone() != cities[j].get_zone() && cities[j].get_type() == "GATEWAY") {
-					if(k != -1 && tc(0,i,j) < tc(0,i,k) && tc(0,i,j) <= 6000) {
-						graph[i].push_back(j);
-						graph[j].push_back(i);
-					}
-
-					if(k != -1 && tc(0,i,j) > tc(0,i,k) && tc(0,i,k) <= 6000) {
-						graph[i].push_back(k);
-						graph[k].push_back(i);
-					}
+				
+				
+				if(tc(0,i,j) == adjgateway[i]) {
+					graph[i].push_back(j);
+					graph[j].push_back(i);
 				}
-
 			}
-		}
 	}
 
 	for(int i = 0; i < cities.size(); i++) {
 		sort(graph[i].begin(), graph[i].end());
 		graph[i].erase(unique(graph[i].begin(), graph[i].end()), graph[i].end());
 	}
+}
 }
 
 void write_citygraph(vector<city> &cities, travelcost &tc, vector<vector<int> > &graph, ostream &out) {
@@ -288,11 +289,9 @@ void write_citygraph(vector<city> &cities, travelcost &tc, vector<vector<int> > 
 		}
 	}
 }
-
 //dijkstra_route() { }
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
   //option decoding
 
   //object declarations
