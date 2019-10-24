@@ -10,10 +10,15 @@
 #include <cmath>
 #include <algorithm>
 #include <limits.h>
+#include <limits>
+#include <stack>
+#include <map>
 
 const static double ER = 3982; //earth radius in miles
 
 using namespace std;
+
+typedef enum {WHITE, BLACK} vcolor_t;
 
 class city {
 	private:
@@ -40,6 +45,7 @@ class travelcost {
 		float HaversineDistance(city &, city &);
 		float &operator()(int , int , int );
 		void fill_vector(vector<city>&);
+		void dijkstra(int ,int, int, vector<city> &, travelcost &, vector<vector<int> > &);
 	private:
 		vector<float> dist_table;
 		vector<float> time_table;
@@ -59,28 +65,28 @@ ostream &operator<<(ostream &out, const city &c) {
 
 
 void read_cityinfo(vector<city> &cities) {
-  // write this to read data object data
-  ifstream fp;
-  string s;
-  city temp;
+	// write this to read data object data
+	ifstream fp;
+	string s;
+	city temp;
 
-  fp.open("city_list.txt");
+	fp.open("city_list.txt");
 
-  while(getline(fp, s)) {
-	if(s.empty()) {
-	
+	while(getline(fp, s)) {
+		if(s.empty()) {
+
+		}
+
+		else if(s.find('#') != string::npos) {
+
+		}
+
+		else {
+			istringstream is(s);
+			is >> temp;
+			cities.push_back(temp);
+		}
 	}
-
-	else if(s.find('#') != string::npos) {
-	
-	}
-
-	else {
-		istringstream is(s);
-		is >> temp;
-		cities.push_back(temp);
-	}
-  }
 }
 
 void write_cityinfo(vector<city> &cities) {
@@ -127,13 +133,13 @@ void travelcost::fill_vector(vector<city> &cities) {
 
 			if(cities[i].get_zone() == cities[j].get_zone() && cities[i].get_type() == "REGIONAL" && cities[j].get_type() == "REGIONAL")
 				(*this)(1,i,j) = ((*this)(0,i,j))/65.0f;
-			
+
 			else if(cities[i].get_zone() == cities[j].get_zone() && ((cities[i].get_type() == "REGIONAL" && cities[j].get_type() == "GATEWAY") || (cities[i].get_type() == "GATEWAY" && cities[j].get_type() == "REGIONAL")))
 				(*this)(1,i,j) = ((*this)(0,i,j))/520.0f;
 
 			else if(cities[i].get_type() == "GATEWAY" && cities[j].get_type() == "GATEWAY")
 				(*this)(1,i,j) = ((*this)(0,i,j))/520.0f;
-			
+
 			else
 				(*this)(1,i,j) = ((*this)(0,i,j))/520.0f;
 		}
@@ -141,7 +147,7 @@ void travelcost::fill_vector(vector<city> &cities) {
 }
 
 void write_travelcost(travelcost tc, vector<city> &cities) {
-    for(int i = 1; i < cities.size(); i++) {
+	for(int i = 1; i < cities.size(); i++) {
 		for(int j = 0; j < i; j++) {
 			cout << cities[i].get_name() << " to " << cities[j].get_name() << "........." << tc(0,i,j) << " miles" <<  endl;
 			cout << cities[i].get_name() << " to " << cities[j].get_name() << "........." << setprecision(1) << fixed << tc(1,i,j) << " hours" <<  endl;
@@ -174,99 +180,91 @@ float travelcost::HaversineDistance(city &city1, city &city2) {
 
 	float diffLa = fabsf(latitudeRad2 - latitudeRad1);
 	float diffLo = fabsf(longitudeRad2 - longitudeRad1);
- 
+
 	float computation = asin(sqrt(pow(sin(diffLa / 2), 2) + cos(latitudeRad1) * cos(latitudeRad2) * pow(sin(diffLo / 2), 2)));
-	
+
 	return 2 * ER * computation;
 }
 
 void create_citygraph(vector<city> &cities, travelcost &tc, vector< vector<int> > &graph) { 
 	graph.resize(cities.size());
 
-	vector<int> adjgateway;
-	vector<vector<int> > zone;
-	zone.assign(6, vector<int>()); //puts 6 vectors into zone
-	
-//	int k = -1;
-
-	//find gateway cities in each zone
-	for(int i = 0; i < 6; i++) {
-		for(int j = 0; j < cities.size(); j++) {
-			if(cities[j].get_zone() == i+1 && cities[j].get_type() == "GATEWAY")
-				zone[i].push_back(j);
-		}
-	}
-
-	//find the minimum distance gateway city and push it back to a vector 
-	for(int i = 0; i < cities.size(); i++) {
-		if(cities[i].get_type() == "GATEWAY") {
-			for(int j = 0; j < 6; j++) {
-				int mindistance = INT_MAX;
-				for(int q = 0; q < zone[j].size(); q++) {
-					if(cities[zone[j][q]].get_zone() != cities[i].get_zone() && tc(0,i,j) <= 6000 && tc(0,i,j) < mindistance)
-							mindistance = tc(0, i, zone[j][q]);
-					if(mindistance != INT_MAX) 
-						adjgateway.push_back(mindistance);
-				}
-			}
-		}
-	}
+	int k = -1;
 
 	for(int i = 0; i < cities.size(); i++) {
-		
-		int k = -1;
 
 		if(cities[i].get_type() == "REGIONAL") {	
+			int mini_gate = -1;
+			float mini_distance = 50000.0f;
+
 			for(int j = 0; j < cities.size(); j++) { 
-				if(i == j) //dont want them to be the same
-					continue;
+				float tmp = tc(0, i, j);
 
-				if(cities[j].get_type() == "REGIONAL" && cities[i].get_zone() == cities[j].get_zone()) {
-					graph[i].push_back(j);
-					graph[j].push_back(i);
-				}
-				
-				if(cities[j].get_type() == "GATEWAY" && cities[i].get_zone() == cities[j].get_zone() && k == -1) {
-					if(k == -1)
-						k = j;
-					else if(tc(0,i,j) < tc(0,i,k))
-						k = j;
-				}
-			}
-
-			if(k != -1) {
-				graph[i].push_back(k);
-				graph[k].push_back(i);
-			}
-		}
-
-		if(cities[i].get_type() == "GATEWAY") {
-			for(int j = 0; j < cities.size(); j++) {
 				if(i == j)
 					continue;
 
-				if(cities[j].get_type() == "GATEWAY" && cities[i].get_zone() == cities[j].get_zone()) {
+				if(cities[j].get_type() == "REGIONAL" && cities[i].get_zone() == cities[j].get_zone() && i != j) {
 					graph[i].push_back(j);
 					graph[j].push_back(i);
 				}
-				
-				
-				if(tc(0,i,j) == adjgateway[i]) {
-					graph[i].push_back(j);
-					graph[j].push_back(i);
+
+				if(cities[j].get_type() == "GATEWAY" && cities[i].get_zone() == cities[j].get_zone() && (mini_gate == -1 || tmp <= mini_distance)) {
+					mini_gate = j;
+					mini_distance = tmp;
 				}
 			}
-	}
 
-	for(int i = 0; i < cities.size(); i++) {
-		sort(graph[i].begin(), graph[i].end());
-		graph[i].erase(unique(graph[i].begin(), graph[i].end()), graph[i].end());
-	}
-}
-}
+			graph[i].push_back(mini_gate);
+			graph[mini_gate].push_back(i);
+		}
 
-void write_citygraph(vector<city> &cities, travelcost &tc, vector<vector<int> > &graph, ostream &out) {
+		if(cities[i].get_type() == "GATEWAY") {
+			
+			int min_index = -1;
+            float mini_dist = 6001.0f;
+            int previous_zone = -1; // keeps track of what zone last city was in
+				
+			for(int j = 0; j < cities.size(); j++) {
+				float tmp = tc(0, i, j);
+
+				if(cities[j].get_type() == "GATEWAY" && cities[i].get_zone() == cities[j].get_zone() && i != j) {
+					graph[i].push_back(j);
+					graph[j].push_back(i);
+				}
+
+				else if(cities[j].get_type() == "GATEWAY" && tmp <= 6000.0f && i != j) {
+					if(cities[j].get_zone() != previous_zone) {
+						if(min_index != -1) {
+							graph[i].push_back(min_index);
+							graph[min_index].push_back(i);
+						}
+					
+						mini_dist = tmp;
+						min_index = j;
+					}
 	
+					else if (tmp < mini_dist) {
+						mini_dist = tmp;
+						min_index = j;	
+					}
+
+					previous_zone = cities[j].get_zone();
+				}
+			}
+
+			graph[i].push_back(min_index);
+			graph[min_index].push_back(i);
+		}
+
+		for(int i = 0; i < cities.size(); i++) {
+			sort(graph[i].begin(), graph[i].end());
+			graph[i].erase(unique(graph[i].begin(), graph[i].end()), graph[i].end());
+		}
+	}
+}
+
+void write_citygraph(vector<city> &cities, travelcost &tc, vector<vector<int> > &graph, ostream& out) {
+
 	unsigned int i, j, sz, jsz, c_id;
 
 	sz = cities.size();
@@ -289,28 +287,149 @@ void write_citygraph(vector<city> &cities, travelcost &tc, vector<vector<int> > 
 		}
 	}
 }
-//dijkstra_route() { }
+
+void travelcost::dijkstra(int source, int sink, int m, vector<city> &cities, travelcost &tc, vector<vector<int> > &graph) {  
+	vector<vcolor_t> vcolor;
+	vector<float> vdist;
+	vector<int> vlink;
+
+	vcolor.assign(cities.size(), WHITE);  
+	vdist.assign(cities.size(), numeric_limits<float>::max());  
+	vlink.assign(cities.size(), -1);
+
+	vdist[source] = 0;  
+	vlink[source] = source;  
+
+	while (1) {    
+		int next_i = -1;    
+		float mindist = numeric_limits<float>::max();    
+
+		for (int i = 0; i < (int) vcolor.size(); i++) {      
+			if (vcolor[i] == WHITE && mindist > vdist[i]) {        
+				next_i = i;        
+				mindist = vdist[i];      
+			}    
+		}    
+
+		int i = next_i;    
+		if (i == -1)      
+			return;    
+
+		vcolor[i] = BLACK;    
+
+		//if (i == sink)      
+		//	break;    
+
+		for (int k = 0; k < (int) graph[i].size(); k++) {      
+			int j = graph[i][k];      
+			float wij = tc(m, i, j);
+      
+			if (vcolor[j] == WHITE) {        
+				if (vdist[j] > vdist[i] + wij) {          
+					vdist[j] = vdist[i] + wij;          
+					vlink[j] = i;        
+				}      
+			}    
+		}  
+	}
+
+	//printing for dijsktra
+	stack<int> path;
+	float total_miles, total_hours;
+
+	//setup the stack
+	int ii = sink, jj = source, kk;
+	float dist, time;
+
+	while(ii != source) {
+		path.push(ii);
+		ii = vlink[ii];
+	}
+	path.push(source);
+
+	//setup the counters
+	total_miles = total_hours = 0.0f;
+
+	//okay ready
+	while(!path.empty()) {
+		kk = jj;
+		jj = path.top();
+
+		path.pop();
+
+		if(jj != source) {
+			dist = tc(m, kk, jj);
+			time = tc(1, kk, jj);
+
+			total_miles += dist;
+			total_hours += time;
+		}
+
+		cout << fixed << setprecision(1)
+			<< setw(7) << right << total_miles << " miles "
+			<< setw(5) << right << total_hours << " hours :"
+			<< setw(3) << right << jj << " "
+			<< setw(18) << left << cities[jj].get_name();
+
+		if (jj != source) {
+			cout << fixed << setprecision(1)
+				<< setw(7) << right << dist << " miles "
+				<< setw(5) << right << time << " hours";
+		}
+
+		cout << "\n";
+	}
+	cout << "\n";
+}
 
 int main(int argc, char *argv[]) {
-  //option decoding
+	//option decoding
+	int mode1;
 
-  //object declarations
+	if(argc != 2) {
+		cerr << "Usage: ./citysim -graphinfo/-distance \n";
+		exit(0);
+	}
+	
+	string mode = argv[1];
+
+	if(mode != "-distance" && mode != "-time" && mode != "-graphinfo") {
+		cerr << "Usage: ./Citysim -graphinfo/time/distance \n";
+		exit(0);
+	}
+	
+	if(mode == "-distance")
+		mode1 = 0;
+	else if (mode == "-time")
+		mode1 = 1;
+
+	//object declarations
+	city village;
+	string city1, city2;
+	map<string,int> bs;
 	travelcost tc;
 	vector<city> c_list;
 	vector<vector<int> > g_list;
 
 	read_cityinfo(c_list);
-//	write_cityinfo(c_list);
-
-  //set up travelcosts
 	tc.fill_vector(c_list);
-//	write_travelcost(tc, c_list);
+	create_citygraph(c_list, tc, g_list);
+	
+	if(mode == "-graphinfo") {
+		write_cityinfo(c_list);;
+		write_travelcost(tc, c_list);
+		write_citygraph(c_list, tc, g_list, cout);
 
-  create_citygraph(c_list, tc, g_list);
-  write_citygraph(c_list, tc, g_list, cout);
-
- /* while (not done) {
-	ask for form, to cities
-    dijkstra_route(from,to) 
-  }*/
+		return 0;
+	}
+	
+	while (1) {
+		//link cities to index values with a map
+		cout << "Enter> ";
+		if(!(cin >> city1 >> city2))
+			break;
+		tc.dijkstra(bs[city1], bs[city2], mode1, c_list, tc, g_list); 
+	}
+	
+	cout << "\n";
 }
