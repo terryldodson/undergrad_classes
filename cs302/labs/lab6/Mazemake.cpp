@@ -87,7 +87,7 @@ int main(int argc, char *argv[]) {
   dset obj(Nrow*Ncol);
   int i;
 
-  for (int i=0; i<N; i++) {
+  for (i=0; i<N; i++) {
 	//convert 2D to 1D
 	int ii = wall[i][0].x + (wall[i][0].y * Ncol);
 	int jj = wall[i][1].x + (wall[i][1].y * Ncol);
@@ -110,7 +110,7 @@ int main(int argc, char *argv[]) {
   i++;
 
   for(;i<N; i++) {
-	fprintf(fp, "fuck %d %d %d %d\n", wall[i][0].x, wall[i][0].y, wall[i][1].x, wall[i][1].y);
+	fprintf(fp, "%d %d %d %d\n", wall[i][0].x, wall[i][0].y, wall[i][1].x, wall[i][1].y);
   }
 
   fclose(fp);
