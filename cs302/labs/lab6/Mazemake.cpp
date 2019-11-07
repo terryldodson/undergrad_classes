@@ -99,7 +99,7 @@ int main(int argc, char *argv[]) {
 	
 	else {
 		//can't merge, so there's a wall
-		fprintf(fp, " %d %d %d %d\n", wall[i][0].x, wall[i][0].y, wall[i][1].x, wall[i][1].y);
+		fprintf(fp, " %d %d %d %d\n", wall[i][0].y, wall[i][0].x, wall[i][1].y, wall[i][1].x);
 	}
 	
 	//if all cells belong to the same set
@@ -110,7 +110,7 @@ int main(int argc, char *argv[]) {
   i++;
 
   for(;i<N; i++) {
-	fprintf(fp, "%d %d %d %d\n", wall[i][0].x, wall[i][0].y, wall[i][1].x, wall[i][1].y);
+	fprintf(fp, "%d %d %d %d\n", wall[i][0].y, wall[i][0].x, wall[i][1].y, wall[i][1].x);
   }
 
   fclose(fp);
