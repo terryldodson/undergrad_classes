@@ -2,7 +2,7 @@
 CC = g++
 CFLAGS = -g -Wall
 
-BIN = Diff6
+BIN = Diff7
 
 all: $(BIN)
 
