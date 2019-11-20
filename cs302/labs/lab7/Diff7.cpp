@@ -189,8 +189,6 @@ void LCS::report_difference() {
 				dcount++;
 		}
 	}
-
-	cout << icount << " " << dcount << endl;
 }
 
 
