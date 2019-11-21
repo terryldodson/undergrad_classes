@@ -1,0 +1,341 @@
+<title> CS302 -- Lab Assignment 8 </title>
+<style> p.page { page-break-after: always; } </style>
+
+<h1> CS302 -- Lab Assignment 8 (100 pts: Fall 2019)</h1>
+
+<hr>
+<h3>Getting motivated</h3>
+Inheritance is a powerfull way for letting objects share
+member data and function definitions. In this lab, 
+you will gain hands-on experience with this concept.
+<p>
+
+<b>Warning:</b> The following is a somewhat incomplete and sketchy 
+description. You will not be given nearly the same
+level of detailed how-to instructions you have seen earlier in the
+semester. This is your time to be creative and do it your way 
+(sort of). Ask questions in class and on Piazza till you understand
+the assignment. Do this sooner rather than later.
+
+<hr>
+<h3>Lab submission and due date</h3>
+Submit a tar file which contains completed Data_processor.cpp,
+Person.h, Person.cpp and Sptrsort.h files via Canvas
+no later than 11:59pm Tuesday December 3, 2019.
+<p>
+
+<b>NOTE:</b> This is a one week assignment. You get two weeks to do it
+because of Thanksgiving. 
+Also, you will get a chance to make up (a few) lost points in the very 
+near future. The due date for that will coincide with the due date for 
+Lab 8. Plan accordingly.
+
+<p
+<hr>
+<h3>Getting started and what you need to do</h3>
+
+To help you get started, run the Hydra script
+/home/cs302/labs/lab8/copy to obtain the following files:
+sdata_generator and sdata_processor (Hydra executables),
+Data_processor.cpp (skeleton driver program source code),
+Person.h and Person.cpp (data definition skeleton files).
+Sptrsort.h (smart pointer skeleton file),
+and a makefile (for compiling Data_processor).
+<p>
+
+The idea behind the lab is to have you read XML data from
+a file and produce a sorted and formatted version thereof 
+to stdout.
+As with previous labs, you will build up to the final version
+step by step. Here are the details. You may have to read the
+assignment a couple of times before it makes sense. Also,
+look at the example output below to get a better idea of
+what's going on.
+<p>
+
+<UL>
+
+<LI>
+<b>Sptrsort.h:</b> This file is empty. 
+Add the smartpointer class from the corresponding
+code handout. Have the sprtsort() function
+set up the smartpointer array and before it
+calls std::sort(). Before returning, the result
+of the sort is used to reorder the input data.
+Note: The input data is (should be) a vector 
+of pointers.
+Don't simply use the data2ptr() and ptr2data()
+functions from the code handout since that was
+based on a vector of data values.
+<p>
+
+<b>Person.h and Person.cpp:</b>
+These files are empty apart from an enum 
+declaration. Your job is add the definitions for
+the three classes: person, faculty, and student.
+The person.cpp file is equally empty. This is where
+you place the code which implements the class
+member functions. 
+<p>
+
+<b>Data_processor.cpp:</b>
+This file contains the main function which
+reads and parses the XML data from file
+(most of this code is provided to you 
+``free of charge'').
+You will need to add
+code to store the XML data in a list of person 
+objects which you then process.
+When you look at the file, you will see what's missing.
+You will also add a processing part that consists
+of user specified sorting on either person objects,
+faculty objects or student objects. More on this below.
+
+<LI>
+<b>Version 1:</b>
+Modify the main program
+and create a person class that allows you to
+read the name of each person. Pay no attention
+to faculty versus student and ignore all course
+data. You will need to create the person class,
+overload both operator<() and friend operator<<()
+in order to print a sorted list of names to stdout.
+Implement and use the Sprtsort code for the sorting.
+<p>
+
+When eventually adding the courses, 
+sort them alphabetically.
+For student entries, also print grade points earned
+as well as the commulative GPA (for the alphabetically
+sorted list -- not based on the order in which they
+took courses).
+<p>
+
+<LI>
+<b>Version 2:</b> 
+Add the faculty and student classes. 
+These should be derived from the person
+class which in turn will need to have any private
+members be made protected. 
+See <a href=http://web.eecs.utk.edu/~jgregor/cs302/lab8_UML.pdf target="blank"> 
+UML diagram</a>
+for a pictorial view of these classes, their relationships and
+members (+X means X is a public member, 
+#X means X is a protected member, and
+-X means X is a private member). 
+Note: You may need to shrink the PDF when viewing it.
+<p>
+
+Make the person class a base class by adding
+virtual member functions 
+that allow the derived faculty and student
+classes to control what they do if they do it
+differently (this is polymorphism). For example,
+faculty will maintain a list of course names 
+while students while maintain both course names 
+and grade points (GP). 
+Print faculty and student details thru the
+overloaded person friend operator<<().
+When printing student data, add a commulative GPA
+to the right the course GP value.
+<p>
+
+Update the main program to create and add 
+faculty and student objects to the database
+instead of person objects. 
+Overload the person operator<() to facilitate 
+sorting of the data first by faculty then by
+student and within each category alphabetically
+by full name (i.e., "Firstname Lastname").
+<p>
+
+<LI>
+<b>Version 3:</b> 
+Modify the main program to accept a commandline
+option that determines whether to print
+person entries (sorted by faculty then student
+with members of each type sorted
+alphabetically), faculty entries
+(sorted by first by
+order of assistant, 
+associate and full professors, then 
+alphabetically within each category),
+and student entries (sorted first by order
+of freshman, sophomore, junior, and senior
+class status, then alphabetically).
+See output examples below.
+<p>
+
+<LI>
+For all code, keep the layout defined in the
+files given to you.
+Include only header files needed. 
+Maintain the highest level of privacy possible. Make 
+member data and functions public or protected only
+when necessary. Likewise, create only member functions
+that are needed. Declare functions purely virtual 
+(abstract) in the base class if only the derived
+classes can define them. 
+<p>
+
+Pay close attention to the definition of
+constructors and destructors. Make sure derived
+class destructors get activated. That is, watch
+out for memory leaks. You can run valgrind
+on your executable to see if you have any -- 
+if you do, fix them.
+<p>
+
+</UL>
+<hr>
+<p class="page"></p>
+<h3>makedata </h3>
+<pre>
+unix> ./sdata_generator > data.xml
+unix> cat data.xml
+&#60student&#62
+  &#60name="Neil Down"/&#62
+  &#60category="Junior"/&#62
+  &#60course="CS4 Reading Core Dumps" gp="3.5"/&#62
+  &#60course="PH1 Perms and Waves" gp="3"/&#62
+  &#60course="CS5 Advanced Topics in Z" gp="3.5"/&#62
+&#60/student&#62
+
+&#60student&#62
+  &#60name="Chriss Cross"/&#62
+  &#60category="Junior"/&#62
+  &#60course="CS3 Pear Programming" gp="2.5"/&#62
+  &#60course="CS2 Pointy Pointers" gp="3"/&#62
+  &#60course="CS4 Reading Core Dumps" gp="2"/&#62
+&#60/student&#62
+
+&#60faculty&#62
+  &#60name="Barb Dwyer"/&#62
+  &#60category="Assistant Professor"/&#62
+  &#60course="CS2 Pointy Pointers"/&#62
+  &#60course="CS3 Pear Programming"/&#62
+&#60/faculty&#62
+</pre>
+
+<hr>
+<h3>data_processor </h3>
+
+<Pre>
+unix> ./Data_processor -person < data.xml
+
+      Name: Anna Graham
+  Category: Associate Professor
+    Course: CS5 Web Apples
+    Course: PH1 Perms and Waves
+    Course: PH2 Particle Bored
+
+      Name: Barry Cade
+  Category: Full Professor
+    Course: CS2 Pointy Pointers
+    Course: CS3 Pear Programming
+    Course: PH1 Perms and Waves
+
+      Name: Sandy Banks
+  Category: Assistant Professor
+    Course: CS3 Pear Programming
+    Course: CS5 Web Apples
+    Course: MA1 Math for Chumps
+
+      Name: Brighton Early
+  Category: Senior
+    Course: CS1 Problem Solving       4.00 4.00
+    Course: CS4 Reading Core Dumps    3.50 3.75
+    Course: CS5 Web Apples            4.00 3.83
+
+      Name: Jean Poole
+  Category: Freshman
+    Course: CS1 Problem Solving       2.50 2.50
+    Course: CS2 Pointy Pointers       4.00 3.25
+    Course: CS4 Reading Core Dumps    2.50 3.00
+
+      Name: Kenny Dewitt
+  Category: Sophomore
+    Course: CS1 Problem Solving       2.00 2.00
+    Course: CS3 Pear Programming      3.50 2.75
+    Course: PH2 Particle Bored        2.00 2.50
+
+      Name: Scott Free
+  Category: Junior
+    Course: CS1 Problem Solving       3.50 3.50
+    Course: CS3 Pear Programming      2.50 3.00
+    Course: MA1 Math for Chumps       4.00 3.33
+
+      Name: Terry Aki
+  Category: Freshman
+    Course: CS1 Problem Solving       2.00 2.00
+    Course: CS2 Pointy Pointers       3.00 2.50
+    Course: PH1 Perms and Waves       2.50 2.50
+
+unix> ./Data_processor -faculty < data.xml
+
+      Name: Sandy Banks
+  Category: Assistant Professor
+    Course: CS3 Pear Programming
+    Course: CS5 Web Apples
+    Course: MA1 Math for Chumps
+
+      Name: Anna Graham
+  Category: Associate Professor
+    Course: CS5 Web Apples
+    Course: PH1 Perms and Waves
+    Course: PH2 Particle Bored
+
+      Name: Barry Cade
+  Category: Full Professor
+    Course: CS2 Pointy Pointers
+    Course: CS3 Pear Programming
+    Course: PH1 Perms and Waves
+
+unix> ./Data_processor -student < data.xml
+
+      Name: Jean Poole
+  Category: Freshman
+    Course: CS1 Problem Solving       2.50 2.50
+    Course: CS2 Pointy Pointers       4.00 3.25
+    Course: CS4 Reading Core Dumps    2.50 3.00
+
+      Name: Terry Aki
+  Category: Freshman
+    Course: CS1 Problem Solving       2.00 2.00
+    Course: CS2 Pointy Pointers       3.00 2.50
+    Course: PH1 Perms and Waves       2.50 2.50
+
+      Name: Kenny Dewitt
+  Category: Sophomore
+    Course: CS1 Problem Solving       2.00 2.00
+    Course: CS3 Pear Programming      3.50 2.75
+    Course: PH2 Particle Bored        2.00 2.50
+
+      Name: Scott Free
+  Category: Junior
+    Course: CS1 Problem Solving       3.50 3.50
+    Course: CS3 Pear Programming      2.50 3.00
+    Course: MA1 Math for Chumps       4.00 3.33
+
+      Name: Brighton Early
+  Category: Senior
+    Course: CS1 Problem Solving       4.00 4.00
+    Course: CS4 Reading Core Dumps    3.50 3.75
+    Course: CS5 Web Apples            4.00 3.83
+</pre>
+
+<p class="page"></p>
+<hr>
+<h3>Grading Rubric</h3>
+
+<pre>
+10: Sptrsort.h -- implementation of smart pointer based sorting of vector 
+    of pointers to objects of arbitrary type
+30: Person.h and Person.cpp -- implementation of person, faculty and student 
+    classes based on inheritance
+30: Data_processor.cpp -- implementation of basic main program functionality
+30: Data_processor.cpp -- implementation of sorting based on object category
+</pre>
+
+<hr>
+Mon Nov 18 17:35:44 EST 2019
