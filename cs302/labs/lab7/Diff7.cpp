@@ -46,6 +46,7 @@ class LCS {
     void text2_push_back(string s) { text2.push_back(s); };
 	void compute_alignment();
 	void report_difference();
+	void print_edits(int a, int b, int c, int d);
 
   private:
 	// support functions
@@ -112,25 +113,66 @@ void LCS::compute_alignment() {
 
       }
     }
+}
 
-	cout << "cost matrix: " << endl;
-	for (int i = 0; i < m; i++) {
-		for (int j = 0; j < n; j++) {
-			cout << setw(4) << cost[i][j];
-		}
-		cout << endl;
+void LCS::print_edits(int i, int j, int k, int l) {
+	if(k == 0 && l == 0) {
+		//match no print
 	}
 
-	cout << endl;
+	else if(k != 0 && l != 0){
+		//change
+		if(i-k+1==i)
+			cout << i << 'c';
+		else
+			cout << i-k+1 << ',' << i << 'c';
+		if(j-l+1 == j)
+			cout << j << endl;
+		else
+			cout << j-l+1 << ',' << j << endl;
+		for(int y = 0; y < k; y++) {
+			cout << "< " << text1[i+y-k] << endl;
+		}
 
-	cout << "link matrix: " << endl;
-	for (int i = 0; i < m; i++) {
-        for (int j = 0; j < n; j++) {
-            cout << setw(4) << link[i][j];
+		cout << "---" << endl;
+
+		for(int x = 0; x < l; x++) {
+			cout << "> " << text2[j+x-l] << endl;
+		}
+	}
+
+	else if(k != 0)  {
+		//delete
+		if(i-k+1 == i)
+			cout << i << 'd';
+		else
+			cout << i-k+1 << ',' << i << 'd';
+		if(j-l== j)
+			cout << j << endl;
+		else
+			cout << j-l+1 << ',' << j << endl;
+
+		for(int x = 0; x < k; x++) {
+			cout << "< " << text1[i+x-k] << endl;
+		}
+	}
+
+
+	else if(l != 0)  {
+        //insert
+        if(i-k == i)
+            cout << i << 'a';
+        else
+            cout << i-k+1 << ',' << i << 'a';
+        if(j-l+1== j)
+            cout << j << endl;
+        else
+            cout << j-l+1 << ',' << j << endl;
+
+        for(int x = 0; x < l; x++) {
+            cout << "> " << text2[j+x-l] << endl;
         }
-        cout << endl;
     }	
-	
 }
 
 void LCS::report_difference() {
@@ -166,29 +208,33 @@ void LCS::report_difference() {
 			}
 	}
 
-
+	//i and j are positions in matrix (x and y)
 	i = 0;
 	j = 0;
+	
+	int icount = 0, dcount = 0;
+
 	while(!trace.empty()) {
-		cout << "(" << x.top() << ", " << y.top() << ")" << " ";
-		cout << trace.top() << endl;
-		trace.pop();
-		x.pop();
-		y.pop();
-		i++;
-		j++;
-	}
-
-	int icount, dcount;
-
-	for(int i = 0; i < trace.size(); i++) {
-		while(trace.top() != 4){
-			if(trace.top() == 1)
-				icount++;
-			else
-				dcount++;
+		if(trace.top() == 4) {
+			print_edits(i , j, dcount, icount);
+			dcount = 0;
+			i++;
+			icount = 0;
+			j++;
 		}
+		else if(trace.top() == 2) {
+			icount++;
+			j++;
+		}
+		else if(trace.top() == 1) {
+			dcount++;
+			i++;
+		}
+
+		trace.pop();
 	}
+
+	print_edits(i, j, dcount, icount);
 }
 
 
@@ -214,6 +260,5 @@ int main(int argc, char *argv[])
   }
 
   lcs.compute_alignment();
-  cout << endl;
   lcs.report_difference();
 }

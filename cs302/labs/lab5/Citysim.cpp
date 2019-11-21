@@ -64,11 +64,12 @@ ostream &operator<<(ostream &out, const city &c) {
 }
 
 
-void read_cityinfo(vector<city> &cities) {
+void read_cityinfo(map<string, int> &bs, vector<city> &cities) {
 	// write this to read data object data
 	ifstream fp;
 	string s;
 	city temp;
+	int i = 0;
 
 	fp.open("city_list.txt");
 
@@ -85,6 +86,8 @@ void read_cityinfo(vector<city> &cities) {
 			istringstream is(s);
 			is >> temp;
 			cities.push_back(temp);
+			bs.insert(make_pair(temp.get_name(), i));
+			i++;
 		}
 	}
 }
@@ -313,12 +316,9 @@ void travelcost::dijkstra(int source, int sink, int m, vector<city> &cities, tra
 
 		int i = next_i;    
 		if (i == -1)      
-			return;    
+			break;    
 
 		vcolor[i] = BLACK;    
-
-		//if (i == sink)      
-		//	break;    
 
 		for (int k = 0; k < (int) graph[i].size(); k++) {      
 			int j = graph[i][k];      
@@ -358,7 +358,7 @@ void travelcost::dijkstra(int source, int sink, int m, vector<city> &cities, tra
 		path.pop();
 
 		if(jj != source) {
-			dist = tc(m, kk, jj);
+			dist = tc(0, kk, jj);
 			time = tc(1, kk, jj);
 
 			total_miles += dist;
@@ -411,7 +411,7 @@ int main(int argc, char *argv[]) {
 	vector<city> c_list;
 	vector<vector<int> > g_list;
 
-	read_cityinfo(c_list);
+	read_cityinfo(bs, c_list);
 	tc.fill_vector(c_list);
 	create_citygraph(c_list, tc, g_list);
 	
