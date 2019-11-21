@@ -1,0 +1,193 @@
+<title> CS302 -- Lab Assignment 7 </title>
+<style> p.page { page-break-after: always; } </style>
+
+<h1> CS302 -- Lab Assignment 7 (100 pts: Fall, 2019)</h1>
+
+<hr>
+<h3>Getting motivated</h3>
+In this lab, you will use 
+the dynamic programming based algorithm covered in class
+for determining the
+longest common subsequence given two strings 
+to implement "Diff7" which is a scaled-back version of 
+the Unix command diff.
+The program shows the user if two text files are different 
+and if so, how to edit one into the other: which lines
+to delete, which lines to add, and which lines to replace
+(refered to below as change).
+<p>
+
+<hr>
+<h3>Lab submission and due date</h3>
+Submit the completed Diff6.cpp file
+via Canvas no later than
+11:59pm Tuesday November 19, 2019.
+<p>
+
+<hr>
+<h3>Getting started and what you need to do</h3>
+
+To help you get started, run the Hydra script
+/home/cs302/labs/lab7/copy to obtain the following files:
+sdiff7 (Hydra solution executable),
+Diff7.cpp (skeleton driver program source code),
+a makefile, and two test files called original.txt
+and modified.txt. 
+The text is based on a poem for 
+6th graders written by Kenn Nesbitt (2005).
+<p>
+
+<UL>
+
+<LI> 
+Create a class called LCS which has public member functions
+for adding text to two private buffers called text1 and text2 as
+well as for public member functions for
+computing the dynamic programming based alignment 
+and subsequently reporting the difference between the files.
+<p>
+
+<LI>
+Public member function compute_alignment() uses a
+cost function that associates deletions and insertions with
+a cost of 1, sets the cost of a perfect match to 0 and doesn't
+allow substitutions. These edit operations apply to <i>lines</i>
+of text, not symbols. That is, the goal is determine the
+fewest number of lines that need to be deleted from text1 and
+inserted from text2 in order to make the two become identical.
+Thus, a match only occurs when two <i>lines</i> of text
+are identical.
+<p>
+
+<LI>
+Public member function report_difference() is conveniently
+implemented as wrapper for
+a recursive private member function of the same name that
+uses link information 
+provided by compute_alignment() to extract the the sequence of
+edit operations that solves the alignment problem. While
+many such sequences may exist, we are only interested in
+one. The sdiff7 executable provided to you chooses 
+a match if possible followed first by an insertion and then 
+a deletion.
+If the
+three operations all have different costs, the order in which
+we consider them doesn't matter. Occasionally, two or more
+will cost the same, and then a different order will produce
+a different unique edit sequence. 
+<b>
+Be sure to use the 
+suggested order of comparisons to be consistent with the solution 
+code 
+(which may or may not be consistent with the Unix version of
+diff).
+</b>
+<p>
+
+<LI>
+Once the trace, which represents the
+sequence of edit opeations, has been extracted,
+you need to parse it. That is, the program output should
+ultimately reflect edits based on <i>sequences</i> 
+of deletions (remove text from file1), 
+insertions (add text from file2), and 
+changes (replace text from file1 with text from file2). 
+For example,
+the edit sequence DELETE, DELETE, 
+MATCH, INSERT, INSERT, DELETE, 
+MATCH, MATCH, INSERT, MATCH
+should be condensed to DELETE two lines from file1,
+CHANGE one line from file1 into two lines from file2, 
+and INSERT one line from file2 
+with explicit reference to the lines involved.
+Once you think about it, you quickly realize that the
+MATCH operations determine the start 
+and end of these sequences. You will find an example
+included below. Study it carefully. Then study it again.
+If the output confuses you, read descriptions of the
+Unix command diff which produces similar type of output.
+(The man page may not be very helpful -- Google will
+return links to more informative explanations).
+Consider using a private member function
+to handle printing of the edit information.
+</UL>
+
+<hr>
+<h3>Example output</h3>
+
+<pre> cat -n original.txt
+
+     1	
+     2	My computer ate my homework.
+     3	Yes, it's troublesome, but true.
+     4	Though it didn't gnaw or nibble
+     5	and it didn't chomp or chew.
+     6	
+     7	It devoured days of typing,
+     8	every picture, chart and graph,
+     9	but the worst thing about it 
+    10	was I thought I heard it laugh.
+    11	
+    12	But I found a good solution
+    13	and I smiled to hear the crash,
+    14	when I chucked it out the window
+    15	and it landed in the trash.
+    16	
+    17	H. Iznogood
+
+unix> cat -n modified.txt
+
+     1	Poem by Ivana Bedone
+     2	
+     3	My computer ate my homework.
+     4	Yes, it's troublesome, but true.
+     5	I thought I knew what I was doing,
+     6	but it's clear I had no clue.
+     7	
+     8	It wiped out days of typing,
+     9	every keystroke that I'd made,
+    10	What really got me though, 
+    11	was it could have all been saved
+    12	
+    13	But I found a good solution
+    14	and I smiled to hear the crash,
+    15	when I chucked it out the window
+    16	and it landed in the trash.
+
+unix> ./Diff7 original.txt modified.txt
+
+0a1
+> Poem by Ivana Bedone
+4,5c5,6
+< Though it didn't gnaw or nibble
+< and it didn't chomp or chew.
+---
+> I thought I knew what I was doing,
+> but it's clear I had no clue.
+7,10c8,11
+< It devoured days of typing,
+< every picture, chart and graph,
+< but the worst thing about it 
+< was I thought I heard it laugh.
+---
+> It wiped out days of typing,
+> every keystroke that I'd made,
+> What really got me though, 
+> was it could have all been saved
+16,17d16
+< 
+< H. Iznogood
+
+</pre>
+<p class="page"></p>
+<hr>
+<h3>Grading Rubric</h3>
+
+<pre>
+10: Main program including reading of files
+25: Compute_alignment() -- subset of dpalign code from class
+65: Report_difference() -- output must match solution code
+</pre>
+
+<hr>
+Sun Nov  3 13:56:24 EST 2019
