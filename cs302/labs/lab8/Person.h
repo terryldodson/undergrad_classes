@@ -19,15 +19,18 @@ class person {
 		
 		//get functions
 		bool operator<(const person &);
+		void set_name(string);
 		string &get_name();
+		void set_type(type_enum);
 		type_enum &get_type();
+		void set_category();
 		type_enum &get_category();
 
 	protected:
 		//generic data
 		string name;
 		type_enum type;
-		string category;
+		type_enum category;
 
 		//virtual functions (must be overloaded)
 		virtual void print_personinfo() = 0;

@@ -1,12 +1,15 @@
-#include WHAT'S NEEDED
+#include <vector>
+#include <string>
+#include <iostream>
+
 using namespace std;
 
 #include "Person.h"
 #include "Sptrsort.h"
 
 int main(int argc, char *argv[]) {
-  if (argc/argv problem) {
-    output error message
+  if (argc != 4) {
+    //output error message
 	return 0;
   }
 
@@ -20,7 +23,7 @@ int main(int argc, char *argv[]) {
   size_t iL, iR;
   string input;
 
-  CS307: CHECK CORRECTESS OF XML HEADER 
+//  CS307: CHECK CORRECTESS OF XML HEADER 
 
   while (getline(cin, input)) {
 	++line;
@@ -35,8 +38,8 @@ int main(int argc, char *argv[]) {
 
 	} else if (input.compare(iL,10,"</faculty>") == 0) {
 
-      CS307: CHECK CORRECTESS OF XML DATA
-	  CODE FOR ADDING FACULTY PERSON TO DATABASE
+  //    CS307: CHECK CORRECTESS OF XML DATA
+	//  CODE FOR ADDING FACULTY PERSON TO DATABASE
 
 	  check type 
 	  set subtype
@@ -58,8 +61,8 @@ int main(int argc, char *argv[]) {
 
 	} else if (input.compare(iL,10,"</student>") == 0) {
 
-      CS307: CHECK CORRECTESS OF XML DATA
-	  CODE FOR ADDING STUDENT PERSON TO DATABASE
+      //CS307: CHECK CORRECTESS OF XML DATA
+	 // CODE FOR ADDING STUDENT PERSON TO DATABASE
 
 	  check type 
 	  set subtype
@@ -77,22 +80,22 @@ int main(int argc, char *argv[]) {
 	  iL = input.find("=\"", iL);
 	  iR = input.find("\"/>", iL+2);
 
-      CS307: CHECK CORRECTESS OF XML DATA
-	  CODE FOR EXTRACTING NAME (using iL, iR)
+      //CS307: CHECK CORRECTESS OF XML DATA
+	  //CODE FOR EXTRACTING NAME (using iL, iR)
 
 	} else if (input.compare(iL,10,"<g=") == 0) {
 	  iL = input.find("=\"", iL);
 	  iR = input.find("\"/>", iL+2);
 
-      CS307: CHECK CORRECTESS OF XML DATA
-	  CODE FOR EXTRACTING CATEGORY (using iL, iR)
+      //CS307: CHECK CORRECTESS OF XML DATA
+	  //CODE FOR EXTRACTING CATEGORY (using iL, iR)
 
 	} else if (input.compare(iL,7,"<course") == 0) {
 	  iL = input.find("=\"", iL);
 	  iR = input.find("\"", iL+2);
 
-      CS307: CHECK CORRECTESS OF XML DATA
-	  CODE FOR EXTRACTING COURSE (using iL, iR)
+      //CS307: CHECK CORRECTESS OF XML DATA
+	  //CODE FOR EXTRACTING COURSE (using iL, iR)
 
 	  iL = iR;
 	  if (type == FACULTY) {
@@ -101,17 +104,17 @@ int main(int argc, char *argv[]) {
 	    iL = input.find("gp=\"", iL);
 	    iR = input.find("\"/>", iL+4);
 
-        CS307: CHECK CORRECTESS OF XML DATA
-	    CODE FOR EXTRACTING GRADE (using iL, iR)
+        //CS307: CHECK CORRECTESS OF XML DATA
+	    //CODE FOR EXTRACTING GRADE (using iL, iR)
 	  }
 	}
   }
 
-  EXTRACT LIST OF POINTERS TO PERSON, FACULTY OR STUDENT
-  ENTRY, SORT USING SPTRSORT AND PRINT RESULT TO STDOUT
+ // EXTRACT LIST OF POINTERS TO PERSON, FACULTY OR STUDENT
+ // ENTRY, SORT USING SPTRSORT AND PRINT RESULT TO STDOUT
 
-  NOTE: PERSON, FACULTY AND STUDENT EACH HAVE THEIR OWN
-  OVERLOADED COMPARISON OPERATOR (--> DIFFERENT SORTING)
+  //NOTE: PERSON, FACULTY AND STUDENT EACH HAVE THEIR OWN
+  //OVERLOADED COMPARISON OPERATOR (--> DIFFERENT SORTING)
 
-  RELEASE ALL DYNAMICALLY ALLOCATED MEMORY
+  //RELEASE ALL DYNAMICALLY ALLOCATED MEMORY
 }
