@@ -4,11 +4,18 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <map>
+#include <set>
+#include <cstring>
 
 using namespace std;
 
 enum type_enum { UNKNOWN=-1, FACULTY=0,  ASST_PROF=1, ASSOC_PROF=2, FULL_PROF=3,
                  STUDENT=10, FRESHMAN=11, SOPHOMORE=12, JUNIOR=13, SENIOR=14 };
+
+type_enum str2type(const string &s);
+string type2str(const type_enum &t);
+
 
 //class person DEFINITION -- base class
 class person {
@@ -16,15 +23,19 @@ class person {
 		//constructor
 		person();
 		person(const string&, type_enum = UNKNOWN);
-		
+
 		//get functions
 		bool operator<(const person &);
 		void set_name(string);
 		string &get_name();
 		void set_type(type_enum);
 		type_enum &get_type();
-		void set_category();
-		type_enum &get_category();
+		void set_category(type_enum);
+		type_enum get_category();
+
+	private:
+		map<string,float> courselist;
+		
 
 	protected:
 		//generic data
@@ -33,36 +44,42 @@ class person {
 		type_enum category;
 
 		//virtual functions (must be overloaded)
-		virtual void print_personinfo() = 0;
-		virtual void print_courseinfo() = 0;
+		virtual void print_personinfo(ostream &) = 0;
+		virtual void print_courseinfo(ostream &) = 0;
 
-	friend operator<<();
+	friend ostream &operator<<(ostream&, person&);
 };	
 
 //class faculty DEFINITION -- derived class
 class faculty : public person {
 	public:
-		bool operator<();
-		void add_course();
+		//constructor
+		faculty();
+		faculty(const string&, type_enum = UNKNOWN);
+
+		//bool operator<(const faculty &);
+		void add_course(string &);
 
 	private:
-		vector<string> courselist;
-		void print_personinfo();
-		void print_courseinfo();
+		set<string> courselist;
+		void print_personinfo(ostream &);
+		void print_courseinfo(ostream &);
 };
 
 //class student DEFINITION -- derived class
 class student : public person {
 	public:
-        bool operator<();
-        void add_course();
+		//constructor
+		student();
+		student(const string&, type_enum = UNKNOWN);
+
+        //bool operator<(const student &);
+        void add_course(string&, float);
 
     private:
-        vector<string> courselist;
-        void print_personinfo();
-        void print_courseinfo();
-	
+        map<string,float> courselist;
+        void print_personinfo(ostream &);
+        void print_courseinfo(ostream &);
 };
-
 #endif
 
