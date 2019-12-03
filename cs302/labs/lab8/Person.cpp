@@ -127,7 +127,7 @@ void faculty::print_courseinfo(ostream &os) {
 	set<string>::iterator it;
 
 	for(it = courselist.begin(); it != courselist.end(); it++) {
-		os << setw(12) << right << "Course: " << /*setw(25) << left <<*/ *it << endl;
+		os << setw(12) << right << "Course: " << *it << endl;
 	}
 }
 
@@ -165,7 +165,7 @@ void student::print_courseinfo(ostream &os) {
 	for(it = courselist.begin(); it != courselist.end(); it++, i++) {
 		os << setw(12) << right << "Course: " << setw(25) << left << it->first << " ";
 
-		os << fixed << setprecision(2) << it->second << " "; // << endl;
+		os << fixed << setprecision(2) << it->second << " ";
 		gpa_sum += it->second;
 		os << fixed << setprecision(2) << (gpa_sum / (i+1));
 
