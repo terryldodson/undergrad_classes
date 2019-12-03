@@ -11,8 +11,8 @@ type_enum str2type(const string &s) {
     const char *s_d = s.c_str();
 
     if (strcmp(s_d, "faculty") == 0) return FACULTY;
-    if (strcmp(s_d, "Asisstant Professor") == 0) return ASST_PROF;
-    if (strcmp(s_d, "Asosciate Professor") == 0) return ASSOC_PROF;
+    if (strcmp(s_d, "Assistant Professor") == 0) return ASST_PROF;
+    if (strcmp(s_d, "Associate Professor") == 0) return ASSOC_PROF;
     if (strcmp(s_d, "Full Professor") == 0) return FULL_PROF;
     if (strcmp(s_d, "Student") == 0) return STUDENT;
     if (strcmp(s_d, "Freshman") == 0) return FRESHMAN;
@@ -30,7 +30,7 @@ string type2str(const type_enum &t) {
         case UNKNOWN:
         case FACULTY:   res = "faculty"; break;
         case ASST_PROF: res = "Assistant Professor"; break;
-        case ASSOC_PROF:res = "Assosciate Professor"; break;
+        case ASSOC_PROF:res = "Associate Professor"; break;
         case FULL_PROF: res = "Full Professor"; break;
         case STUDENT:   res = "Student"; break;
         case FRESHMAN:  res = "Freshman"; break;
@@ -99,6 +99,16 @@ faculty::faculty() {
 	name = string("");
 }
 
+bool faculty::operator<(const faculty &f) {
+	/*compares name*/
+	if(type == f.type)
+		return name < f.name;
+	else if(type < f.type)
+		return true;
+	else
+		return false;
+}
+
 faculty::faculty(const string& n, type_enum T) {
 	name = n;
 	type = T;
@@ -117,13 +127,22 @@ void faculty::print_courseinfo(ostream &os) {
 	set<string>::iterator it;
 
 	for(it = courselist.begin(); it != courselist.end(); it++) {
-		os << setw(12) << right << "Course: " << setw(25) << left << *it << endl;
+		os << setw(12) << right << "Course: " << /*setw(25) << left <<*/ *it << endl;
 	}
 }
 
 //STUDENT CLASS MEMBER FUNCTIONS
 student::student() {
 	name = string ("");
+}
+
+bool student::operator<(const student &s) {
+	if(type == s.type)
+		return name < s.name;
+	else if(type < s.type)
+		return true;
+	else
+		return false;
 }
 
 void student::add_course(string &name, float gpa) {

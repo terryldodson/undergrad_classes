@@ -1,4 +1,7 @@
 //WRITE THIS BASED ON SMART POINTER CLASS
+#include <vector>
+#include <algorithm>
+
 using namespace std;
 
 template <typename T>

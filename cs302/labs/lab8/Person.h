@@ -57,7 +57,7 @@ class faculty : public person {
 		faculty();
 		faculty(const string&, type_enum = UNKNOWN);
 
-		//bool operator<(const faculty &);
+		bool operator<(const faculty &);
 		void add_course(string &);
 
 	private:
@@ -73,7 +73,7 @@ class student : public person {
 		student();
 		student(const string&, type_enum = UNKNOWN);
 
-        //bool operator<(const student &);
+        bool operator<(const student &);
         void add_course(string&, float);
 
     private:
