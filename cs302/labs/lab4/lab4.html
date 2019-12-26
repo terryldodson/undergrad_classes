@@ -80,10 +80,10 @@ a file called mightknow1.txt.
 Function set_oldfriends() initializes the 2D friends table
 to have as many rows as there are entries in the name array.
 Then, random friendships are generated for each name. Each
-name will be associated with a minimum of one friend (M0) but 
-up to two additional friends can be created (M1): that is,
-the number of edged that need to be generated isi
-M = rand() % M0 + M1.
+name will be associated with a minimum of one friend (M0=1) 
+and a maximum of three friends (M1=3): that is,
+the number of edged that need to be generated is
+M = M0 + rand() % M1.
 The friendnet produced is a symmetric graph. Thus, if there
 is an edge between vertices i and j, then
 there is also an edge between vertices j and i. As a result,
@@ -150,34 +150,40 @@ will have up to 25 points added, if they complete this successfully.</i>
 <!-- <p class="page"></p> -->
 <h3>Example friendnet1 output</h3>
 <pre>
-unix> names.txt | ./Friendnet1 -seed 10 
+unix> cat names.txt | ./Friendnet1 -seed 10 
 
 unix> head doknow1.txt
-OLGA       : FOX        JESSIE     HUMBERTO  
-ROB        : CLEMENTS   MCKENZIE  
-DORIS      : DERICK     BURT       MARYANNE  
-WILLARD    : LEONARDO   AVA       
-COLON      : HEIDI      SCOTTIE    LUISA      ODONNELL  
-MAVIS      : ISRAEL     HEATH      BASIL     
-LANDON     : MCCARTHY   MCCLURE   
-KATHERINE  : TAMMI     
-PAGE       : HATFIELD   YANG      
-HOOPER     : BURT       LOWE      
+OLGA       : LEE        JESSIE     BOWMAN     POLLARD   
+ROB        : CLEMENTS   MAYS       LUCAS     
+DORIS      : LITTLE     BRIDGETTE  FREDRIC    WHITE     
+WILLARD    : KATHARINE  HEIDI      ODONNELL  
+COLON      : LETITIA    AVIS       ISRAEL     SHEPARD    CONTRERAS  KIP       
+MAVIS      : CHANG      SONYA     
+LANDON     : HATFIELD   WEBER      ROBERT    
+KATHERINE  : AMELIA     LOWE       HERSCHEL   NORMA      HAWKINS   
+PAGE       : STOUT      PAYNE      BREWER     MARSHALL  
+HOOPER     : KNOWLES    STEVENS    MERCER    
 
 unix> head mightknow1.txt
-OLGA       : CHRISTI    GARRETT    BOBBIE     BLANCHARD  ANTONIA    TANIA      GILES      TERENCE   
-OLGA       : KELLER    
-ROB        : CONLEY     KURT       JEWELL    
-DORIS      : HOOPER     OCTAVIO    MCLEOD     RAUL      
-WILLARD    : CRYSTAL    OSCAR      SCHNEIDER  BRADLY     ALISSA    
-COLON      : BYRD       TUCKER     KATHARINE  HOLCOMB    TERRY      PARRISH    SWANSON    DORA      
-COLON      : NAVARRO    SUSIE      CHERRY     CASTRO     DUFFY      BRYAN     
-MAVIS      : LOIS       BOYER      NAPOLEON   HICKS      EARLENE    STEVENS    BUCKLEY    CAROLINE  
-MAVIS      : SHELLEY    CROSBY     GILBERTO  
-LANDON     : SWANSON    ALICIA     NANCY      ERIK       CHARLENE   HELGA     
+OLGA       : WILL       AYERS      AURELIA    GINGER     DAVID      MERCER     WALLER     GALLAGHER 
+OLGA       : ROSALES    DEAN       KRYSTAL   
+ROB        : LESTER     JOHNS      DEWAYNE    POTTS      BUTLER     ZAMORA     WHITFIELD  NIKKI     
+ROB        : DELGADO    ROWE       TONIA     
+DORIS      : MCLEOD     STRICKLAND SARA       THURMAN    JOSEPH     JANINE     AURORA     STEVENS   
+DORIS      : NIEVES     CONSTANCE  HARPER    
+WILLARD    : LILIANA    ERIN       DODSON     BURT       EDMUND     FLOYD      TAYLOR     DYER      
+WILLARD    : WILBUR     LANCASTER  COLLEEN    VEGA       CRAIG      FAULKNER   CAROLINE   JOSE      
+WILLARD    : BRADFORD  
+COLON      : TRENTON    JANELLE    SIMON      REBEKAH    ROBBY      HOLMAN     DEWAYNE    REUBEN    
+
+unix> grep "^LEE" doknow1.txt
+LEE        : OLGA       GINGER     DAVID     
 </pre>
 
-The Friendnet2 and Friendnet3 programs should produce output that is identical to the above.
+So Olga and Lee know each other. Lee also knows Ginger and David who therefore become potential
+new friends for Olga. Same for all the other entries.
+
+The Friendnet2 and Friendnet3 programs should produce output identical to the above.
 
 <hr>
 
@@ -195,5 +201,4 @@ The Friendnet2 and Friendnet3 programs should produce output that is identical t
 10: Friendnet3: Modify set up new friends and formatting output writing 
 </pre>
 
-<hr>
-Mon Sep 30 21:17:22 EDT 2019
+Sun Oct  6 14:44:29 EDT 2019

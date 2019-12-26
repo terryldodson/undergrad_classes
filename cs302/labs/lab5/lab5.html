@@ -1,0 +1,547 @@
+<title> CS302 -- Lab Assignment 5</title>
+<style> p.page { page-break-after: always; } </style>
+
+<h1> CS302 -- Lab Assignment 5 (125 pts: Fall 2019)</h1>
+
+<hr>
+<h3>Getting motivated</h3>
+ACME Shipping needs your help! They have obtained the rights
+to ship goods between a number of cities across the world. 
+Use your newly acquired knowledge about graphs to write
+a program called "citysim" that can tell ACME Shipping 
+what the shortest valid route is between any two cities. 
+Being customer friendly, ACME Shipping wants to explore two 
+options: (i) a cheap rate based on distance traveled and
+(ii) a more expensive rate based on time in transit.
+See details below. Lots of them.
+<p>
+
+<hr>
+<h3>Lab submission and due date</h3>
+
+Submit your work via Canvas no later than
+11:59pm Wednesday October 23, 2019.
+You submit only one file called Citysim.cpp.
+The incremental development outlined below is merely
+intended to walk you through the process of completing
+the assignment.
+CS307 students will write additional code as outlined
+below. CS302 are free to write this code as well but
+there is no extra credit to be earned this time.
+<p>
+
+<b>
+While it may seem like you have a long time to do this
+assignment, keep in mind that Fall Break is coming up.
+Thus, you really only a week to get the job done. 
+Make sure you have
+code that compiles and does at least part of the
+assignment, if not all of it by the due date.
+</b>
+
+<hr>
+<h3>Getting started and what you need to do</h3>
+
+To help you get started,
+run the Hydra script
+/home/cs302/labs/lab5/copy to obtain the following files:
+scitysim (Hydra solution executable), 
+city_list.txt (input data),
+Citysim.cpp (skeleton code), and a makefile.
+Your job is to write the citysim program
+and make it behave as described next.
+<p>
+
+While you have some design freedom,
+you must base your code on the classes
+and functions discussed next.
+How you tie them all together is up to you.
+Also,
+floating-point computations should be done
+using floats, not doubles. Most math functions
+take and produce doubles. That's fine. Feed
+them floats and assign the output to floats.
+<p>
+
+<b>
+Please raise concerns about assignment
+inconsistencies or unspoken design criteria on
+Piazza.com sooner rather than later, so that
+clarifications can be shared with the class
+as early as possible.
+</b>
+<p>
+
+You might find it helpful to take a glance at the 
+city_list.txt snippet included below before you continue
+reading.
+<p>
+
+<UL>
+<LI>
+<b>Version 1</b> should implement a city class that
+stores the name (string), type (string), 
+zone (int),
+latitude (float), longitude (float) and
+population (int). Make these variables
+private data members. Add get_variable()
+functions for each variable.
+Overload the input and output operators to
+facilitate
+"fin &gt;&gt; city" and 
+"fout &lt;&lt; city"
+type code. 
+The city type is either REGIONAL or GATEWAY. 
+We discuss these in more detail below.
+<p>
+
+Next, implement function read_cityinfo() which reads
+the "city_list.txt" file in the current directory
+into a vector&lt;city&gt; array using the overloaded
+city input operator.
+Empty lines or lines that begin with a hash symbol
+(#) should be ignored. 
+You may find it convenient to also implement function 
+write_cityinfo() which writes the contents of 
+the vector&lt;city&gt; array to stdout or an
+appropriately named file, so you know you read things
+correctly.
+See below for example output from the solution code
+which produces a file called "city_info.txt".
+The name field is 18 characters wide. The type
+and population fields are 12 and 10 characters wide,
+respectively. The zone is 2 characters wide.
+The latitude and longitude fields
+are 8 characters wide and the output is restricted
+to two decimal places.
+<p>
+
+Note: The latitude and longitude values are
+in degrees in city_list.txt and city_info.txt. 
+However, your program will need them to be 
+in radians for internal use.
+Perform the necessary conversion when you
+read and write these variables. Recall
+that radians=degrees*(pi/180) and
+degrees=radians*(180/pi).
+<p>
+
+<LI>
+<b>Version 2</b> should implement a travelcost 
+class which computes and contains a table
+of distances between all cities and a table
+of the time it takes to get from one
+city to another.
+Since the distance from A to B is the 
+same as from B to A, store each of these tables
+in a 1D array that holds the diagonal and
+lower triangle of the full matrix;
+we don't need the diagonal, but including it simplifies
+implementation. Say the equivalent 2D table[i][j] is NxN. Then the 1D
+table is of size N*(N+1)/2 and you access the elements using
+using table[i*(i+1)/2+j] where j &lt;i. You are free to create
+two independent tables, but you may find it more convenient to
+use an array of vectors instead. That is,
+
+<pre>
+vector&lt;float&gt; distance_table;
+vector&lt;float&gt; time_table;
+</pre>
+
+or
+
+<pre>
+vector&lt;float&gt; table[2];
+</pre>
+
+Either way, create an overloaded function operator that returns the same 
+value for travelcost(mode,i,j) as for travelcost(mode,j,i) by
+looking the appropriate value in the 1D array. Here mode refers to
+distance (0) or time (1).
+Hint: Have the overloaded function operator swap
+arguments i and j if i &lt;j before doing a lookup.
+Hint: The mode controls whether you look up a distance or a time.
+<p>
+
+Use the great-circle distance when computing
+the distance between two cities. This
+is the shortest distance between them on a sphere
+representing the Earth which
+we will assume has a radius of 3,982 miles. 
+Don't try to be clever and use a more accurate 
+radius as it will throw your output off relative to the
+solution code
+which filed called "city_info.txt".
+Also, use the Haversine Formula 
+for your computation.
+<p>
+
+See 
+<a href="http://en.wikipedia.org/wiki/Great-circle_distance"
+TARGET="_blank">http://en.wikipedia.org/wiki/Great-circle_distance</a>
+for mathematical details. 
+<p>
+
+Round the distances to the closest 25.0 mile distance. 
+This will make it easier to compare your distances with those
+produced by the solution code.
+Hint: Set distance = 25.0*round(distance/25.0).
+<p>
+
+ACME Shipping has access to large fleet of trucks. They
+travel at an average speed of 65 mph. They also have
+access to planes. They travel at an average speed of 520 mph.
+The rules for when to use a truck versus a plane are 
+as follows.
+<p>
+
+-- Goods shipped between REGIONAL cities in the same zone
+go by truck.
+<p>
+
+-- Goods shipped between REGIONAL cities and a GATEWAY city
+in the same zone go by plane.
+<p>
+
+-- Goods shipped between GATEWAY cities go by plane no
+matter what the zone they are in.
+<p>
+
+You may find it convenient to also implement functions
+write_traveldistance() 
+write_traveltime() 
+which write the contents of the travelcost tables
+stdout or appropriately named files, 
+so you know you compute these correctly.
+See below for example output from the solution code
+which produces files called "city_distancetable.txt".
+and "city_timetable.txt".
+<p>
+
+<LI>
+<b>Version 3</b>
+should implement function create_citygraph()
+which determines which cities are adjacent to
+one another (connected) thereby implicitly creating a
+graph. The rules for adjacency are as follows.
+<p>
+
+-- A REGIONAL city is adjacent to all other REGIONAL cities 
+in the same zone. A REGIONAL city is also adjacent to the 
+closest GATEWAY city in the same zone.
+<p>
+
+-- A GATEWAY city is adjacent to all other GATEWAY cities
+in the same zone. A GATEWAY city is also adjacent to the
+closest GATEWAY in each of the other zones if the distance
+is 6,000 miles or less.
+<p>
+
+-- In order to make the graph undirected, adjacency is
+bidirectional. 
+Thus, if A is adjacent to B, then B is also adjacent to A.
+This can result in a GATEWAY city becoming connected with
+multiple GATEWAY cities in another zone 
+(see for example Cairo_EG below).
+<p>
+
+Hint: 
+First extract an index list for each type of city.
+Then iterate thru these lists following the above
+rules. Use the indices to look up the pertinent
+information in the vector&lt;city&gt; array discussed
+above. In fact, think of these indices as pointers.
+<p>
+
+You may find it convenient to also implement a function
+called write_citygraph() 
+and have it write the graph to stdout or an appropriately named fil.
+so you know you connected the cities correctly.
+See below for example output from the solution code
+which produces a file called "city_graph.txt".
+<p>
+
+<LI>
+<b>Version 4</b> 
+should add the ability to determine
+the shortest path between any two cities
+using Dijkstra's algorithm. The output
+consists of the sequence of cities from 
+source to sink (destination) along with the
+incremental and cumulative distances and 
+travel times.
+This is likely the easiest step of them all.
+Embed the code from the Dijkstra code handout.
+Add logic to select between use of the
+distance and time edge weights you computed earlier.
+The algoithm works the same either way but wil
+produce different answers if the optimal
+paths are different. See an example below.
+<p>
+
+Update the main program to 
+take one of two command-line options:
+
+<pre>
+unix> Citysim -distance|time
+</pre>
+
+Then have the user input an endless sequence of city pair names
+for which the shorted path is reported.
+Hint: In order to translate
+the names into the indices used internally, have
+the read_cityinfo() function create
+a map that links the two: "index = map[name]".
+This will allow fast lookup of an
+index given a name. 
+<p>
+
+<LI>
+<b>The following is optional for CS302 students (no extra credit this time) but
+required in order for CS307 students to get full credit.
+That is, CS307 students will have up to 10 points deducted
+if the functionality described next is not included or doesn't work right. 
+</b>
+<p>
+
+Add the ability to input just
+a partial name, e.g., "Knoxville" or even just "Knox"
+for "Knoxville_TN". In case of ambiguity, choose the 
+city name that follows the partial name in a
+lexicographical order, e.g., 
+"K" should produce "Kansas_City_KS" instead of
+"Knoxville_TN" if present.
+Run the solution code to determine the desired behavior.
+Your code should function similarly. 
+Hint: The STL algorithm map::upper_bound() can do 
+the lookup for you.
+<p>
+
+<LI>
+See
+<a href="http://web.eecs.utk.edu/~jgregor/cs302/citysim.html"
+TARGET="_blank">http://web.eecs.utk.edu/~jgregor/cs302/citysim.html</a>
+for a Google map with the city graph displayed.
+You can pan and zoom using the mouse directly or the little
+control pad in the upper left hand corner. 
+The trajectories stand out more clearly on the map than the
+satellite data. The white text is courtesy of Google who now 
+charges for use of their maps.
+<p>
+
+</UL>
+
+<hr>
+<p class="page"></p>
+<h3>Input file: citylist.txt (abbreviated) </h3>
+<pre>
+unix> cat citylist.txt
+# AFRICA Zone 1
+1 Cairo_EG GATEWAY  30.058 31.229 17800000
+1 Johannesburg_SA GATEWAY -26.204444 28.045556 7151500
+
+# ASIA Zone 2
+2 Beijing_CN REGIONAL 39.916667 116.383333 21700000
+2 Hong_Kong_CN REGIONAL 22.3 114.2 7400000
+2 Taipei_TW REGIONAL 25.066667 121.516667 8500000
+2 Tokyo_JP GATEWAY 35.683333 139.766667 35000000
+2 Seoul_KR REGIONAL 37.55 126.983333 24472000
+
+[...]
+</pre>
+
+<hr>
+<h3>Output file: city_info.txt (abbreviated) </h3>
+<pre>
+unix> ./citysim -graphinfo
+unix> cat ./city_info.txt
+
+CITY INFO (N=30):
+
+  0 Cairo_EG          GATEWAY     1   17800000   30.06   31.23
+  1 Johannesburg_SA   GATEWAY     1    7151500  -26.20   28.05
+  2 Beijing_CN        REGIONAL    2   21700000   39.92  116.38
+  3 Hong_Kong_CN      REGIONAL    2    7400000   22.30  114.20
+  4 Taipei_TW         REGIONAL    2    8500000   25.07  121.52
+  5 Tokyo_JP          GATEWAY     2   35000000   35.68  139.77
+  6 Seoul_KR          REGIONAL    2   24472000   37.55  126.98
+  7 Bangalore_IN      GATEWAY     2   12350000   12.97   77.57
+
+[...]
+</pre>
+
+<p class="page"></p>
+
+<hr>
+<h3>Output file: city_distancetable.txt (abbreviated) </h3>
+<pre>
+unix> ./citysim -graphinfo
+unix> cat ./city_distancetable.txt
+
+DISTANCE TABLE:
+
+  1 Johannesburg_SA to Cairo_EG .......... 3925.0 miles
+
+  2 Beijing_CN to Cairo_EG ............... 4725.0 miles
+  2 Beijing_CN to Johannesburg_SA ........ 7325.0 miles
+
+  3 Hong_Kong_CN to Cairo_EG ............. 5100.0 miles
+  3 Hong_Kong_CN to Johannesburg_SA ...... 6700.0 miles
+  3 Hong_Kong_CN to Beijing_CN ........... 1225.0 miles
+
+  4 Taipei_TW to Cairo_EG ................ 5425.0 miles
+  4 Taipei_TW to Johannesburg_SA ......... 7200.0 miles
+  4 Taipei_TW to Beijing_CN .............. 1075.0 miles
+  4 Taipei_TW to Hong_Kong_CN ............  500.0 miles
+
+  5 Tokyo_JP to Cairo_EG ................. 5975.0 miles
+  5 Tokyo_JP to Johannesburg_SA .......... 8475.0 miles
+  5 Tokyo_JP to Beijing_CN ............... 1325.0 miles
+  5 Tokyo_JP to Hong_Kong_CN ............. 1800.0 miles
+
+[...]
+</pre>
+<hr>
+<h3>Output file: city_timetable.txt (abbreviated) </h3>
+<pre>
+unix> ./citysim -graphinfo
+unix> cat ./city_timetable.txt
+
+TIME TABLE:
+
+  1 Johannesburg_SA to Cairo_EG ..........  7.5 hours
+
+  2 Beijing_CN to Cairo_EG ...............  9.1 hours
+  2 Beijing_CN to Johannesburg_SA ........ 14.1 hours
+
+  3 Hong_Kong_CN to Cairo_EG .............  9.8 hours
+  3 Hong_Kong_CN to Johannesburg_SA ...... 12.9 hours
+  3 Hong_Kong_CN to Beijing_CN ........... 18.8 hours
+
+  4 Taipei_TW to Cairo_EG ................ 10.4 hours
+  4 Taipei_TW to Johannesburg_SA ......... 13.8 hours
+  4 Taipei_TW to Beijing_CN .............. 16.5 hours
+  4 Taipei_TW to Hong_Kong_CN ............  7.7 hours
+
+  5 Tokyo_JP to Cairo_EG ................. 11.5 hours
+  5 Tokyo_JP to Johannesburg_SA .......... 16.3 hours
+  5 Tokyo_JP to Beijing_CN ...............  2.5 hours
+  5 Tokyo_JP to Hong_Kong_CN .............  3.5 hours
+</pre>
+
+<hr>
+<h3>Output file: city_graph.txt (abbreviated) </h3>
+<pre>
+unix> ./citysim -graphinfo
+unix> cat ./city_graph.txt
+
+CITY GRAPH:
+
+  0 Cairo_EG
+     1 Johannesburg_SA     3925.0 miles   7.5 hours
+     5 Tokyo_JP            5975.0 miles  11.5 hours
+     7 Bangalore_IN        3200.0 miles   6.2 hours
+     9 Singapore_SG        5150.0 miles   9.9 hours
+    13 London_UK           2200.0 miles   4.2 hours
+    16 Frankfurt_DE        1825.0 miles   3.5 hours
+    25 New_York_NY         5650.0 miles  10.9 hours
+
+  1 Johannesburg_SA
+     0 Cairo_EG            3925.0 miles   7.5 hours
+     7 Bangalore_IN        4325.0 miles   8.3 hours
+    16 Frankfurt_DE        5425.0 miles  10.4 hours
+    28 Santiago_CL         5725.0 miles  11.0 hours
+    29 Rio_de_Janeiro_BR   4450.0 miles   8.6 hours
+
+  2 Beijing_CN
+     3 Hong_Kong_CN        1225.0 miles  18.8 hours
+     4 Taipei_TW           1075.0 miles  16.5 hours
+     5 Tokyo_JP            1325.0 miles   2.5 hours
+     6 Seoul_KR             600.0 miles   9.2 hours
+     8 New_Delhi_IN        2350.0 miles  36.2 hours
+
+  3 Hong_Kong_CN
+     2 Beijing_CN          1225.0 miles  18.8 hours
+     4 Taipei_TW            500.0 miles   7.7 hours
+     6 Seoul_KR            1300.0 miles  20.0 hours
+     8 New_Delhi_IN        2350.0 miles  36.2 hours
+
+[...]
+</pre>
+
+<p class="page"></p>
+
+<hr>
+<h3>Functionality: Shortest path </h3>
+<pre>
+unix> ./citysim -distance
+
+Enter> Knoxville_TN Seattle_WA
+    0.0 miles   0.0 hours : 21 Knoxville_TN      
+ 2125.0 miles  32.7 hours : 27 Seattle_WA         2125.0 miles  32.7 hours
+
+Enter> London_UK Seoul_KR
+    0.0 miles   0.0 hours : 13 London_UK         
+  400.0 miles   0.8 hours : 16 Frankfurt_DE        400.0 miles   0.8 hours
+ 6225.0 miles  12.0 hours :  5 Tokyo_JP           5825.0 miles  11.2 hours
+ 6950.0 miles  13.4 hours :  6 Seoul_KR            725.0 miles   1.4 hours
+
+unix> ./citysim -time
+
+Enter> Knoxville_TN Seattle_WA
+    0.0 miles   0.0 hours : 21 Knoxville_TN
+  625.0 miles   1.2 hours : 25 New_York_NY         625.0 miles   1.2 hours
+ 3075.0 miles   5.9 hours : 22 Los_Angeles_CA     2450.0 miles   4.7 hours
+ 4050.0 miles   7.8 hours : 27 Seattle_WA          975.0 miles   1.9 hours
+
+Enter> London_UK Seoul_KR
+    0.0 miles   0.0 hours : 13 London_UK
+  400.0 miles   0.8 hours : 16 Frankfurt_DE        400.0 miles   0.8 hours
+ 6225.0 miles  12.0 hours :  5 Tokyo_JP           5825.0 miles  11.2 hours
+ 6950.0 miles  13.4 hours :  6 Seoul_KR            725.0 miles   1.4 hours
+</pre>
+
+<pre>
+unix> ./citysim -distance
+
+Enter> Knox Seattle
+    0.0 miles   0.0 hours : 21 Knoxville_TN
+ 2125.0 miles  32.7 hours : 27 Seattle_WA         2125.0 miles  32.7 hours
+
+Enter> Knox S
+    0.0 miles   0.0 hours : 21 Knoxville_TN
+ 2125.0 miles  32.7 hours : 26 San_Fransisco_CA   2125.0 miles  32.7 hours
+
+Enter> * *
+    0.0 miles   0.0 hours : 23 Mexico_City_MX
+ 1900.0 miles  29.2 hours : 26 San_Fransisco_CA   1900.0 miles  29.2 hours
+ 2250.0 miles  29.9 hours : 22 Los_Angeles_CA      350.0 miles   0.7 hours
+ 7750.0 miles  40.5 hours :  5 Tokyo_JP           5500.0 miles  10.6 hours
+ 9075.0 miles  43.0 hours :  4 Taipei_TW          1325.0 miles   2.5 hours
+ 9575.0 miles  50.7 hours :  3 Hong_Kong_CN        500.0 miles   7.7 hours
+</pre>
+
+As shown above, the solution code accepts abbreviations. When multiple cities
+share the same prefix, alphabetical order applies. 
+The solution code even accepts wildcards in which case it randomly choses
+a city. You can use this feature for source, destination, or both.
+
+<hr>
+<h3>Grading rubric</h3>
+
+<b>Your code most compile and run free of 
+segmentation faults
+in order to be fully graded.</b>
+
+<pre>
+15: Reading city_list.txt into city objects using overloaded input operator
+30: Creating travelcost object that holds city travel distances and times
+30: Creating graph by determing city adjacencies (graph edges) 
+30: Finding shortest path between two cities and printing result to stdout
+20: Writing main program that ties data structures and function calls together 
+    to achieve overall functionality (CS307 extra assignment is part of this)
+</pre>
+
+<hr>
+Fri Oct 11 16:37:59 EDT 2019
+<br>
