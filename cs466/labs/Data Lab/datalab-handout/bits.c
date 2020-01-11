@@ -2,6 +2,7 @@
  * CS:APP Data Lab 
  * 
  * <Please put your name and userid here>
+ * Terryl Dodson (tdodson3) 
  * 
  * bits.c - Source file with your solutions to the Lab.
  *          This is the file you will hand in to your instructor.
@@ -178,7 +179,7 @@ NOTES:
  *   Rating: 1
  */
 int bitAnd(int x, int y) {
-  return 2;
+  return ~ (~x | ~y);
 }
 /* 
  * bitNor - ~(x|y) using only ~ and & 
@@ -188,7 +189,7 @@ int bitAnd(int x, int y) {
  *   Rating: 1
  */
 int bitNor(int x, int y) {
-  return 2;
+  return ~x & ~y;
 }
 /* 
  * copyLSB - set all bits of result to least significant bit of x
@@ -258,8 +259,8 @@ int isNotEqual(int x, int y) {
  *   Max ops: 5
  *   Rating: 2
  */
-int negate(int x) {
-  return 2;
+int negate(int x) { //two's complement
+  return ~x + 1;
 }
 /* 
  * isPositive - return 1 if x > 0, return 0 otherwise 
