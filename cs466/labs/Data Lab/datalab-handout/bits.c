@@ -199,7 +199,7 @@ int bitNor(int x, int y) {
  *   Rating: 2
  */
 int copyLSB(int x) {
-  return 2;
+  return (x << 0x1F) >> 0x1F;
 }
 /* 
  * evenBits - return word with all even-numbered bits set to 1
@@ -208,7 +208,8 @@ int copyLSB(int x) {
  *   Rating: 1
  */
 int evenBits(void) {
-  return 2;
+	int num = 0x55555555;
+	return num;
 }
 /* 
  * logicalShift - shift x to the right by n, using a logical shift
@@ -219,7 +220,8 @@ int evenBits(void) {
  *   Rating: 3 
  */
 int logicalShift(int x, int n) {
-  return 2;
+	int num = (0xf0 << 24) ^ (x >> n);
+	return ((num >> 28) + 1) << 28;
 }
 /* 
  * bang - Compute !x without using !
@@ -229,7 +231,7 @@ int logicalShift(int x, int n) {
  *   Rating: 4 
  */
 int bang(int x) {
-  return 2;
+  return (x >> 31) + 1;
 }
 /* 
  * leastBitPos - return a mask that marks the position of the
