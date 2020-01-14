@@ -208,7 +208,7 @@ int copyLSB(int x) {
  *   Rating: 1
  */
 int evenBits(void) {
-	int num = 0x55555555;
+	int num = (((((0x55 << 8) + 0x55) << 8) + 0x55) << 8) + 0x55;
 	return num;
 }
 /* 
@@ -220,8 +220,10 @@ int evenBits(void) {
  *   Rating: 3 
  */
 int logicalShift(int x, int n) {
-	int num = (0xf0 << 24) ^ (x >> n);
-	return ((num >> 28) + 1) << 28;
+	//int num = ((((x >> n) ^ (0xf0 << 24)) >> 28) + 1) << 8 << 8 << 8;
+	 int num = ((((x >> n) ^ (0xf0 << 24)) >> 28) + 1) | (x >> n);
+	//num = ((num >> 28) + 1) << 28;
+	return num;
 }
 /* 
  * bang - Compute !x without using !
