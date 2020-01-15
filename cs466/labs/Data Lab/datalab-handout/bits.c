@@ -257,7 +257,7 @@ int leastBitPos(int x) {
  *   Rating: 2
  */
 int isNotEqual(int x, int y) {
-	unsigned int num = !(x ^ y) ^ 1;
+	int num = !(x ^ y) ^ 1;
 	return num;
 }
 /* 
@@ -278,8 +278,8 @@ int negate(int x) { //two's complement
  *   Rating: 2
  */
 int isPositive(int x) {
-	int num = (~(~x >> 31) + (-1)) << 32 | 1;
-	printf("0x%08x\n", num);
+	//int num = ((x >> 31) ^ 2 >> 4) & 1;
+	int num = (!x) ^ (~x >> 31) & 1;
 	return num;
 }
 /* 
@@ -290,8 +290,7 @@ int isPositive(int x) {
  *   Rating: 2
  */
 int isNonNegative(int x) {
-    int num =  ~x >> 31;
-	printf("0x%08x\n", num);
+    int num =  (~x >> 31) & 1;
 	return num;
 }
 /* 
