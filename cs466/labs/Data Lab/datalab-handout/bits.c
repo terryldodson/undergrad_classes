@@ -199,7 +199,7 @@ int bitNor(int x, int y) {
  *   Rating: 2
  */
 int copyLSB(int x) {
-  return (x << 0x1F) >> 0x1F;
+	return (x << 0x1F) >> 0x1F;
 }
 /* 
  * evenBits - return word with all even-numbered bits set to 1
@@ -221,8 +221,9 @@ int evenBits(void) {
  */
 int logicalShift(int x, int n) {
 	//int num = ((((x >> n) ^ (0xf0 << 24)) >> 28) + 1) << 8 << 8 << 8;
-	 int num = ((((x >> n) ^ (0xf0 << 24)) >> 28) + 1) | (x >> n);
-	//num = ((num >> 28) + 1) << 28;
+	 int num = ((((x >> n) ^ (0xf0 << 24)) >> 28) + 1) | (x >> n) + 0xFFFFFFF7;	
+    printf("0x%08x\n", num);
+	 //num = ((num >> 28) + 1) << 28;
 	return num;
 }
 /* 
@@ -233,7 +234,9 @@ int logicalShift(int x, int n) {
  *   Rating: 4 
  */
 int bang(int x) {
-  return (x >> 31) + 1;
+	unsigned int num = ((x | 12) + 1) << 2 >> 5 >> 4;
+	printf("0x%08x\n", num);
+	return num;
 }
 /* 
  * leastBitPos - return a mask that marks the position of the
@@ -254,7 +257,8 @@ int leastBitPos(int x) {
  *   Rating: 2
  */
 int isNotEqual(int x, int y) {
-  return 2;
+	unsigned int num = !(x ^ y) ^ 1;
+	return num;
 }
 /* 
  * negate - return -x 
@@ -274,7 +278,9 @@ int negate(int x) { //two's complement
  *   Rating: 2
  */
 int isPositive(int x) {
-  return 2;
+	int num = (~(~x >> 31) + (-1)) << 32 | 1;
+	printf("0x%08x\n", num);
+	return num;
 }
 /* 
  * isNonNegative - return 1 if x >= 0, return 0 otherwise 
@@ -284,7 +290,9 @@ int isPositive(int x) {
  *   Rating: 2
  */
 int isNonNegative(int x) {
-  return 2;
+    int num =  ~x >> 31;
+	printf("0x%08x\n", num);
+	return num;
 }
 /* 
  * isAsciiDigit - return 1 if 0x30 <= x <= 0x39 (ASCII codes for characters '0' to '9')
