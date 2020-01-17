@@ -221,8 +221,9 @@ int evenBits(void) {
  */
 int logicalShift(int x, int n) {
 	//int num = ((((x >> n) ^ (0xf0 << 24)) >> 28) + 1) << 8 << 8 << 8;
-	 int num = ((((x >> n) ^ (0xf0 << 24)) >> 28) + 1) | (x >> n) + 0xFFFFFFF7 + 1;	
-    printf("0x%08x\n", num);
+	// int num = ((((x >> n) ^ (0xf0 << 24)) >> 28) + 1) | (x >> n) + 0xFFFFFFF7 + 1;	
+    int num = (x >> n) & ~((1 << 31) >> n << 1);
+	//printf("0x%08x\n", num);
 	 //num = ((num >> 28) + 1) << 28;
 	return num;
 }
@@ -234,9 +235,7 @@ int logicalShift(int x, int n) {
  *   Rating: 4 
  */
 int bang(int x) {
-	//unsigned int num = ((x | 12) + 1) << 2 >> 5 >> 4;
-	int num = ((x ^ 0xff) & 1) ;
-	printf("0x%08x\n", num);
+	int num =  ( (x >> 31) | ((~x+1) >> 31) ) + 1;
 	return num;
 }
 /* 
