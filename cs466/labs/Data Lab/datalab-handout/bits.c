@@ -220,11 +220,7 @@ int evenBits(void) {
  *   Rating: 3 
  */
 int logicalShift(int x, int n) {
-	//int num = ((((x >> n) ^ (0xf0 << 24)) >> 28) + 1) << 8 << 8 << 8;
-	// int num = ((((x >> n) ^ (0xf0 << 24)) >> 28) + 1) | (x >> n) + 0xFFFFFFF7 + 1;	
     int num = (x >> n) & ~((1 << 31) >> n << 1);
-	//printf("0x%08x\n", num);
-	 //num = ((num >> 28) + 1) << 28;
 	return num;
 }
 /* 
@@ -247,7 +243,9 @@ int bang(int x) {
  *   Rating: 2 
  */
 int leastBitPos(int x) {
-  return 2;
+	int num = (x ^ (!x)) >> 5 + 1 >> 2 << 8;
+    printf("0x%08lx\n", num);
+	return num;  
 }
 /* 
  * isNotEqual - return 0 if x == y, and 1 otherwise 
@@ -279,7 +277,7 @@ int negate(int x) { //two's complement
  */
 int isPositive(int x) {
 	//int num = ((x >> 31) ^ 2 >> 4) & 1;
-	int num = (!x) ^ (~x >> 31) & 1;
+	int num = ((!x) ^ (~x >> 31)) & 1;
 	return num;
 }
 /* 
@@ -303,7 +301,14 @@ int isNonNegative(int x) {
  *   Rating: 3
  */
 int isAsciiDigit(int x) {
-  return 2;
+	int num = ( (x >> 4) & (((((0xff << 8) + 0xff) << 8) + 0xff) << 8 + 0xff) ); // >> 1);
+	int xvalue = x;
+	int xAS = (x >>4);
+	int x5 = 0x55;
+	int y = (((((0xff << 8) + 0xff) << 8) + 0xff) << 8) + 0xff;
+	printf("x value: 0x%08lx, x after being shifted: 0x%08lx, 0x55: 0x%08lx, 0xff: 0x%08lx, 0xff << 0x55: 0x%08lx\n", x, xAS, x5, 0xff, y);
+	printf("0x%08lx\n", num);
+	return num;
 }
 /* 
  * addOK - Determine if can compute x+y without overflow
@@ -325,7 +330,9 @@ int addOK(int x, int y) {
  *   Rating: 4
  */
 int absVal(int x) {
-  return 2;
+	int num = (~x + 1);
+	printf("0x%08lx\n", num);
+	return num;
 }
 /* 
  * isNonZero - Check whether x is nonzero using
