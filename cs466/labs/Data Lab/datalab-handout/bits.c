@@ -231,7 +231,7 @@ int logicalShift(int x, int n) {
  *   Rating: 4 
  */
 int bang(int x) {
-	int num =  ( (x >> 31) | ((~x+1) >> 31) ) + 1;
+	int num =  ( (x >> 31) | ((~x+1) >> 31) ) + 1; //ORed the MSB of x with the values twos complement MSB and added 1
 	return num;
 }
 /* 
@@ -243,8 +243,7 @@ int bang(int x) {
  *   Rating: 2 
  */
 int leastBitPos(int x) {
-	int num = (x ^ (!x)) >> 5 + 1 >> 2 << 8;
-    printf("0x%08lx\n", num);
+	int num = (x & (~x + 1)); //ands the x value and the twos complement of the x value in order to preserve the least significant bit
 	return num;  
 }
 /* 
@@ -276,7 +275,6 @@ int negate(int x) { //two's complement
  *   Rating: 2
  */
 int isPositive(int x) {
-	//int num = ((x >> 31) ^ 2 >> 4) & 1;
 	int num = ((!x) ^ (~x >> 31)) & 1;
 	return num;
 }
@@ -301,13 +299,8 @@ int isNonNegative(int x) {
  *   Rating: 3
  */
 int isAsciiDigit(int x) {
-	int num = ( (x >> 4) & (((((0xff << 8) + 0xff) << 8) + 0xff) << 8 + 0xff) ); // >> 1);
-	int xvalue = x;
-	int xAS = (x >>4);
-	int x5 = 0x55;
-	int y = (((((0xff << 8) + 0xff) << 8) + 0xff) << 8) + 0xff;
-	printf("x value: 0x%08lx, x after being shifted: 0x%08lx, 0x55: 0x%08lx, 0xff: 0x%08lx, 0xff << 0x55: 0x%08lx\n", x, xAS, x5, 0xff, y);
-	printf("0x%08lx\n", num);
+	int num = (0x2f + (~x + 1)) & (x + (~0x3a + 1)); //checks to see if number if greater than 30 (0x2f because thats one less than 30) and less than 40 (0x3a because thats one less than 40)
+	num = (num >> 31) & 1; //checks the sign bit
 	return num;
 }
 /* 
@@ -319,7 +312,8 @@ int isAsciiDigit(int x) {
  *   Rating: 3
  */
 int addOK(int x, int y) {
-  return 2;
+	//printf("0x%08lx\n", num);
+	return 2;
 }
 /* 
  * absVal - absolute value of x
@@ -330,8 +324,7 @@ int addOK(int x, int y) {
  *   Rating: 4
  */
 int absVal(int x) {
-	int num = (~x + 1);
-	printf("0x%08lx\n", num);
+	int num = (x >> 31) ^ (x + (x >> 31)); //obtain the most significant bit by shifting right 31 (find out if its negative or not) and xoring it with the number shifted 31
 	return num;
 }
 /* 
@@ -343,7 +336,8 @@ int absVal(int x) {
  *   Rating: 4 
  */
 int isNonZero(int x) {
-  return 2;
+	int num =  (( (x >> 31) & ((~x+1) >> 31) ) + 1);
+	return num;
 }
 /* 
  * byteSwap - swaps the nth byte and the mth byte
