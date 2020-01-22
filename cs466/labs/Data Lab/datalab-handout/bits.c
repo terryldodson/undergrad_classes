@@ -312,8 +312,13 @@ int isAsciiDigit(int x) {
  *   Rating: 3
  */
 int addOK(int x, int y) {
-	//printf("0x%08lx\n", num);
-	return 2;
+	//first half checks to see if the sign bits are the same and the second 
+	//half checks to see if the sign bit of x+y is different from x
+	//we negate the first half to account for negative values and
+	//we bang to get the final answer (1 or 0)
+	int sum = x + y;
+	int num = !(~((x >> 31) ^ (y >> 31)) & (x >> 31 ^ sum >> 31));
+	return num;
 }
 /* 
  * absVal - absolute value of x
@@ -324,7 +329,9 @@ int addOK(int x, int y) {
  *   Rating: 4
  */
 int absVal(int x) {
-	int num = (x >> 31) ^ (x + (x >> 31)); //obtain the most significant bit by shifting right 31 (find out if its negative or not) and xoring it with the number shifted 31
+	//obtain the most significant bit by shifting right 31 (find out if its negative or not) 
+	//and xoring it with the number shifted 31
+	int num = (x >> 31) ^ (x + (x >> 31));
 	return num;
 }
 /* 
@@ -336,7 +343,11 @@ int absVal(int x) {
  *   Rating: 4 
  */
 int isNonZero(int x) {
-	int num =  (( (x >> 31) & ((~x+1) >> 31) ) + 1);
+	//checks the sign bit of x and the sign bit of the negation of x
+	//if either one is set then it should return 1
+	//we check the sign bit to determine if any bits are set at all
+	//if its a positive number then we have to check the negation
+	int num = (( (x >> 31) | ((~x+1) >> 31) ) & 1);
 	return num;
 }
 /* 
@@ -349,7 +360,8 @@ int isNonZero(int x) {
  *  Rating: 2
  */
 int byteSwap(int x, int n, int m) {
-    return 2;
+    //printf("0x%08lx\n", num);
+	return 2;
 }
 /* 
  * bitMask - Generate a mask consisting of all 1's 
@@ -362,5 +374,6 @@ int byteSwap(int x, int n, int m) {
  *   Rating: 3
  */
 int bitMask(int highbit, int lowbit) {
-  return 2;
+//	printf("0x%08lx\n", num);
+	return 2;
 }
