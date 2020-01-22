@@ -179,7 +179,8 @@ NOTES:
  *   Rating: 1
  */
 int bitAnd(int x, int y) {
-  return ~ (~x | ~y);
+	//ORed the negation of x and y then negated that value
+	return ~ (~x | ~y);
 }
 /* 
  * bitNor - ~(x|y) using only ~ and & 
@@ -189,7 +190,8 @@ int bitAnd(int x, int y) {
  *   Rating: 1
  */
 int bitNor(int x, int y) {
-  return ~x & ~y;
+	//ANDed the negation of both x and y
+	return ~x & ~y;
 }
 /* 
  * copyLSB - set all bits of result to least significant bit of x
@@ -199,6 +201,8 @@ int bitNor(int x, int y) {
  *   Rating: 2
  */
 int copyLSB(int x) {
+	//shifted the x value all the way to the left to obtain the LSB
+	//shifted back to the right to fill all bits and maintain LSB
 	return (x << 0x1F) >> 0x1F;
 }
 /* 
@@ -208,6 +212,8 @@ int copyLSB(int x) {
  *   Rating: 1
  */
 int evenBits(void) {
+	//shifted 0x55 over 8 three times in order to fill the 32 bits 
+	//added 0x55 to concatenate 0x55 onto the value once it was shited
 	int num = (((((0x55 << 8) + 0x55) << 8) + 0x55) << 8) + 0x55;
 	return num;
 }
@@ -231,7 +237,8 @@ int logicalShift(int x, int n) {
  *   Rating: 4 
  */
 int bang(int x) {
-	int num =  ( (x >> 31) | ((~x+1) >> 31) ) + 1; //ORed the MSB of x with the values twos complement MSB and added 1
+	 //ORed the MSB of x with the values twos complement MSB and added 1
+	int num =  ( (x >> 31) | ((~x+1) >> 31) ) + 1;
 	return num;
 }
 /* 
@@ -243,7 +250,9 @@ int bang(int x) {
  *   Rating: 2 
  */
 int leastBitPos(int x) {
-	int num = (x & (~x + 1)); //ands the x value and the twos complement of the x value in order to preserve the least significant bit
+	//ands the x value and the twos complement of the 
+	//x value in order to preserve the least significant bit
+	int num = (x & (~x + 1));
 	return num;  
 }
 /* 
@@ -264,8 +273,9 @@ int isNotEqual(int x, int y) {
  *   Max ops: 5
  *   Rating: 2
  */
-int negate(int x) { //two's complement
-  return ~x + 1;
+int negate(int x) { 
+	//two's complement
+	return ~x + 1;
 }
 /* 
  * isPositive - return 1 if x > 0, return 0 otherwise 
@@ -286,6 +296,8 @@ int isPositive(int x) {
  *   Rating: 2
  */
 int isNonNegative(int x) {
+	//checks the MSB (most significant bit)
+	//if it returns a 1 its negative, 0 its positive
     int num =  (~x >> 31) & 1;
 	return num;
 }
@@ -299,7 +311,9 @@ int isNonNegative(int x) {
  *   Rating: 3
  */
 int isAsciiDigit(int x) {
-	int num = (0x2f + (~x + 1)) & (x + (~0x3a + 1)); //checks to see if number if greater than 30 (0x2f because thats one less than 30) and less than 40 (0x3a because thats one less than 40)
+	//checks to see if number if greater than 30 (0x2f because thats one less than 30) 
+	//and less than 40 (0x3a because thats one less than 40)
+	int num = (0x2f + (~x + 1)) & (x + (~0x3a + 1));
 	num = (num >> 31) & 1; //checks the sign bit
 	return num;
 }
@@ -360,8 +374,15 @@ int isNonZero(int x) {
  *  Rating: 2
  */
 int byteSwap(int x, int n, int m) {
-    //printf("0x%08lx\n", num);
-	return 2;
+	//nthByte and mthByte stores the nth and mth byte of x
+	//b and c wipes out the nth and mth byte so it can be swapped
+	//num swaps the bytes
+    int nthByte = (x >> (n << 3)) & 0xff;
+	int mthByte = (x >> (m << 3)) & 0xff;
+	int b = x & ~(0xff << (n << 3));
+	int c = b & ~(0xff << (m << 3));
+	int num = ((nthByte << (m << 3)) | (mthByte << (n << 3))) | c;
+	return num;
 }
 /* 
  * bitMask - Generate a mask consisting of all 1's 
@@ -374,6 +395,7 @@ int byteSwap(int x, int n, int m) {
  *   Rating: 3
  */
 int bitMask(int highbit, int lowbit) {
-//	printf("0x%08lx\n", num);
-	return 2;
+	int num = 
+	printf("0x%08lx\n", num);
+	return num;
 }
