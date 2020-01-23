@@ -226,6 +226,9 @@ int evenBits(void) {
  *   Rating: 3 
  */
 int logicalShift(int x, int n) {
+	//we first shift the x value over right n places
+	//then we do a series of shifts in order to obtain a 32 bit number with n zeros on the left
+	//we then AND this with the x value that was shifted and that gives the value after being shifted 
     int num = (x >> n) & ~((1 << 31) >> n << 1);
 	return num;
 }
@@ -263,6 +266,8 @@ int leastBitPos(int x) {
  *   Rating: 2
  */
 int isNotEqual(int x, int y) {
+	//we XOR the two values and bang that value to get the LSB
+	//then we XOR the LSB with 1 to to either maintain the 1 or get a 0
 	int num = !(x ^ y) ^ 1;
 	return num;
 }
@@ -285,6 +290,9 @@ int negate(int x) {
  *   Rating: 2
  */
 int isPositive(int x) {
+	//we bang the original x to either get 1 or 0
+	//then we take the negation of x and shift it right 31 to fill it with the MSB
+	//we XOR the values together and AND it with 1 to get the LSB which will be either a 1 or 0
 	int num = ((!x) ^ (~x >> 31)) & 1;
 	return num;
 }
@@ -395,7 +403,11 @@ int byteSwap(int x, int n, int m) {
  *   Rating: 3
  */
 int bitMask(int highbit, int lowbit) {
-	int num = 
-	printf("0x%08lx\n", num);
+	//bitOfAllOnes is a generated number with 1's in all 32 positions
+	//we add the bitOfAllOnes to 0x02 shifted left the value of the highbit
+	//then we shift right the number of lowbits and then left the number of lowbits in order to gain the zeros in the correct places
+	int bitOfAllOnes = (((((0xff << 8) + 0xff) << 8) + 0xff) << 8) + 0xff;
+	int mask = ((0x02 << highbit) + bitOfAllOnes);
+	int num = mask >> lowbit << lowbit;
 	return num;
 }
