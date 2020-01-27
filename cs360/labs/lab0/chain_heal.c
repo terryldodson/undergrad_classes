@@ -23,7 +23,7 @@ typedef struct info {
 	int *healing;
 } Info;
 
-void dfs(Node* n, int hop_num, Info* d);
+void dfs(Node* n, int hop_num, Info* d, int total_healing);
 
 /*./chain_heal 1 2 4 500 0.25 < small.txt*/
 
@@ -33,10 +33,9 @@ int main (int argc, char **argv) {
 	char *interim_name;
 	int interim_x, interim_y, interim_cur_PP, interim_max_PP;
 	struct node *interim_prev = NULL;
+	struct info *d;
 	int ncount = 0;
 	int i, j, k;
-	
-	Node** array = malloc(ncount * sizeof(Node));
 	
 	/*assigning variables*/
 	if(argc != 6) {
@@ -63,6 +62,9 @@ int main (int argc, char **argv) {
 		ncount++; /*counting number of nodes*/
 	} /*end of while loop*/
 
+	Node** array = malloc(ncount * sizeof(Node));
+	Node** initial_array = malloc(ncount * sizeof(Node));
+
 	/*created array by traversing through it*/
 	for(i = ncount - 1; i >= 0; i--) {
 		array[i] = interim_prev;
@@ -73,15 +75,16 @@ int main (int argc, char **argv) {
 	
 	/*calculating adjacency size for each node*/
 	for(i = 0; i < ncount; i++) {
-		array[i]->adj_size = malloc(ncount * sizeof(Node*));
+		array[i]->adj = malloc(array[i]->adj_size * sizeof(Node*));
 	}/*end of for loop*/
 
 	/*setting up the initial_range*/
 	for(i = 0; i < ncount; i++) {
-		for(j = 0; j < ncount; j++) {
-			if(initial_range <= array[i]->adj_size)
-				
-		}
+		int distance = sqrt(pow(array[i]->x - array[0]->x, 2) + pow(array[i]->y - array[0]->y, 2));
+
+		 if(distance <= initial_range) {
+			initial_array[i] = array[i];
+		 }
 	}
 
 	/*connected adjacent nodes*/
@@ -105,11 +108,12 @@ int main (int argc, char **argv) {
 		}/*end of inner for loop*/
 	}/*end of outer for loop*/
 
+	for(i = 0; i < ncount; i++) {
+		dfs(initial_array[i], 1, d, 0);
+	}
+	
 	return 0;
 }
-
-
-hop_num = 1;
 
 void dfs(Node* n, int hop_num, Info* d, int total_healing) {
 	/*set visited equal to true*/
@@ -117,14 +121,14 @@ void dfs(Node* n, int hop_num, Info* d, int total_healing) {
 	int i;
 
 	/*calculating total healing*/
-	total_healing = n->max_pp - n->cur_pp;
+	total_healing = n->max_PP - n->cur_PP;
 
 	for(i = 0; i < n->adj_size; i++) {
 		/*if node isn't visited then process node*/
 		if(n->adj[i]->visited == 0 & hop_num < d->num_jumps) {
 			hop_num++;
 			printf("Node:%s Hop %d\n", n->name, hop_num);
-			dfs(n->adj[i], hop_num, d); /*recursively call dfs to go to next node*/
+			dfs(n->adj[i], hop_num, d, total_healing); /*recursively call dfs to go to next node*/
 		} else { /*if node was already visited continue*/
 			continue;
 		} /*end of else*/ 
@@ -132,6 +136,6 @@ void dfs(Node* n, int hop_num, Info* d, int total_healing) {
 	n->visited = 0;
 	
 	/*keeping track of path*/
-	d->best_path = (Node**) malloc(num_jumps * sizeof(Node*));
-	
+	d->best_path = (Node**) malloc(d->num_jumps * sizeof(Node*));
+			
 } /*end of dfs function*/
