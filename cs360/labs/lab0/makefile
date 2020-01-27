@@ -3,5 +3,5 @@ CC = gcc
 all: chain_heal 
 
 chain_heal: chain_heal.c
-	$(CC) -o $@ chain_heal.c -lm
+	$(CC) -g -o $@ chain_heal.c -lm
 
