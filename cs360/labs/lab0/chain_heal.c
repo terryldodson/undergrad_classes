@@ -13,19 +13,22 @@ typedef struct node
 	int adj_size;
 	struct node **adj;
 	int visited;
+	int *healing;
 } Node;
 
 typedef struct info {
 	int num_jumps;
 	double power_reduction;
+	int best_healing;
 	int best_path_length;
 	Node **best_path;
 	int *healing;
 } Info;
 
-void dfs(Node* n, int hop_num, Info* d, int total_healing);
+void dfs(Node* n, int hop_num, Info* d, int total_healing, double power_reduction, int initial_power, Node* b);
 
 /*./chain_heal 1 2 4 500 0.25 < small.txt*/
+int* healing_array;
 
 int main (int argc, char **argv) {
 	int initial_range, initial_power;
@@ -78,7 +81,6 @@ int main (int argc, char **argv) {
 		for(j = 0; j < ncount; j++) {
 			double distance = sqrt(pow(array[i]->x - array[j]->x, 2) + pow(array[i]->y - array[j]->y, 2));
 			
-
 			if(distance <= jump_range && i != j) {
 				array[i]->adj_size++;
 			}
@@ -111,26 +113,33 @@ int main (int argc, char **argv) {
 
 	d->best_path = (Node**) malloc(d->num_jumps * sizeof(Node*));
 
-	//for(i = 0; i < ncount; i++) {	
-	//	printf("Node:%s\n", array[i]->name);
-	//}
-
 	 /*setting up the initial_range*/
+	int count;
 	for(i = 0; i < ncount; i++) {
 		double distance = sqrt(pow(array[i]->x - array[0]->x, 2) + pow(array[i]->y - array[0]->y, 2));
 
 		if(distance <= initial_range) {
-			dfs(array[i], 1, d, 0);
+			count++;	
 		}
 	}
+
+	/*setting up healing array*/
+	healing_array = (int*) malloc(d->num_jumps * sizeof(int*));
+
+	for(i = 0; i < count; i++) {
+		dfs(array[i], 1, d, 0, d->power_reduction, initial_power, array[i]);
+	}
+
+	/*printing out total healing*/
+	printf("Total Healing %d\n", d->best_healing);
 
 	return 0;
 }
 
-void dfs(Node* n, int hop_num, Info* d, int total_healing) {
+void dfs(Node* n, int hop_num, Info* d, int total_healing, double power_reduction, int initial_power, Node* b) {
 	printf("Node:%s Hop %d\n", n->name, hop_num);
 	
-	if(hop_num ==  d->num_jumps)
+	if(hop_num == d->num_jumps)
 		return;
 
 	/*set visited equal to true*/
@@ -138,20 +147,43 @@ void dfs(Node* n, int hop_num, Info* d, int total_healing) {
 	int i;
 
 	/*calculating total healing*/
-	total_healing = n->max_PP - n->cur_PP;
+	int power_diff = (n->max_PP - n->cur_PP);
+	int initial_power_rounded = rint(initial_power);
+
+	if(initial_power_rounded > power_diff) {
+		total_healing += power_diff;
+		d->healing = power_diff;
+	} else {
+		total_healing += initial_power_rounded;
+		d->healing = initial_power_rounded;
+	}
+	
+	initial_power = initial_power * (1.0 - power_reduction);
+
+	if(total_healing > d->best_healing) {
+		Node* temp = n;
+		d->best_healing = rint(total_healing);
+		d->best_path_length = hop_num;
+		for(i = hop_num; i > 0; i--) {
+			d->best_path[i-1] = temp;
+			healing_array[i-1] = temp->healing;
+			temp = temp->prev;
+		}
+	}	
+
+	b = n->prev;
 
 	for(i = 0; i < n->adj_size; i++) {
 		/*if node isn't visited then process node*/
 		if(n->adj[i]->visited == 0 && hop_num < d->num_jumps) {
-			//hop_num++;
-			//printf("Node:%s Hop %d\n", n->name, hop_num);
-			dfs(n->adj[i], hop_num+1, d, total_healing); /*recursively call dfs to go to next node*/
+			dfs(n->adj[i], hop_num+1, d, total_healing, power_reduction, initial_power, b); /*recursively call dfs to go to next node*/
 		} else { /*if node was already visited continue*/
 			continue;
 		} /*end of else*/ 
 	} /*end of for loop*/
-	n->visited = 0;
 	
+	n->visited = 0;
+
 	/*keeping track of path*/
 			
 } /*end of dfs function*/
