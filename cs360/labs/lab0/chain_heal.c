@@ -25,9 +25,8 @@ typedef struct info {
 	int *healing;
 } Info;
 
-void dfs(Node* n, int hop_num, Info* d, int total_healing, double power_reduction, int initial_power, Node* b);
+void dfs(Node* n, int hop_num, int num_jumps, Info* d, int total_healing, double power_reduction, int initial_power, Node* b);
 
-/*./chain_heal 1 2 4 500 0.25 < small.txt*/
 int* healing_array;
 
 int main (int argc, char **argv) {
@@ -127,16 +126,16 @@ int main (int argc, char **argv) {
 	healing_array = (int*) malloc(d->num_jumps * sizeof(int*));
 
 	for(i = 0; i < count; i++) {
-		dfs(array[i], 1, d, 0, d->power_reduction, initial_power, array[i]);
+		dfs(array[i], 1, d->num_jumps, d, 0, d->power_reduction, initial_power, array[i]);
 	}
 
 	/*printing out total healing*/
-	printf("Total Healing %d\n", d->best_healing);
+	printf("Total_Healing %d\n", d->best_healing);
 
 	return 0;
 }
 
-void dfs(Node* n, int hop_num, Info* d, int total_healing, double power_reduction, int initial_power, Node* b) {
+void dfs(Node* n, int hop_num, int num_jumps, Info* d, int total_healing, double power_reduction, int initial_power, Node* b) {
 	printf("Node:%s Hop %d\n", n->name, hop_num);
 	
 	if(hop_num == d->num_jumps)
@@ -176,14 +175,12 @@ void dfs(Node* n, int hop_num, Info* d, int total_healing, double power_reductio
 	for(i = 0; i < n->adj_size; i++) {
 		/*if node isn't visited then process node*/
 		if(n->adj[i]->visited == 0 && hop_num < d->num_jumps) {
-			dfs(n->adj[i], hop_num+1, d, total_healing, power_reduction, initial_power, b); /*recursively call dfs to go to next node*/
+			dfs(n->adj[i], hop_num+1, d->num_jumps, d, total_healing, power_reduction, initial_power, b); /*recursively call dfs to go to next node*/
 		} else { /*if node was already visited continue*/
 			continue;
 		} /*end of else*/ 
 	} /*end of for loop*/
 	
 	n->visited = 0;
-
-	/*keeping track of path*/
 			
 } /*end of dfs function*/
