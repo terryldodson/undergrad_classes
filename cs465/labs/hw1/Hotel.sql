@@ -68,13 +68,13 @@ insert into Booking values(1, 31, '2020-01-21', '2020-01-30', 200);
 insert into Booking values(1, 20, '2020-01-30', '2020-02-03', 200);
 insert into Booking values(1, 20, '2020-02-11', '2020-02-14', 100);
 insert into Booking values(1, 21, '2020-02-18', '2020-02-19', 100);
-insert into Booking values(1, 22, '2020-02-23', '2018-10-28', 100);
-insert into Booking values(1, 21, '2020-02-2', '2018-10-01', 100);
+insert into Booking values(1, 22, '2020-02-23', '2020-03-28', 100);
+insert into Booking values(1, 21, '2020-02-01', '2020-02-04', 100);
 
 insert into Booking values(1, 30, '2020-02-11', '2020-02-14', 200);
 insert into Booking values(1, 31, '2020-02-15', '2020-02-20', 200);
 insert into Booking values(1, 32, '2020-02-27', '2020-02-30', 200);
-insert into Booking values(1, 33, '2020-02-1', '2020-02-02', 200);
+insert into Booking values(1, 33, '2020-02-01', '2020-02-02', 200);
 
 insert into Booking values(1, 41, '2020-02-05', '2020-02-06', 300);
 insert into Booking values(1, 42, '2020-02-15', '2020-02-20', 300);
@@ -82,10 +82,17 @@ insert into Booking values(1, 33, '2020-02-20', '2020-02-25', 300);
 insert into Booking values(1, 21, '2020-02-25', '2018-10-02', 300);
 insert into Booking values(1, 33, '2020-02-06', '2020-02-10', 300);
 
+insert into Booking values(2, 30, '2020-01-03', '2020-01-23', 250)
 insert into Booking values(2, 21, '2020-02-18', '2020-02-25', 100);
-insert into Booking values(2, 42, '2020-02-05', '2020-02-28', 500);
+insert into Booking values(2, 42, '2020-01-05', '2020-01-31', 500);
 insert into Booking values(2, 31, '2020-02-09', '2018-12-11', 300);
 insert into Booking values(2, 31, '2020-02-11', '2020-02-12', 300);
+
+insert into Booking values(3, 30, '2020-01-03', '2020-02-23', 250)
+insert into Booking values(3, 21, '2020-02-18', '2020-02-25', 100);
+insert into Booking values(3, 42, '2020-02-05', '2020-02-28', 500);
+insert into Booking values(3, 31, '2020-02-09', '2018-12-11', 300);
+insert into Booking values(3, 31, '2020-02-11', '2020-02-12', 300);
 
 insert into Guest values(20, 'Brad Vander Zanden', 'Knoxville, TN');
 insert into Guest values(21, 'Minnie Mouse', 'Orlando, FL');
