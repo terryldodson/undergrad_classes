@@ -87,9 +87,9 @@ insert into Booking values(2, 21, '2020-02-18', '2020-02-25', 100);
 insert into Booking values(2, 42, '2020-01-05', '2020-01-31', 500);
 insert into Booking values(2, 31, '2020-02-09', '2018-12-11', 300);
 insert into Booking values(2, 31, '2020-02-11', '2020-02-12', 300);
-insert into Booking values(2, 41, '2020-01-11', '2020-02-12', 300);
+insert into Booking values(2, 41, '2020-01-11', '2020-01-30', 300);
 
-insert into Booking values(3, 30, '2020-01-03', '2020-02-23', 250)
+insert into Booking values(3, 30, '2020-01-03', '2020-01-30', 250)
 insert into Booking values(3, 21, '2020-02-18', '2020-02-25', 100);
 insert into Booking values(3, 42, '2020-02-05', '2020-02-28', 500);
 insert into Booking values(3, 31, '2020-02-09', '2018-12-11', 300);
