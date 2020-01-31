@@ -1,0 +1,1 @@
+CREATE VIEW CurrentGuestCount (hotelNo, guestCount) AS SELECT h.hotelNo, count(*) FROM Room r, Guest g, Booking b, Hotel h WHERE h.hotelNo = r.hotelNo AND r.roomNo = b.roomNo AND b.guestNo = g.guestNo AND CURDATE() BETWEEN b.dateFrom and b.dateTo;
