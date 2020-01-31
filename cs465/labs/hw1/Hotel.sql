@@ -44,7 +44,7 @@ insert into Room values(300, 2, 'double', 109.99);
 insert into Room values(400, 2, 'family', 149.99);
 insert into Room values(400, 1, 'penthouse', 899.99);
 insert into Room values(450, 2, 'double', 27.95);
-insert into Room values(250, 2, 'family', 32.50);
+insert into Room values(250, 3, 'family', 32.50);
 insert into Room values(110, 1, 'double', 35.00);
 insert into Room values(105, 1, 'king', 200.00);
 insert into Room values(235, 3, 'family', 39.00);
