@@ -62,7 +62,7 @@ int main(int argc, char **argv) {
 
 		/*copy in the remaining words and set it equal to name*/
 		nsize = strlen(is->fields[1]);
-		for (i = 0; i < is->NF; i++) {
+		for (i = 2; i < is->NF; i++) {
 			//printf("%s", type);
 			p->name[nsize] = ' ';
 			strcpy(p->name+nsize+1, is->fields[i]);
@@ -172,8 +172,6 @@ int main(int argc, char **argv) {
 			}
 		}
 
-		//print out correctly
-
 		JRB y;
 		Dllist z;
 
@@ -192,10 +190,17 @@ int main(int argc, char **argv) {
 		 *    in the Person struct, and that this field is initialized 
 		 *       to zero for all people */
 
-		jrb_traverse(y, people) {
-			dll_append(toprint, y->val);
-		}
+		printf("%d", 1);
 		
+		jrb_traverse(y, people) {
+			printf("%d", 3);
+			dll_append(toprint, new_jval_v(temp->val));
+			printf("%s", toprint->val.v);
+			printf("%d", 7);
+		}
+			
+		printf("%d", 5);			
+
 		while(!dll_empty(toprint)) {
 			//take p off the head of toprint
 			p = (Person *) dll_first(toprint)->val.v;
@@ -204,7 +209,7 @@ int main(int argc, char **argv) {
 			if(p->printed == 0) {
 				printf("%s", p->name);			
 				p->printed = 1;
-					
+
 				//if p doesn't have parents, or if p's parents have been printed then
 				//print p
 				if(p->Father == NULL && p->Mother == NULL || p->printed == 1)
