@@ -253,7 +253,7 @@ int main(int argc, char **argv) {
 
 			//for all of p's children, put the child at the end of toprint
 			dll_traverse(z, p->children) 
-				dll_append(toprint, new_jval_v(z->val.v));
+				dll_append(toprint, new_jval_v((void*) z->val.v));
 
 		} //end of if
 	} //end of while
