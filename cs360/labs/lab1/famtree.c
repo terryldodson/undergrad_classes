@@ -1,16 +1,16 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "fields.h"
 #include "jval.h"
 #include "dllist.h"
 #include "jrb.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 typedef struct person {
 	char* name;
 	char* type[100];
 	char* key;
-	char sex;
+	int sex;
 	struct person* Mother;
 	struct person* Father;
 	Dllist children;
@@ -36,9 +36,10 @@ int main(int argc, char **argv) {
 	//creates red black tree titled 'people'
 	people = make_jrb();
 	IS is;
-	int i;
+	int i = 0;
 	char name[100];
 	char type[100];
+//	int num_of_people = 0;
 
 	is = new_inputstruct(argv[1]);
 	if (is == NULL) {
@@ -47,7 +48,11 @@ int main(int argc, char **argv) {
 	}
 
 	while(get_line(is) >= 0) {
-		for (i = 0; i < is->NF; i++) {
+		//has to read something
+		if(is->NF == 0)
+			continue;
+
+		/*(for (i = 0; i < is->NF; i++) {
 			//printf("%d", 1);
 			//printf("%d: %s\n", is->line, is->fields[i]);
 		}
@@ -61,19 +66,47 @@ int main(int argc, char **argv) {
 		strcpy(name, is->fields[1]);
 
 		/*copy in the remaining words and set it equal to name*/
-		nsize = strlen(is->fields[1]);
-		for (i = 2; i < is->NF; i++) {
+		//nsize = strlen(is->fields[1]);
+		//for (i = 0; i < is->NF; i++) {
+			//printf("%s\n", "Inside for loop");
 			//printf("%s", type);
-			p->name[nsize] = ' ';
-			strcpy(p->name+nsize+1, is->fields[i]);
-			nsize += strlen(p->name+nsize);
+			//p->name[nsize] = ' ';
+			//strcpy(p->name+nsize+1, is->fields[i]);
+			//nsize += strlen(p->name+nsize);
 
-		/*checks to see if name is in rbtree, if not it inserts it*/
-			if(strcmp(type, "PERSON") == 0)
+			/*checks to see if name is in rbtree, if not it inserts it*/
+	
+			//temp = jrb_find_str(people, name);
+			//tmp2 = jrb_find_str(people, name); */
+
+			if(!strcmp(is->fields[0], "PERSON")) {
+                p = (Person*) malloc(sizeof(Person));
+                p->sex = 0;
+
+                //set sex and write error message
+                /*if(p->sex == '\0') {
+                    p->sex = 'M';
+                } else if(p->sex != 'M') {
+                    fprintf(stderr, "Bad input -- sex mismatch on line #");
+                }*/
+
+                p->Mother = NULL;
+                p->Father = NULL;;
+                p->children = new_dllist();
+                //dll_append(((Person *) (temp->val.v))->children, new_jval_v((void *) p));
+                p->visited = 0;
+                p->printed = 0;
+                p->name = strdup(name);
+				jrb_insert_str(people, p->name, new_jval_v(p));
 				temp = jrb_find_str(people, name);
-			else if(strcmp(type, "SEX") != 0)
-				tmp2 = jrb_find_str(people, name);
-				
+				//JRB tmp3;
+//				printf("%s\n", "ADDING A PERSON");
+				//tmp3 = jrb_find_str(people, name);	
+				//printf("%s\n", ((Person *) (tmp3->val.v))->name);
+//				printf("%s\n", "Looking FOR A PERSON");
+//				num_of_people++;
+			}
+             			
 			if(temp == NULL && strcmp(type, "FATHER_OF") == 0) {
 				p = (Person*) malloc(sizeof(Person));
 				p->sex = '\0';
@@ -125,13 +158,13 @@ int main(int argc, char **argv) {
 				p = (Person*) malloc(sizeof(Person));
 				p->sex = '\0';
 
-                //set sex and write error message
-                if(p->sex == '\0') {
-                    p->sex = 'M';
-                } else if(p->sex != 'M') {
+				//set sex and write error message
+				if(p->sex == '\0') {
+					p->sex = 'M';
+				} else if(p->sex != 'M') {
 					fprintf(stderr, "Bad input -- sex mismatch on line #");
-                }
-	
+				}
+
 				p->Mother = NULL;
 				p->children = new_dllist();
 				((Person *) (temp->val.v))->Father = p;
@@ -150,10 +183,10 @@ int main(int argc, char **argv) {
 				p = (Person*) malloc(sizeof(Person));
 				p->sex = '\0';
 
-                //set sex and write error message
-                if(p->sex == '\0') {
-                    p->sex = 'F';
-                } else if(p->sex != 'F') {
+				//set sex and write error message
+				if(p->sex == '\0') {
+					p->sex = 'F';
+				} else if(p->sex != 'F') {
 					fprintf(stderr, "Bad input -- sex mismatch on line #");
 				}
 
@@ -165,75 +198,77 @@ int main(int argc, char **argv) {
 				p->printed = 0;
 				p->name = strdup(name);
 				jrb_insert_str(people, name, new_jval_v((Person *) p));
-			
+
 				if(p->Mother != NULL && p->Mother != p) {
 					fprintf(stderr, "Bad input -- child with two fathers on line #");
 				}
 			}
-		}
+	//	}
+	} //end of while
 
-		JRB y;
-		Dllist z;
 
-		//checks for cycles
-		jrb_traverse(y, people) {
-			if(is_descendant((Person *) y->val.v)) {
-				fprintf(stderr, "Bad input -- cycle in specification\n");
-				return -1;
-			}
+	JRB y;
+	Dllist z;
+
+	//checks for cycles
+	jrb_traverse(y, people) {
+//		printf("%d\n", 11);
+		if(is_descendant((Person *) y->val.v)) {
+			fprintf(stderr, "Bad input -- cycle in specification\n");
+			return -1;
 		}
-	
+	}
 
 	//	printf("%s", y->val.v->name);
 
-		/* assume that there is an integer field called "printed" 
-		 *    in the Person struct, and that this field is initialized 
-		 *       to zero for all people */
+	/* assume that there is an integer field called "printed" 
+	 *    in the Person struct, and that this field is initialized 
+	 *       to zero for all people */
 
-		printf("%d", 1);
-		
-		jrb_traverse(y, people) {
-			printf("%d", 3);
-			dll_append(toprint, new_jval_v(temp->val));
-			printf("%s", toprint->val.v);
-			printf("%d", 7);
-		}
-			
-		printf("%d", 5);			
+//	printf("%d", 1);
 
-		while(!dll_empty(toprint)) {
-			//take p off the head of toprint
-			p = (Person *) dll_first(toprint)->val.v;
-				
-			//if p has not been printed, then 
-			if(p->printed == 0) {
-				printf("%s", p->name);			
-				p->printed = 1;
+	jrb_traverse(y, people) {
+//		printf("%d", 3);
+		dll_append(toprint, new_jval_v(temp->val));
+		printf("%s", toprint->val.v);
+//		printf("%d", 7);
+	}
 
-				//if p doesn't have parents, or if p's parents have been printed then
-				//print p
-				if(p->Father == NULL && p->Mother == NULL || p->printed == 1)
-					printf("%s", p->name);
-				
-					//for all of p's children, put the child at the end of toprint
-					dll_traverse(z, p->children) 
-						dll_append(toprint, new_jval_v(z->val.v));
+//	printf("%d\n", 5);			
 
-			} //end of if
-		} //end of while
-	} //end of outer while
+	while(!dll_empty(toprint)) {
+		//printf("%s", 4);
+		//take p off the head of toprint
+		p = (Person *) dll_first(toprint)->val.v;
+
+		//if p has not been printed, then 
+		if(p->printed == 0) {
+			printf("%s", p->name);			
+			p->printed = 1;
+
+			//if p doesn't have parents, or if p's parents have been printed then
+			//print p
+			if(p->Father == NULL && p->Mother == NULL || p->printed == 1)
+				printf("%s", p->name);
+
+			//for all of p's children, put the child at the end of toprint
+			dll_traverse(z, p->children) 
+				dll_append(toprint, new_jval_v(z->val.v));
+
+		} //end of if
+	} //end of while
 } //end of main
 
 /* assume that there is an integer field called "visited" 
-*         in the Person struct, and that this field is initialized 
-*                 to zero for all people */
+ *         in the Person struct, and that this field is initialized 
+ *                 to zero for all people */
 
 int is_descendant(Person *p)  {
 	Dllist print;
 
 	if (p->visited == 1) 
 		return 0;							/* I.e. we've processed this 
-													   person before and he/she's ok */
+											   person before and he/she's ok */
 	if (p->visited == 2) 
 		return 1;  /* I.e. the graph is messed up */
 
@@ -245,10 +280,10 @@ int is_descendant(Person *p)  {
 		p2 = jval_v(print->val);
 		if(is_descendant(p2)) return 1;
 	}
-			
+
 	p->visited = 1; //already visited node
-			
+
 	return 0;
-		
+
 }
 
