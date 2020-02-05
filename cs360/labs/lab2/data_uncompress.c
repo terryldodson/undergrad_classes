@@ -6,26 +6,38 @@
 int main(int argc, char **argv) {
 	int c, i;
 	unsigned char n, size;
-	char buffer[100];
+	char cbuffer[300];
+	int ibuffer[300];
+	double dbuffer[300];
 
 	c = getchar();
 
-	if(c != 110 || c != 115 || c != 105 || c != 100)
-		fprintf(stderr, "Input error: bad type\n");
+	while(c != EOF) {
 
-	if(c == 110) //character is an n
-		printf("\n");
+		if(c != 'n' || c != 's' || c != 'i' || c != 'd')
+			fprintf(stderr, "Input error: bad type\n");
 
-	//if(c == 115 || c == 105 || c == 100)
-		
-	switch(c) {
-		case 110:
-			printf("\n");
-			break;
-		case 115 || 105 || 100:
-			n = getchar();			
-				fread(buffer, n+1, 
+		//if(c == 'n') //character is an n
+		//	printf("\n");
 
-	}
-//printf("%d\n", c);
+		switch(c) {
+			case 'n':
+				printf("\n");
+				break;
+			case 's':
+				n = getchar();			
+				fread(cbuffer, n+1, strlen(c) + 1, stdin); 
+				break;
+			case 'i':
+				n = getchar();
+				fread(ibuffer, n+1, 4, stdin);
+				break;
+			case 'd':
+				n = getchar();
+				fread(dbuffer, n+1, 8, stdin);
+				break;
+		}
+
+		//printf(
+	} 
 }

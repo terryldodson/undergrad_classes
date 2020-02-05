@@ -229,7 +229,7 @@ int main(int argc, char **argv) {
 
 	jrb_traverse(y, people) {
 //		printf("%d", 3);
-		dll_append(toprint, new_jval_v(temp->val));
+		dll_append(toprint, new_jval_v(temp->val.v));
 		printf("%s", toprint->val.v);
 //		printf("%d", 7);
 	}
@@ -256,6 +256,8 @@ int main(int argc, char **argv) {
 				dll_append(toprint, new_jval_v((void*) z->val.v));
 
 		} //end of if
+		
+		dll_delete_node(dll_first(toprint));
 	} //end of while
 } //end of main
 
