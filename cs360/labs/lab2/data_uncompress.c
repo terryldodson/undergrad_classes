@@ -14,30 +14,29 @@ int main(int argc, char **argv) {
 
 	while(c != EOF) {
 
-		if(c != 'n' || c != 's' || c != 'i' || c != 'd')
+		if(c != 'n' && c != 's' && c != 'i' && c != 'd') 
 			fprintf(stderr, "Input error: bad type\n");
-
-		//if(c == 'n') //character is an n
-		//	printf("\n");
 
 		switch(c) {
 			case 'n':
 				printf("\n");
 				break;
 			case 's':
-				n = getchar();			
-				fread(cbuffer, n+1, strlen(c) + 1, stdin); 
+				n = getchar();
+				size = getchar();
+				fread(cbuffer, n+1, size+1, stdin); 
+				printf("%s", cbuffer);
 				break;
 			case 'i':
 				n = getchar();
 				fread(ibuffer, n+1, 4, stdin);
+				printf("%d", ibuffer);
 				break;
 			case 'd':
 				n = getchar();
 				fread(dbuffer, n+1, 8, stdin);
+				printf("%.10lg", dbuffer);
 				break;
 		}
-
-		//printf(
 	} 
 }
