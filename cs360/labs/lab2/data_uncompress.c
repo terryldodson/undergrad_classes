@@ -30,7 +30,7 @@ int main(int argc, char **argv) {
 				printf("Input error: not enough doubles\n");
 				exit(1);
 			} //end of inner if
-			for(i = 0; i < dbuffer.size(); i++) {
+			for(i = 0; i < num_of_doubles; i++) {
 				printf("%.10lg", dbuffer[i]);
 			}
 		} //end of if
@@ -45,7 +45,7 @@ int main(int argc, char **argv) {
 				printf("Input error: not enough ints\n");
 				exit(1);
 			} //end of inner if
-			for(i = 0; i< ibuffer.size(); i++) {
+			for(i = 0; i< num_of_ints; i++) {
 				printf("%d ", ibuffer[i]);
 			}
 		} //end of if
@@ -63,7 +63,7 @@ int main(int argc, char **argv) {
 				for(j = 0; j < ws; j++) {
 					letter = getchar();
 					//if(isprint(letter))
-					printf("letter: %c\n", letter);
+					printf("%c", letter);
 				} //end of inner for loop
 				
 				//if(i != word_count-1)
