@@ -18,7 +18,7 @@ int main(int argc, char **argv) {
 		if(c != 'n' && c != 's' && c != 'i' && c != 'd')
 			printf("Input error: bad type\n");
 
-		c = getchar();
+		//c = getchar();
 
 		if(c == 'd') {
 			num_of_doubles = getchar();
@@ -30,7 +30,9 @@ int main(int argc, char **argv) {
 				printf("Input error: not enough doubles\n");
 				exit(1);
 			} //end of inner if
-			printf("%.10lg", *dbuffer);
+			for(i = 0; i < dbuffer.size(); i++) {
+				printf("%.10lg", dbuffer[i]);
+			}
 		} //end of if
 
 		if(c == 'i') {
@@ -43,21 +45,25 @@ int main(int argc, char **argv) {
 				printf("Input error: not enough ints\n");
 				exit(1);
 			} //end of inner if
-			printf("%d", *ibuffer);
+			for(i = 0; i< ibuffer.size(); i++) {
+				printf("%d ", ibuffer[i]);
+			}
 		} //end of if
 
 		if(c == 's') {
+			//printf("pizza");
 			wc = getchar();
 			wc += 1;
+			//printf("wc: %d\n", wc);
 
 			for(i = 0; i < wc; i++) {
 				ws = getchar();
 				ws += 1;
-				
+				//printf("ws: %d\n", ws);	
 				for(j = 0; j < ws; j++) {
 					letter = getchar();
-					if(isprint(letter))
-						printf("%c", letter);
+					//if(isprint(letter))
+					printf("letter: %c\n", letter);
 				} //end of inner for loop
 				
 				//if(i != word_count-1)
@@ -72,6 +78,7 @@ int main(int argc, char **argv) {
 		else if(c == EOF) {
 			break;
 		} //end of else if
+		c = getchar();
 	} //end of while
 
 	return 0;
