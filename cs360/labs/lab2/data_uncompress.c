@@ -29,9 +29,9 @@ int main(int argc, char **argv) {
 			if(nread != num_of_doubles) {
 				printf("Input error: not enough doubles\n");
 				exit(1);
-			}
+			} //end of inner if
 			printf("%.10lg", *dbuffer);
-		}
+		} //end of if
 
 		if(c == 'i') {
 			num_of_ints  = getchar();
@@ -42,9 +42,9 @@ int main(int argc, char **argv) {
 			if(tmp != num_of_ints) {
 				printf("Input error: not enough ints\n");
 				exit(1);
-			}
+			} //end of inner if
 			printf("%d", *ibuffer);
-		}
+		} //end of if
 
 		if(c == 's') {
 			wc = getchar();
@@ -58,20 +58,21 @@ int main(int argc, char **argv) {
 					letter = getchar();
 					if(isprint(letter))
 						printf("%c", letter);
-				}
+				} //end of inner for loop
 				
 				//if(i != word_count-1)
 					printf(" ");
-			}
-		}
+			} //end of outer for loop
+		}//end of if
 		
 		else if(c == 'n') {
 			printf("\n");
-		}
+		} //end of else if
 		
-		else if(c == EOF)
+		else if(c == EOF) {
 			break;
-	}
+		} //end of else if
+	} //end of while
 
 	return 0;
-}
+}//end of main
