@@ -14,9 +14,9 @@ int main(int argc, char **argv) {
 	double dbuffer[300];
 	char cbuffer[300];
 
-	c = (int) getchar();
+	//c = (int) getchar();
 
-	while(c != EOF) {
+	while((c = getchar()) != EOF) {
 
 		if(c != 'n' && c != 's' && c != 'i' && c != 'd')
 			printf("Input error: bad type\n");
@@ -76,7 +76,7 @@ int main(int argc, char **argv) {
 		else if(c == EOF) {
 			break;
 		} //end of else if
-		c = (int) getchar();
+		//c = (int) getchar();
 	} //end of while
 
 	return 0;
