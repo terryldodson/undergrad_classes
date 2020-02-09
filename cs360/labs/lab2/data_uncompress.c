@@ -37,7 +37,7 @@ int main(int argc, char **argv) {
 			}//end of for loop
 		} //end of if
 
-		if(c == 'i') {
+		else if(c == 'i') {
 			num_of_ints = (int) getchar();
 			num_of_ints++;
 			int tmp;
@@ -51,7 +51,7 @@ int main(int argc, char **argv) {
 			}
 		} //end of if
 
-		if(c == 's') {
+		else if(c == 's') {
 			wc = (int) getchar();
 			wc += 1;
 
@@ -73,7 +73,7 @@ int main(int argc, char **argv) {
 			printf("\n");
 		} //end of else if
 		
-		if(c == EOF) {
+		else if(c == EOF) {
 			break;
 		} //end of else if
 		c = (int) getchar();
