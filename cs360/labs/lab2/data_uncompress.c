@@ -14,7 +14,7 @@ int main(int argc, char **argv) {
 	double dbuffer[300];
 	char cbuffer[300];
 
-	c = getchar();
+	c = (int) getchar();
 
 	while(c != EOF) {
 
@@ -24,10 +24,10 @@ int main(int argc, char **argv) {
 		//c = getchar();
 
 		if(c == 'd') {
-			num_of_doubles = getchar();
+			num_of_doubles = (int) getchar();
 			num_of_doubles++;
 			int nread;
-			nread = fread(&dbuffer, sizeof(double), num_of_doubles, stdin);
+			nread = fread(dbuffer, sizeof(double), num_of_doubles, stdin);
 			if(nread != num_of_doubles) {
 				printf("Input error: not enough doubles\n");
 				exit(1);
@@ -38,10 +38,10 @@ int main(int argc, char **argv) {
 		} //end of if
 
 		if(c == 'i') {
-			num_of_ints = getchar();
+			num_of_ints = (int) getchar();
 			num_of_ints++;
 			int tmp;
-			tmp = fread(&ibuffer, sizeof(int), num_of_ints, stdin);
+			tmp = fread(ibuffer, sizeof(int), num_of_ints, stdin);
 			if(tmp != num_of_ints) {
 				printf("Input error: not enough ints\n");
 				exit(1);
@@ -52,14 +52,14 @@ int main(int argc, char **argv) {
 		} //end of if
 
 		if(c == 's') {
-			wc = getchar();
+			wc = (int) getchar();
 			wc += 1;
 
 			for(i = 0; i < wc; i++) {
-				ws = getchar();
+				ws = (int) getchar();
 				ws += 1;
 				
-				fread(&cbuffer, sizeof(char), ws, stdin);
+				fread(cbuffer, sizeof(char), ws, stdin);
 				
 				for(j = 0; j < ws; j++) {
 					printf("%c", cbuffer[j]);
@@ -76,7 +76,7 @@ int main(int argc, char **argv) {
 		if(c == EOF) {
 			break;
 		} //end of else if
-		c = getchar();
+		c = (int) getchar();
 	} //end of while
 
 	return 0;
