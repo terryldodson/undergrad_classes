@@ -10,6 +10,9 @@ int main(int argc, char **argv) {
 	int wc, ws; //word count and word size
 	int letter = 0;
 	int i, j;
+	int ibuffer[300];
+	double dbuffer[300];
+	char cbuffer[300];
 
 	c = getchar();
 
@@ -23,7 +26,6 @@ int main(int argc, char **argv) {
 		if(c == 'd') {
 			num_of_doubles = getchar();
 			num_of_doubles++;
-			double dbuffer[300];
 			int nread;
 			nread = fread(&dbuffer, sizeof(double), num_of_doubles, stdin);
 			if(nread != num_of_doubles) {
@@ -32,13 +34,12 @@ int main(int argc, char **argv) {
 			} //end of inner if
 			for(i = 0; i < num_of_doubles; i++) {
 				printf("%.10lg", dbuffer[i]);
-			}
+			}//end of for loop
 		} //end of if
 
 		if(c == 'i') {
-			num_of_ints  = getchar();
+			num_of_ints = getchar();
 			num_of_ints++;
-			int ibuffer[300];
 			int tmp;
 			tmp = fread(&ibuffer, sizeof(int), num_of_ints, stdin);
 			if(tmp != num_of_ints) {
@@ -51,31 +52,28 @@ int main(int argc, char **argv) {
 		} //end of if
 
 		if(c == 's') {
-			//printf("pizza");
 			wc = getchar();
 			wc += 1;
-			//printf("wc: %d\n", wc);
 
 			for(i = 0; i < wc; i++) {
 				ws = getchar();
 				ws += 1;
-				//printf("ws: %d\n", ws);	
+				
+				fread(&cbuffer, sizeof(char), ws, stdin);
+				
 				for(j = 0; j < ws; j++) {
-					letter = getchar();
-					//if(isprint(letter))
-					printf("%c", letter);
+					printf("%c", cbuffer[j]);
 				} //end of inner for loop
 				
-				//if(i != word_count-1)
-					printf(" ");
+				printf(" ");
 			} //end of outer for loop
 		}//end of if
 		
-		else if(c == 'n') {
+		if(c == 'n') {
 			printf("\n");
 		} //end of else if
 		
-		else if(c == EOF) {
+		if(c == EOF) {
 			break;
 		} //end of else if
 		c = getchar();
