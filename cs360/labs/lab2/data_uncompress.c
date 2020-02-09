@@ -60,10 +60,10 @@ int main(int argc, char **argv) {
 				ws += 1;
 				
 				fread(cbuffer, sizeof(char), ws, stdin);
-				
-				for(j = 0; j < ws; j++) {
-					printf("%c", cbuffer[j]);
-				} //end of inner for loop
+				cbuffer[ws-1] = '\0';	
+				//for(j = 0; j < ws; j++) {
+				printf("%s", cbuffer);
+				//} //end of inner for loop
 				
 				printf(" ");
 			} //end of outer for loop
