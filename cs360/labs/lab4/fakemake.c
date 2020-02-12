@@ -35,9 +35,10 @@ int main(int argc, char *argv[]) {
 
 	while(get_line(is) >= 0) {
 
-		if(is->NF == 0)
+		if(is->NF == 0) {
 			continue;
-		
+		} //end of if
+
 		if(strcmp(is->fields[0], "C")) {
 			dll_append(cList, new_jval_s(strdup(is->fields[1])));	
 		} //end of if
