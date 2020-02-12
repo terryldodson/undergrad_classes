@@ -21,7 +21,8 @@ int main(int argc, char *argv[]) {
 	Dllist tmp2 = new_dllist();
 	Dllist tmp3 = new_dllist();
 	char* exe;
-	int num, time;
+	int ctime, htime, ltime, etime, ftime;
+	int num, num1;
 	char* file = "fmakefile";;
 	IS is;
 
@@ -68,6 +69,14 @@ int main(int argc, char *argv[]) {
 
 	dll_traverse(tmp, cList) {
 		//take the .c off of the file and add .o at the end of it
+		num1 = stat(tmp->val.s, &statbuf);
+		if(num < 0) {
+			fprintf(stderr, "File doesn't exist");
+		} //end of if
+
+		else {
+				
+		}
 		//printf("%s\n", tmp->val.s);
 	} //end of cList travers
 
@@ -78,16 +87,20 @@ int main(int argc, char *argv[]) {
 		} //end of if
 
 		else {
-			time = statbuf.st_mtime;
+			if(htime < statbuf.st_mtime) {
+				htime = statbuf.st_mtime;
+			}
 		} //end of else
 		//printf("%s\n", tmp1->val.s);
 	} //end of hList traverse
 
 	dll_traverse(tmp2, lList) {
+		//set time
 		//printf("%s\n", tmp2->val.s);
 	} //end of lList traverse
 
 	dll_traverse(tmp3, fList) {
+		//set time
 		//printf("%s\n", tmp3->val.s);
 	} //end of fList traverse
 }//end of main  
