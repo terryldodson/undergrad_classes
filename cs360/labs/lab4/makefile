@@ -10,7 +10,7 @@ LIBDIR = /home/jplank/cs360/objs
 
 LIBS = $(LIBDIR)/libfdr.a 
 
-EXECUTABLES = famtree
+EXECUTABLES = fakemake
 
 all: $(EXECUTABLES)
 
@@ -18,8 +18,8 @@ all: $(EXECUTABLES)
 .c.o:
 	$(CC) $(CFLAGS) -c $*.c
 
-famtree: famtree.o
-	$(CC) $(CFLAGS) -o famtree famtree.o $(LIBS)
+fakemake: fakemake.o
+	$(CC) $(CFLAGS) -o fakemake fakemake.o $(LIBS)
 
 #make clean will rid your directory of the executable,
 #object files, and any core dumps you've caused
