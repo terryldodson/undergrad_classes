@@ -21,7 +21,8 @@ int main(int argc, char *argv[]) {
 	Dllist tmp2 = new_dllist();
 	Dllist tmp3 = new_dllist();
 	char* exe;
-	int ctime, htime, ltime, etime, ftime;
+	char* oFile;
+	int ctime, htime, ltime, etime, ftime, otime;
 	int num, num1, num2, num3;
 	char* file = "fmakefile";;
 	IS is;
@@ -71,11 +72,33 @@ int main(int argc, char *argv[]) {
 		//take the .c off of the file and add .o at the end of it
 		num1 = stat(tmp->val.s, &statbuf);
 		if(num < 0) {
-			fprintf(stderr, "File doesn't exist");
+			fprintf(stderr, "File doesn't exist\n");
+			exit(1);
 		} //end of if
 
 		else {
 			ctime = statbuf.st_mtime;
+			
+			strcpy(oFile, tmp->val.s);
+		
+			otime = statbuf.st_mtime;
+
+			if(stat(oFile, &statbuf) == 0) {
+				int length = strlen(oFile);
+			
+				oFile[length - 1] = 'c';
+				//printf("%s\n", oFile);
+			}
+
+			else if(stat(oFile, &statbuf) < 0 || otime < ctime || otime > htime) {
+				printf("Remake .o file\n");
+			
+				//remake file
+				char gccString[100] = "gcc -c";
+
+				strcat(gccString, oFile);
+				printf(gccString);
+			}
 		}
 		//printf("%s\n", tmp->val.s);
 	} //end of cList travers
@@ -83,7 +106,8 @@ int main(int argc, char *argv[]) {
 	dll_traverse(tmp1, hList) {		    
 		num = stat(tmp1->val.s, &statbuf);
 		if(num < 0) {
-			fprintf(stderr, "File doesn't exist");
+			fprintf(stderr, "File doesn't exist\n");
+			exit(1);
 		} //end of if
 
 		else {
