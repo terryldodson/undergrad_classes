@@ -22,7 +22,7 @@ int main(int argc, char *argv[]) {
 	Dllist tmp3 = new_dllist();
 	char* exe;
 	int ctime, htime, ltime, etime, ftime;
-	int num, num1;
+	int num, num1, num2, num3;
 	char* file = "fmakefile";;
 	IS is;
 
@@ -75,7 +75,7 @@ int main(int argc, char *argv[]) {
 		} //end of if
 
 		else {
-				
+			ctime = statbuf.st_mtime;
 		}
 		//printf("%s\n", tmp->val.s);
 	} //end of cList travers
@@ -95,12 +95,16 @@ int main(int argc, char *argv[]) {
 	} //end of hList traverse
 
 	dll_traverse(tmp2, lList) {
+		num2 = stat(tmp2->val.s, &statbuf);
 		//set time
+		ltime = statbuf.st_mtime;
 		//printf("%s\n", tmp2->val.s);
 	} //end of lList traverse
 
 	dll_traverse(tmp3, fList) {
+		num3 = stat(tmp3->val.s, &statbuf);
 		//set time
+		ftime = statbuf.st_mtime;
 		//printf("%s\n", tmp3->val.s);
 	} //end of fList traverse
 }//end of main  
