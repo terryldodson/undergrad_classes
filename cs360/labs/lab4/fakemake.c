@@ -22,6 +22,7 @@ int main(int argc, char *argv[]) {
 	Dllist tmp3 = new_dllist();
 	char* exe;
 	char* oFile;
+	//char* gccString[100];
 	int ctime, htime, ltime, etime, ftime, otime;
 	int num, num1, num2, num3;
 	char* file = "fmakefile";;
@@ -72,7 +73,7 @@ int main(int argc, char *argv[]) {
 		//take the .c off of the file and add .o at the end of it
 		num1 = stat(tmp->val.s, &statbuf);
 		if(num < 0) {
-			fprintf(stderr, "File doesn't exist\n");
+			fprintf(stderr, " File doesn't exist\n");
 			exit(1);
 		} //end of if
 
@@ -80,7 +81,8 @@ int main(int argc, char *argv[]) {
 			ctime = statbuf.st_mtime;
 			
 			strcpy(oFile, tmp->val.s);
-		
+			printf("oFile: %s ", oFile);
+
 			otime = statbuf.st_mtime;
 
 			if(stat(oFile, &statbuf) == 0) {
@@ -90,15 +92,19 @@ int main(int argc, char *argv[]) {
 				//printf("%s\n", oFile);
 			}
 
-			else if(stat(oFile, &statbuf) < 0 || otime < ctime || otime > htime) {
+			else if(stat(oFile, &statbuf) < 0 || otime < ctime || otime < htime) {
 				printf("Remake .o file\n");
 			
 				//remake file
-				char gccString[100] = "gcc -c";
+				char gccString[100] = "gcc -c ";
 
+				//printf(oFile);
 				strcat(gccString, oFile);
 				printf(gccString);
+				printf("\n");
 			}
+			//printf(gccString);
+			//printf("\n");
 		}
 		//printf("%s\n", tmp->val.s);
 	} //end of cList travers
