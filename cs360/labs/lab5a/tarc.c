@@ -52,7 +52,7 @@ int main(int argc, char *argv[]) {
 	short_path = &dir[last_slash]; // + 1];
 
 	//path_info = stat(argv[1], &statbuf);
-	path_info = stat(short_path, &statbuf);
+	path_info = stat(dir, &statbuf);
 
 	//use short_path when printing
 	length = strlen(short_path);
@@ -71,7 +71,7 @@ int main(int argc, char *argv[]) {
 		traverse_directories(dir, inode, last_slash);
 	}
 
-} //endof main 
+} //end of main 
 
 void traverse_directories(char* dir, JRB inode, int slash_index) {
 	int direxists = 0;
@@ -111,7 +111,7 @@ void traverse_directories(char* dir, JRB inode, int slash_index) {
 			short_path = &dir[slash_index];
 			int length = strlen(short_path);
 
-			stat(short_path, &buf);
+			stat(dir, &buf);
 			fwrite(&length, 4, 1, stdout);
 			//fwrite(short_path, strlen(short_path), 1, stdout);
 			printf("%s", short_path);
@@ -129,18 +129,19 @@ void traverse_directories(char* dir, JRB inode, int slash_index) {
 				}
 			}
 
-			//returns 1 if its a file, 0 if its not a file
+			//if its a directory, append to directory dllist
 			if (S_ISDIR(buf.st_mode)) {
 				dll_append(directory, new_jval_s(strdup(dir)));	
 			}
 
+			//if its a file, open file and write contents
 			else if(S_ISREG(buf.st_mode) == 1) {
 				f = fopen(dir, "r");			
 				fwrite(&buf.st_size, 4, 1, stdout);
 				fwrite(f, buf.st_size, 1, stdout);
 			}
 		}
-		free(s);
+		//free(s);
 	}
 
 	closedir(d);
