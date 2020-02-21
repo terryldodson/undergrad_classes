@@ -10,7 +10,7 @@
 #include "jrb.h"
 #include <dirent.h>
 
-void traverse_directories(char *dir, JRB inode);
+void traverse_directories(char *dir, JRB inode, int slash_index);
 
 int main(int argc, char *argv[]) {
 	struct stat statbuf;
@@ -39,7 +39,7 @@ int main(int argc, char *argv[]) {
 	for(i = strlen(dir)-1; i >= 0; i--) {
 		if(dir[i] == '/') {
 			//	printf("Found at index: %d\n", i);
-			last_slash = i;
+			last_slash = i+1;
 			//	printf("%d\n", last_slash);
 			//	break;
 		}
@@ -49,7 +49,7 @@ int main(int argc, char *argv[]) {
 	//put directory into dllist	
 
 	//short_path contains the word after the last slash
-	short_path = &dir[last_slash + 1];
+	short_path = &dir[last_slash]; // + 1];
 
 	//path_info = stat(argv[1], &statbuf);
 	path_info = stat(short_path, &statbuf);
@@ -68,19 +68,19 @@ int main(int argc, char *argv[]) {
 		fprintf(stderr, "Path doesn't exist");
 		exit(1);
 	} else {
-		traverse_directories(dir, inode);
+		traverse_directories(dir, inode, last_slash);
 	}
 
 } //endof main 
 
-void traverse_directories(char* dir, JRB inode) {
+void traverse_directories(char* dir, JRB inode, int slash_index) {
 	int direxists = 0;
 	Dllist directory = new_dllist();
 	Dllist tmp = new_dllist();
 	DIR *d;
 	struct dirent *de;
 	char *s;
-	struct stat statbuf;
+	struct stat buf;
 	int exists = 0;
 	FILE *f;
 	int i, last_slash;
@@ -99,44 +99,45 @@ void traverse_directories(char* dir, JRB inode) {
 			/* Look for fn/de->d_name */
 			sprintf(s, "%s/%s", dir, de->d_name);
 
-			for(i = strlen(dir)-1; i >= 0; i--) {
+			/*for(i = strlen(dir)-1; i >= 0; i--) {
 				if(dir[i] == '/') {
 					//printf("Found at index: %d\n", i);
 					last_slash = i+1;
 					//printf("%d\n", last_slash);
 					//break;
 				}
-			}
+			}*/
 
-			short_path = &dir[last_slash + 1];
+			short_path = &dir[slash_index];
 			int length = strlen(short_path);
 
-			stat(short_path, &statbuf);
+			stat(short_path, &buf);
 			fwrite(&length, 4, 1, stdout);
 			//fwrite(short_path, strlen(short_path), 1, stdout);
 			printf("%s", short_path);
-			fwrite(&statbuf.st_ino, 8, 1, stdout);
+			fwrite(&buf.st_ino, 8, 1, stdout);
 
-			exists = stat(s, &statbuf);
+			exists = stat(s, &buf);
 			if (exists < 0) {
 				fprintf(stderr, "Couldn't stat %s\n", s);
+				exit(1);
 			} else {
-				if (jrb_find_int(inode, statbuf.st_ino) == NULL) {
-					fwrite(&statbuf.st_mode, 4, 1, stdout);
-					fwrite(&statbuf.st_mtime, 8, 1, stdout);
-					jrb_insert_int(inode, statbuf.st_ino, new_jval_v(NULL));
+				if (jrb_find_int(inode, buf.st_ino) == NULL) {
+					fwrite(&buf.st_mode, 4, 1, stdout);
+					fwrite(&buf.st_mtime, 8, 1, stdout);
+					jrb_insert_int(inode, buf.st_ino, new_jval_v(NULL));
 				}
 			}
 
 			//returns 1 if its a file, 0 if its not a file
-			if (S_ISDIR(statbuf.st_mode)) {
+			if (S_ISDIR(buf.st_mode)) {
 				dll_append(directory, new_jval_s(strdup(dir)));	
 			}
 
-			else if(S_ISREG(statbuf.st_mode) == 1) {
+			else if(S_ISREG(buf.st_mode) == 1) {
 				f = fopen(dir, "r");			
-				fwrite(&statbuf.st_size, 4, 1, stdout);
-				fwrite(f, statbuf.st_size, 1, stdout);
+				fwrite(&buf.st_size, 4, 1, stdout);
+				fwrite(f, buf.st_size, 1, stdout);
 			}
 		}
 		free(s);
@@ -144,7 +145,7 @@ void traverse_directories(char* dir, JRB inode) {
 
 	closedir(d);
 
-	traverse_directories(dir, inode);
+	traverse_directories(dir, inode, slash_index);
 }
 
 /*direxists = stat(dir, &statbuf);
