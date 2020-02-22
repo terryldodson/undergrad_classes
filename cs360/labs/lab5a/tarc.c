@@ -71,6 +71,7 @@ int main(int argc, char *argv[]) {
 		traverse_directories(dir, inode, last_slash);
 	}
 
+	free(short_path);
 } //end of main 
 
 void traverse_directories(char* dir, JRB inode, int slash_index) {
@@ -79,12 +80,12 @@ void traverse_directories(char* dir, JRB inode, int slash_index) {
 	Dllist tmp = new_dllist();
 	DIR *d;
 	struct dirent *de;
-	char *s;
+	char *s =  malloc(sizeof(char)*(strlen(dir)+258));
 	struct stat buf;
 	int exists = 0;
 	FILE *f;
 	int i, last_slash;
-	char* short_path;
+	char* short_path = malloc(sizeof(char)*(strlen(dir)+258));;
 
 	d = opendir(dir);
 
@@ -147,6 +148,10 @@ void traverse_directories(char* dir, JRB inode, int slash_index) {
 	closedir(d);
 
 	traverse_directories(dir, inode, slash_index);
+
+	free_dllist(directory);
+	free(s);
+	free(short_path);
 }
 
 /*direxists = stat(dir, &statbuf);
