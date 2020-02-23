@@ -26,11 +26,11 @@ int main(int argc, char *argv[]) {
 	if(argc > 2) {
 		fprintf(stderr, "Error: Too many arguments\n");
 		exit(1);
-	}
+	} //end of if
 
 	else if(argc == 2) {
 		dir = argv[1];	
-	}
+	} //end of else if
 
 	//creates inode jrb
 	inode = make_jrb();
@@ -41,9 +41,9 @@ int main(int argc, char *argv[]) {
 			//	printf("Found at index: %d\n", i);
 			last_slash = i+1;
 			//	printf("%d\n", last_slash);
-			//	break;
-		}
-	}
+			break;
+		} //end of if
+	}//end of for 
 
 	//program is supposed to take a folder, not a file, and look at every file in that folder
 	//put directory into dllist	
@@ -55,6 +55,7 @@ int main(int argc, char *argv[]) {
 	path_info = stat(dir, &statbuf);
 
 	//use short_path when printing
+	//printf("pizza");
 	length = strlen(short_path);
 	fwrite(&length, 4, 1, stdout);
 	//fwrite(short_path, strlen(short_path), 1, stdout);
@@ -62,6 +63,7 @@ int main(int argc, char *argv[]) {
 	fwrite(&statbuf.st_ino, 8, 1, stdout);
 	fwrite(&statbuf.st_mode, 4, 1, stdout);
 	fwrite(&statbuf.st_mtime, 8, 1, stdout);
+	//printf("pizza1");
 
 	//use regular path when calling function
 	if(path_info < 0) {
@@ -69,9 +71,7 @@ int main(int argc, char *argv[]) {
 		exit(1);
 	} else {
 		traverse_directories(dir, inode, last_slash);
-	}
-
-	free(short_path);
+	} //end of if and else
 } //end of main 
 
 void traverse_directories(char* dir, JRB inode, int slash_index) {
@@ -85,14 +85,15 @@ void traverse_directories(char* dir, JRB inode, int slash_index) {
 	int exists = 0;
 	FILE *f;
 	int i, last_slash;
-	char* short_path = malloc(sizeof(char)*(strlen(dir)+258));;
+	char* short_path = malloc(sizeof(char)*(strlen(dir)+258));
+	char buffer[256];
 
 	d = opendir(dir);
 
 	if(d == NULL) {
 		fprintf(stderr, "no directory");
 		exit(1);
-	}
+	} //end of if
 
 	for (de = readdir(d); de != NULL; de = readdir(d)) {
 		//de->d_name is directory name
@@ -101,12 +102,12 @@ void traverse_directories(char* dir, JRB inode, int slash_index) {
 			sprintf(s, "%s/%s", dir, de->d_name);
 
 			/*for(i = strlen(dir)-1; i >= 0; i--) {
-				if(dir[i] == '/') {
-					//printf("Found at index: %d\n", i);
-					last_slash = i+1;
-					//printf("%d\n", last_slash);
-					//break;
-				}
+			  if(dir[i] == '/') {
+			//printf("Found at index: %d\n", i);
+			last_slash = i+1;
+			//printf("%d\n", last_slash);
+			//break;
+			}
 			}*/
 
 			short_path = &dir[slash_index];
@@ -122,28 +123,28 @@ void traverse_directories(char* dir, JRB inode, int slash_index) {
 			if (exists < 0) {
 				fprintf(stderr, "Couldn't stat %s\n", s);
 				exit(1);
-			} else {
-				if (jrb_find_int(inode, buf.st_ino) == NULL) {
-					fwrite(&buf.st_mode, 4, 1, stdout);
-					fwrite(&buf.st_mtime, 8, 1, stdout);
-					jrb_insert_int(inode, buf.st_ino, new_jval_v(NULL));
-				}
-			}
+			} else if (jrb_find_int(inode, buf.st_ino) == NULL) {	
+				jrb_insert_int(inode, buf.st_ino, new_jval_v(NULL));
+				fwrite(&buf.st_mode, 4, 1, stdout);
+				fwrite(&buf.st_mtime, 8, 1, stdout);
 
-			//if its a directory, append to directory dllist
-			if (S_ISDIR(buf.st_mode)) {
-				dll_append(directory, new_jval_s(strdup(dir)));	
-			}
 
-			//if its a file, open file and write contents
-			else if(S_ISREG(buf.st_mode) == 1) {
-				f = fopen(dir, "r");			
-				fwrite(&buf.st_size, 4, 1, stdout);
-				fwrite(f, buf.st_size, 1, stdout);
-			}
-		}
-		//free(s);
-	}
+				//if its a directory, append to directory dllist
+				if (S_ISDIR(buf.st_mode)) {
+					dll_append(directory, new_jval_s(strdup(dir)));	
+				} //end of if
+
+				//if its a file, open file and write contents
+				else if(S_ISREG(buf.st_mode) == 1) {
+					f = fopen(dir, "r");			
+					fread(buffer, buf.st_size, 1, f);
+					//fwrite(&buf.st_size, 4, 1, stdout);
+					fwrite(buffer, buf.st_size, 1, stdout);
+					fclose(f);
+				} //end of inner else if
+			} //end of outer else if
+		} //end of if
+	} //end of for
 
 	closedir(d);
 
@@ -152,7 +153,7 @@ void traverse_directories(char* dir, JRB inode, int slash_index) {
 	free_dllist(directory);
 	free(s);
 	free(short_path);
-}
+}//end of traverse function
 
 /*direxists = stat(dir, &statbuf);
 
