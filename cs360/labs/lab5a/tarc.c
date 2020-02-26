@@ -51,18 +51,9 @@ int main(int argc, char *argv[]) {
 
 	//short_path contains the word after the last slash
 	short_path = &dir[last_slash];
+	//printf("short path: %s\n", short_path);
 
 	path_info = lstat(dir, &statbuf);
-
-	//prints out name size, name, inode, mode, and mode time
-	length = (int) strlen(short_path);
-	//	printf("main --- size: %d", length);
-	fwrite(&length, sizeof(int), 1, stdout);
-	//fwrite(&length, sizeof(char), length, stdout);
-	printf("%s", short_path);;
-	fwrite(&statbuf.st_ino, sizeof(statbuf.st_ino), 1, stdout);
-	fwrite(&statbuf.st_mode, sizeof(statbuf.st_mode), 1, stdout);
-	fwrite(&statbuf.st_mtime, sizeof(statbuf.st_mtime), 1, stdout);
 
 	//checks to see if the path exists
 	//If it does, it calls traverse_directories function
@@ -70,9 +61,20 @@ int main(int argc, char *argv[]) {
 	if(path_info < 0) {
 		fprintf(stderr, "Path doesn't exist");
 		exit(1);
-	} else {
-		traverse_directories(dir, inode, last_slash);
-	} //end of if and else 
+	} 
+	
+	//prints out name size, name, inode, mode, and mode time
+	length = (int) strlen(short_path);
+	//	printf("main --- size: %d", length);
+	fwrite(&length, sizeof(int), 1, stdout);
+	fwrite(short_path, sizeof(char), length, stdout);
+	//printf("short path1: %s\n", short_path);
+	//printf("%s", short_path);;
+	fwrite(&statbuf.st_ino, sizeof(statbuf.st_ino), 1, stdout);
+	fwrite(&statbuf.st_mode, sizeof(statbuf.st_mode), 1, stdout);
+	fwrite(&statbuf.st_mtime, sizeof(statbuf.st_mtime), 1, stdout);
+	
+	traverse_directories(dir, inode, last_slash);
 
 	return 0;
 } //end of main 
@@ -120,8 +122,8 @@ void traverse_directories(char* dir, JRB inode, int slash_index) {
 		short_path = s + slash_index;
 		int length = (int) strlen(short_path);
 		fwrite(&length, sizeof(int), 1, stdout);
-		//fwrite(&length, sizeof(char), length, stdout);
-		printf("%s", short_path);
+		fwrite(short_path, sizeof(char), length, stdout);
+		//printf("%s", short_path);
 		fwrite(&buf.st_ino, sizeof(buf.st_ino), 1, stdout);
 
 		if(S_ISLNK(buf.st_mode)) continue;
@@ -148,7 +150,7 @@ void traverse_directories(char* dir, JRB inode, int slash_index) {
 		}//end of else if
 		*/
 
-		if (jrb_find_gen(inode, new_jval_l(buf.st_ino), long_comp) == NULL) {    
+		else if (jrb_find_gen(inode, new_jval_l(buf.st_ino), long_comp) == NULL) {    
 			jrb_insert_gen(inode, new_jval_l(buf.st_ino), new_jval_i(0), long_comp);
 			fwrite(&buf.st_mode, sizeof(buf.st_mode), 1, stdout);
 			fwrite(&buf.st_mtime, sizeof(buf.st_mtime), 1, stdout);
@@ -163,7 +165,7 @@ void traverse_directories(char* dir, JRB inode, int slash_index) {
 				f = fopen(s, "r");
 				char buffer[buf.st_size];
 				fread(buffer, buf.st_size, 1, f);
-				fwrite(&buffer, buf.st_size, 1, stdout);
+				fwrite(&buffer, sizeof(char), buf.st_size, stdout);
 				fclose(f);
 			}//end of else if
 		} //end of if
@@ -200,13 +202,13 @@ void traverse_directories(char* dir, JRB inode, int slash_index) {
 	//traverses through dllist and recursively call the function
 	dll_traverse(tmp, directory) {
 		traverse_directories(dir, inode, slash_index);
-		free(tmp->val.s);
+		//free(tmp->val.s);
 	} //end of dll_traverse
 
 	//free memory
-	free_dllist(directory);
-	free(s);
-	free(short_path);
+	//free_dllist(directory);
+	//free(s);
+	//free(short_path);
 }//end of traverse function
 
 //from the lecture
