@@ -111,8 +111,6 @@ void traverse_directories(char* dir, JRB inode, int slash_index) {
 		else if(strcmp(de->d_name, "..") == 0)
 			continue;
 
-
-
 		if(S_ISLNK(buf.st_mode)) continue;
 
 		//checks to see if buf is a directory
