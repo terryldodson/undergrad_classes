@@ -51,7 +51,6 @@ int main(int argc, char *argv[]) {
 
 	//short_path contains the word after the last slash
 	short_path = &dir[last_slash];
-	//printf("short path: %s\n", short_path);
 
 	path_info = lstat(dir, &statbuf);
 
@@ -65,16 +64,15 @@ int main(int argc, char *argv[]) {
 	
 	//prints out name size, name, inode, mode, and mode time
 	length = (int) strlen(short_path);
-	//	printf("main --- size: %d", length);
 	fwrite(&length, sizeof(int), 1, stdout);
 	fwrite(short_path, sizeof(char), length, stdout);
-	//printf("short path1: %s\n", short_path);
-	//printf("%s", short_path);;
 	fwrite(&statbuf.st_ino, sizeof(statbuf.st_ino), 1, stdout);
 	fwrite(&statbuf.st_mode, sizeof(statbuf.st_mode), 1, stdout);
 	fwrite(&statbuf.st_mtime, sizeof(statbuf.st_mtime), 1, stdout);
 	
 	traverse_directories(dir, inode, last_slash);
+
+	jrb_free_tree(inode);
 
 	return 0;
 } //end of main 
@@ -82,7 +80,7 @@ int main(int argc, char *argv[]) {
 void traverse_directories(char* dir, JRB inode, int slash_index) {
 	int direxists = 0;
 	Dllist directory = new_dllist();
-	Dllist tmp = new_dllist();
+	Dllist tmp; // = new_dllist();
 	DIR *d;
 	struct dirent *de;
 	char *s =  malloc(sizeof(char)*(strlen(dir)+258));
@@ -123,77 +121,32 @@ void traverse_directories(char* dir, JRB inode, int slash_index) {
 		int length = (int) strlen(short_path);
 		fwrite(&length, sizeof(int), 1, stdout);
 		fwrite(short_path, sizeof(char), length, stdout);
-		//printf("%s", short_path);
 		fwrite(&buf.st_ino, sizeof(buf.st_ino), 1, stdout);
 
+		//checks for soft links
 		if(S_ISLNK(buf.st_mode)) continue;
 
-		//checks to see if buf is a directory
-		/*		if(S_ISDIR(buf.st_mode)) {
-		//obtains string length
-		//printf("dir -- size: %d", length);
-		//fwrite name size, name, and inode
-		short_path = s + slash_index;
-		int length = (int) strlen(short_path);
-		fwrite(&length, 4, 1, stdout);
-		printf("%s", short_path);
-		fwrite(&buf.st_ino, 8, 1, stdout);
-
-		//if inode is not in tree
-		//inserts the inode and prints out mode and mod time
-		if (jrb_find_gen(inode, new_jval_l(buf.st_ino), long_comp) == NULL) {	
-		jrb_insert_gen(inode, new_jval_l(buf.st_ino), new_jval_i(0), long_comp);
-		fwrite(&buf.st_mode, 4, 1, stdout);
-		fwrite(&buf.st_mtime, 8, 1, stdout);
-		dll_append(directory, new_jval_s(strdup(s)));
-		} //end of if
-		}//end of else if
-		*/
-
+		//checks if inode is in jrb tree
 		else if (jrb_find_gen(inode, new_jval_l(buf.st_ino), long_comp) == NULL) {    
+			//if not in tree, add to tree and write mode and modtime
 			jrb_insert_gen(inode, new_jval_l(buf.st_ino), new_jval_i(0), long_comp);
 			fwrite(&buf.st_mode, sizeof(buf.st_mode), 1, stdout);
 			fwrite(&buf.st_mtime, sizeof(buf.st_mtime), 1, stdout);
 			
-			if(S_ISDIR(buf.st_mode)){ //check this im not sure syntax
+			//checks to see if its a directory
+			if(S_ISDIR(buf.st_mode)){ 
 				dll_append(directory, new_jval_s(strdup(s)));
 			} else { 
-				//you already printed mode and modtime
-
+				
 				//open files and print its contents
 				fwrite(&buf.st_size, sizeof(buf.st_size), 1, stdout);
 				f = fopen(s, "r");
 				char buffer[buf.st_size];
 				fread(buffer, buf.st_size, 1, f);
-				fwrite(&buffer, sizeof(char), buf.st_size, stdout);
+				fwrite(buffer, sizeof(char), buf.st_size, stdout);
 				fclose(f);
-			}//end of else if
-		} //end of if
-			//checks to see if its a file
-			//	else if(S_ISREG(buf.st_mode)) { 
-			//obtains string length
-			//fwrite name size, name, and inode	
-			/*		short_path = s + slash_index;
-					int length = (int) strlen(short_path);
-					fwrite(&length, 4, 1, stdout);
-					printf("%s", short_path);
-					fwrite(&buf.st_ino, 8, 1, stdout);
-
-			//prints out mode and mod time and rest of file contents
-			fwrite(&buf.st_mode, 4, 1, stdout);
-			fwrite(&buf.st_mtime, 8, 1, stdout);
-
-			//open files and print its contents
-			fwrite(&buf.st_size, sizeof(buf.st_size), 1, stdout);
-			f = fopen(s, "r");
-			char buffer[buf.st_size];
-			fread(buffer, buf.st_size, 1, f);
-			fwrite(&buffer, buf.st_size, 1, stdout);
-			fclose(f);
-			}//end of else if*/
-
-			//printf("dir -- size: %d", length);
-			//fwrite name size, name, and inode
+			}//end of if and else
+		} //end of else if
 	}//end of for
 
 	//closes directory
@@ -201,13 +154,13 @@ void traverse_directories(char* dir, JRB inode, int slash_index) {
 
 	//traverses through dllist and recursively call the function
 	dll_traverse(tmp, directory) {
-		traverse_directories(dir, inode, slash_index);
-		//free(tmp->val.s);
+		traverse_directories(tmp->val.s, inode, slash_index);
+		free(tmp->val.s);
 	} //end of dll_traverse
 
 	//free memory
-	//free_dllist(directory);
-	//free(s);
+	free_dllist(directory);
+	free(s);
 	//free(short_path);
 }//end of traverse function
 
