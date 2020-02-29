@@ -103,8 +103,11 @@ int main(int argc, char *argv[]) {
 			d->ubuf->actime = 0;
 			utime(d->filename, d->ubuf);
 			printf("Mode: %d\n", mode);
+			fwrite(&d->mode, sizeof(d->mode), 1, f);
 			printf("Mod time %ld\n", mod_time);
+			fwrite(&d->ubuf->modtime, sizeof(d->ubuf->modtime), 1, f);
 			printf("Name: %s\n", name);
+			fwrite(name, sizeof(char), strlen(name), f);
 		} //end of traverse	
 		printf("pizza");
 	} //end of while
