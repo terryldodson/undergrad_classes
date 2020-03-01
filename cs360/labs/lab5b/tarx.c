@@ -46,10 +46,12 @@ int main(int argc, char *argv[]) {
 
 	while(1) {
 		serror = fread(&size, 4, 1, stdin);
-		nerror = fread(&name, sizeof(char), 1, stdin);
+		printf("%s", &size);
+		//name[size] = '\0';
+		nerror = fread(name, sizeof(char), 1, stdin);
 		ierror = fread(&inode, 8, 1, stdin);
 
-//		printf("%d %d %d", serror, nerror, ierror);
+		printf("%d %d %d", serror, nerror, ierror);
 		if(serror != 1 || nerror != 1 || ierror != 1) {
 			fprintf(stderr, "1nothing to read\n");
 			exit(1);
@@ -103,11 +105,11 @@ int main(int argc, char *argv[]) {
 			d->ubuf->actime = 0;
 			utime(d->filename, d->ubuf);
 			printf("Mode: %d\n", mode);
-			fwrite(&d->mode, sizeof(d->mode), 1, f);
+			//fwrite(&d->mode, sizeof(d->mode), 1, f);
 			printf("Mod time %ld\n", mod_time);
-			fwrite(&d->ubuf->modtime, sizeof(d->ubuf->modtime), 1, f);
+			//fwrite(&d->ubuf->modtime, sizeof(d->ubuf->modtime), 1, f);
 			printf("Name: %s\n", name);
-			fwrite(name, sizeof(char), strlen(name), f);
+			//fwrite(name, sizeof(char), strlen(name), f);
 		} //end of traverse	
 		printf("pizza");
 	} //end of while
