@@ -76,7 +76,7 @@ int main(int argc, char *argv[]) {
 				f = fopen(name, "w");
 				char* buffer[size]; 
 				//serror = fread(&size, 4, 1, stdin);
-				berror = fwrite(&buffer, 1, 1, f);
+				berror = fwrite(&buffer, sizeof(char*), 1, f);
 				//printf("Mode: %d\n", mode);
 				//printf("Mod time %ld\n", mod_time);
 				//printf("Name: %s\n", name);
@@ -91,8 +91,13 @@ int main(int argc, char *argv[]) {
 				}
 			}//end of if else	 
 			//printf("%s", "Terryl");
-		} //end of if	
+		} //end of if
 
+		//does some linking if the inodes are already in the tree
+//		else{ 
+//			link(&inode, inodes);				
+//		}
+//
 		dll_traverse(tmp1, directories) {
 			//set the mode
 			chmod(d->filename, mode);
