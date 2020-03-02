@@ -46,10 +46,12 @@ int main(int argc, char *argv[]) {
 
 	while(1) {
 		serror = fread(&size, 4, 1, stdin);
-		printf("%s", &size);
+		printf("Size: %s\n", &size);
 		//name[size] = '\0';
-		nerror = fread(name, sizeof(char), 1, stdin);
+		nerror = fread(name, sizeof(char), strlen(name), stdin);
+		printf("Name: %s\n", &name);
 		ierror = fread(&inode, 8, 1, stdin);
+		printf("Inode: %ld\n", &inode);
 
 		printf("%d %d %d", serror, nerror, ierror);
 		if(serror != 1 || nerror != 1 || ierror != 1) {
