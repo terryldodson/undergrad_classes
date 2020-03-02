@@ -48,8 +48,9 @@ int main(int argc, char *argv[]) {
 
 	while(1) {
 		serror = fread(&size, sizeof(int), 1, stdin);
-		if(serror != 1 && feof(stdin))
+		if(serror != 1 && feof(stdin)) {
 			exit(1);
+		}
 		printf("Size: %d\n", &size);
 		
 		nerror = fread(&name, size, 1, stdin);
@@ -58,7 +59,7 @@ int main(int argc, char *argv[]) {
 		printf("Inode: %ld\n", &inode);
 
 		printf("%d %d %d", serror, nerror, ierror);
-		if((nerror == 0 || ierror == 0) && feof(stdin)) {
+		if((nerror !=  1 || ierror != 1) && feof(stdin)) {
 			fprintf(stderr, "1nothing to read\n");
 			exit(1);
 		}
@@ -92,7 +93,7 @@ int main(int argc, char *argv[]) {
 				}
 
 				char* buffer; 
-				buffer = (char*)malloc(sizeof(char) * filesize);	
+				buffer = (char*)malloc(filesize);	
 				berror = fread(buffer, filesize, 1, stdin);
 				
 				f = fopen(name, "w");
@@ -110,7 +111,7 @@ int main(int argc, char *argv[]) {
 				//sets the files mode
 				chmod(name, mode);
 				
-				//updating mod_time
+				/*//updating mod_time
 				struct timeval time_info[2];
 				time_info[0].tv_sec = time(NULL);
 				time_info[0].tv_usec = 0;
@@ -121,7 +122,7 @@ int main(int argc, char *argv[]) {
 				if(cerror != 0) {
 					fprintf(stderr, "couldn't complete utimes\n");
 					exit(1);
-				}
+				}*/
 				//printf("pizza");
 				/*printf("serror: %d berror: %d\n", serror, berror);
 				//berror = 1;
