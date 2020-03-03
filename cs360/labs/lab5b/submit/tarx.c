@@ -149,9 +149,6 @@ int main(int argc, char *argv[]) {
 				d->ubuf = malloc(sizeof(struct utimbuf));
 				d->ubuf->modtime = mod_time;
 
-				//free memory
-				free(buffer);
-
 				//sets the files mode
 				chmod(name, mode);
 
@@ -171,10 +168,6 @@ int main(int argc, char *argv[]) {
 			check = jrb_find_int(inodes, inode); 	
 			link(check->val.s, name);				
 		}//end of else
-		
-		//free memory
-		free(d->ubuf);
-		free(d);
 	} //end of while
 
 	//traverse through directories
