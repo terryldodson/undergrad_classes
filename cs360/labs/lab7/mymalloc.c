@@ -8,6 +8,7 @@ typedef struct Flist {
 	struct Flist *prev;
 } flist;
 
+//global variable for head node
 struct Flist *head = NULL; 
 
 void *my_malloc(size_t size) {
