@@ -21,15 +21,22 @@ void *my_malloc(size_t size) {
 	struct Flist *head1 = head;
 
 	//loops while head is not NULL
+	printf("here2");
 	while(head1 != NULL) {
 		//checks to see if the size requested if less than the node size
 		//if so, we return the requested size + bookkeeping and update the free list with the current size
 		if(size < node->size) {
+			struct Flist* tmp;
 			int new_size = node->size-size;
-			int left_over = node->size-new_size;
-			node->size = size;
-			head1->size = new_size;
-			return (void*) (node+8) + left_over;
+			int leftover_size = node->size-new_size;
+			node->size = new_size;	
+			
+			tmp = (void*) node + new_size;
+			tmp->size = leftover_size;
+	
+
+			printf("fasfdf");
+			return (void*) node + 8 + new_size;
 		}//end of if
 
 		//checks if the size is equal to the node size
@@ -38,15 +45,15 @@ void *my_malloc(size_t size) {
 			//looking at the first node
 			//set the head node and return the head node (relink nodes)
 			if(node->prev == NULL) {
-				head->next = head;
-				return head+8;
+				head1 = head1->next;
+				return (void*) head1 + 8;
 			}//end of if	
 
 			//looking at the last node
 			//set the previous equal to node (relink nodes)
 			else if(node->next == NULL) {
 				node = node->prev;
-				return node+8;
+				return (void*) node + 8;
 			}//end of else if
 
 			//looking at middle nodes
@@ -54,11 +61,11 @@ void *my_malloc(size_t size) {
 			//return that node
 			else {
 				node->prev = node->next; 
-				return node+8;
+				return (void*) node + 8;
 			}//end of else
 		}//end of else if
 
-		head1 = head1->next;
+		head = head->next;
 	}//end of while
 
 	//checks for nodes with sizes greater than 8192
@@ -67,24 +74,26 @@ void *my_malloc(size_t size) {
 		//and return that node
 		node = (void*) sbrk(8192);
 		node->size = size;
-		return (void*) node+8;
+		printf("here");
+		return (void*) node + 8;
 	}//end of if
 
-	//checks for nodes with sizes less than 8192
-	else if(head == NULL && size < 8192) {
-		//create a new node, update size of new node
-		//set the next node equal to null bcuz its redundant
-		//return the node 
-		head = (void*) sbrk(8192);
-		int new_size = 8192-size;
+	//checks for nodes rest of nodes
+	//create a new node, update size of new node
+	//set the next node equal to null bcuz its redundant
+	//return the node 
+	struct Flist* tmp;
+	head = (void*) sbrk(8192);
+	int new_size = 8192-size;
+	int leftover_size = 8192-new_size;
 
-		head->size = new_size;
-		//head->next = NULL;
-		head->next = NULL;
-		//head->size + new_size = size;
+	head->size = new_size;
+	head->next = NULL;
+	
+	tmp = (void*) head + new_size;
+	tmp->size = leftover_size;
 
-		return (head+new_size)+8;
-	} //end of else if
+	return (void*) head + new_size + 8;
 }
 
 void my_free(void *ptr) {
@@ -96,12 +105,18 @@ void my_free(void *ptr) {
 	ptr1 = (flist*) ptr;
 
 	node = head;
-	head = ptr1-8; 
+	head = ptr1-8;
+	//struct Flist *ptr = (flist*) ptr;
 	ptr1->next = node;
 }
 
 //returns the first node in the free list
 void *free_list_begin() {
+	//if free list is empty return NULL 
+	if(head == NULL) {
+		return NULL;
+	}
+
 	return (void*) head;
 }
 
@@ -109,7 +124,12 @@ void *free_list_begin() {
 void *free_list_next(void *node) {
 	flist *f = (flist*) node;
 
-	return f->next;  
+	//if its the last node, return NULL
+	if(f->next == NULL) {
+		return NULL;
+	}
+
+	return (void*) f->next;  
 }
 
 void coalesce_free_list() {
