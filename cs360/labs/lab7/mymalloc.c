@@ -12,6 +12,7 @@ typedef struct Flist {
 struct Flist *head = NULL; 
 
 void *my_malloc(size_t size) {
+	printf("Here4\n");
 	struct Flist *node;
 
 	//sets the size to a multiple of 8 and then + 8
@@ -19,24 +20,25 @@ void *my_malloc(size_t size) {
 	
 	//copy of head
 	struct Flist *head1 = head;
-
+		
 	//loops while head is not NULL
-	printf("here2");
+	printf("here2\n");
 	while(head1 != NULL) {
+		printf("Here3\n");
 		//checks to see if the size requested if less than the node size
 		//if so, we return the requested size + bookkeeping and update the free list with the current size
-		if(size < node->size) {
+		if(size < head1->size) {
 			struct Flist* tmp;
-			int new_size = node->size-size;
-			int leftover_size = node->size-new_size;
-			node->size = new_size;	
+			int new_size = head1->size-size;
+			int leftover_size = head1->size-new_size;
+			head1->size = new_size;	
 			
-			tmp = (void*) node + new_size;
+			tmp = (void*) head1 + new_size;
 			tmp->size = leftover_size;
 	
 
-			printf("fasfdf");
-			return (void*) node + 8 + new_size;
+			printf("fasfdf\n");
+			return (void*) head1 + 8 + new_size;
 		}//end of if
 
 		//checks if the size is equal to the node size
@@ -65,15 +67,15 @@ void *my_malloc(size_t size) {
 			}//end of else
 		}//end of else if
 
-		head = head->next;
+		head1 = head1->next;
 	}//end of while
 
 	//checks for nodes with sizes greater than 8192
-	if(head == NULL && size > 8192) {
+	if(head1 == NULL && size > 8192) {
 		//created a new node with size of 8192
 		//and return that node
-		node = (void*) sbrk(8192);
-		node->size = size;
+		head1 = (void*) sbrk(8192);
+		head1->size = size;
 		printf("here");
 		return (void*) node + 8;
 	}//end of if
