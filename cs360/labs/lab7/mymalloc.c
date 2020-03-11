@@ -127,10 +127,12 @@ void my_free(void *ptr) {
 		return;
 	}
 
-	node = head;
-	head = ptr-8;
+	//node = head;
+	//head = ptr-8;
+	node = (void*) ptr-8;
+	head = node;
 	//struct Flist *ptr = (flist*) ptr;
-	ptr1->next = node;
+	//ptr1->next = node;
 }
 
 //returns the first node in the free list
