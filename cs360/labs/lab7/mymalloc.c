@@ -12,7 +12,7 @@ typedef struct Flist {
 struct Flist *head = NULL; 
 
 void *my_malloc(size_t size) {
-	printf("Here4\n");
+//	printf("Here4\n");
 	struct Flist *node;
 
 	//sets the size to a multiple of 8 and then + 8
@@ -22,12 +22,12 @@ void *my_malloc(size_t size) {
 	struct Flist *head1 = head;
 		
 	//loops while head is not NULL
-	printf("here2\n");
+//	printf("here2\n");
 	while(head1 != NULL) {
-		printf("Here3\n");
+//		printf("Here3\n");
 		//checks to see if the size requested if less than the node size
 		//if so, we return the requested size + bookkeeping and update the free list with the current size
-		if(size < head1->size) {
+		if(size <= head1->size) {
 			struct Flist* tmp;
 			int new_size = head1->size-size;
 			int leftover_size = head1->size-new_size;
@@ -36,36 +36,53 @@ void *my_malloc(size_t size) {
 			tmp = (void*) head1 + new_size;
 			tmp->size = leftover_size;
 	
+			//if its the first node
+			if(head1 == head) {
+				if(leftover_size < 8) {
+					head1 = head1->next;
+					return (void*) head1 + 8;
+				}
 
-			printf("fasfdf\n");
-			return (void*) head1 + 8 + new_size;
+				return (void*) head1 + 8 + new_size;
+			} //end of if
+
+			else {
+				if(leftover_size < 8) {	
+					head1->prev->next = head1->next; 
+					return (void*) head1 + 8;
+				}	
+
+				return (void*) head1 + 8 + new_size;
+			} //end of else
+
+//			printf("fasfdf\n");
 		}//end of if
 
 		//checks if the size is equal to the node size
 		//if so, we just take out that chunk and relink the nodes
-		else if(size == node->size) {
+		//else if(size == head1->size) {
 			//looking at the first node
 			//set the head node and return the head node (relink nodes)
-			if(node->prev == NULL) {
-				head1 = head1->next;
-				return (void*) head1 + 8;
-			}//end of if	
+		//	if(head1->prev == NULL) {
+		//		head1 = head1->next;
+		//		return (void*) head1 + 8;
+		//	}//end of if	
 
 			//looking at the last node
 			//set the previous equal to node (relink nodes)
-			else if(node->next == NULL) {
-				node = node->prev;
-				return (void*) node + 8;
-			}//end of else if
+		//	else if(head1->next == NULL) {
+		//		head1 = head1->prev;
+		//		return (void*) head1 + 8;
+		//	}//end of else if
 
 			//looking at middle nodes
 			//link the previous and next node once we delete the middle node
 			//return that node
-			else {
-				node->prev = node->next; 
-				return (void*) node + 8;
-			}//end of else
-		}//end of else if
+		//	else {
+		//		head1->prev = head1->next; 
+		//		return (void*) head1 + 8;
+		//	}//end of else
+	//	}//end of else if
 
 		head1 = head1->next;
 	}//end of while
@@ -76,8 +93,8 @@ void *my_malloc(size_t size) {
 		//and return that node
 		head1 = (void*) sbrk(8192);
 		head1->size = size;
-		printf("here");
-		return (void*) node + 8;
+//		printf("here");
+		return (void*) head1 + 8;
 	}//end of if
 
 	//checks for nodes rest of nodes
@@ -106,8 +123,12 @@ void my_free(void *ptr) {
 	struct Flist *ptr1;
 	ptr1 = (flist*) ptr;
 
+	if(ptr == NULL) {
+		return;
+	}
+
 	node = head;
-	head = ptr1-8;
+	head = ptr-8;
 	//struct Flist *ptr = (flist*) ptr;
 	ptr1->next = node;
 }
