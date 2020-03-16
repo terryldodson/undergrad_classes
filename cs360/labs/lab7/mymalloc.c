@@ -20,7 +20,18 @@ void *my_malloc(size_t size) {
 	
 	//copy of head
 	struct Flist *head1 = head;
-		
+	
+	//checks for nodes with sizes greater than 8192
+	if(head1 == NULL && size > 8192) {
+//		printf("piza");
+		//created a new node with size of 8192
+		//and return that node
+		head1 = (void*) sbrk(size);
+		head1->size = size;
+//		printf("here");
+		return (char*) head1 + 8;
+	}//end of if
+	
 	//loops while head is not NULL
 //	printf("here2\n");
 	while(head1 != NULL) {
@@ -35,24 +46,29 @@ void *my_malloc(size_t size) {
 			
 			tmp = (void*) head1 + new_size;
 			tmp->size = leftover_size;
+			printf("Tmp size: %d\n", tmp->size);
 	
 			//if its the first node
 			if(head1 == head) {
-				if(leftover_size < 8) {
+				if(leftover_size <= 8) {
+					struct Flist* old_head;
+					old_head = head1;
 					head1 = head1->next;
-					return (void*) head1 + 8;
+					printf("old head size: %d\n", old_head->size);
+					return (char*) old_head + 8;
 				}
 
-				return (void*) head1 + 8 + new_size;
+				return (char*) tmp + 8;
 			} //end of if
 
 			else {
-				if(leftover_size < 8) {	
+				if(leftover_size <= 8) {	
 					head1->prev->next = head1->next; 
-					return (void*) head1 + 8;
+					printf("head1 size: %d\n", head1->size);
+					return (char*) head1 + 8;
 				}	
 
-				return (void*) head1 + 8 + new_size;
+				return (char*) tmp + 8;
 			} //end of else
 
 //			printf("fasfdf\n");
@@ -87,32 +103,28 @@ void *my_malloc(size_t size) {
 		head1 = head1->next;
 	}//end of while
 
-	//checks for nodes with sizes greater than 8192
-	if(head1 == NULL && size > 8192) {
-		//created a new node with size of 8192
-		//and return that node
-		head1 = (void*) sbrk(8192);
-		head1->size = size;
-//		printf("here");
-		return (void*) head1 + 8;
-	}//end of if
-
 	//checks for nodes rest of nodes
 	//create a new node, update size of new node
 	//set the next node equal to null bcuz its redundant
 	//return the node 
 	struct Flist* tmp;
+	struct Flist* head_copy;
+	
+	head_copy = head;
+	
 	head = (void*) sbrk(8192);
+
 	int new_size = 8192-size;
 	int leftover_size = 8192-new_size;
 
 	head->size = new_size;
-	head->next = NULL;
 	
-	tmp = (void*) head + new_size;
+	head->next = head_copy;
+
+	tmp = (flist*) ((char*) head + new_size);
 	tmp->size = leftover_size;
 
-	return (void*) head + new_size + 8;
+	return (char*) tmp + 8;
 }
 
 void my_free(void *ptr) {
@@ -120,19 +132,16 @@ void my_free(void *ptr) {
 	//sets the new head
 	//links the new one to the old one
 	struct Flist *node;
-	struct Flist *ptr1;
-	ptr1 = (flist*) ptr;
-
+	struct Flist *old_head;
+	
 	if(ptr == NULL) {
 		return;
 	}
 
-	//node = head;
-	//head = ptr-8;
-	node = (void*) ptr-8;
+	node = (flist*) ((char*) ptr-8);
+	ptr = head;
 	head = node;
-	//struct Flist *ptr = (flist*) ptr;
-	//ptr1->next = node;
+	node->next = ptr;
 }
 
 //returns the first node in the free list
