@@ -27,21 +27,27 @@ void *my_malloc(size_t size) {
 //		printf("Here3\n");
 		//checks to see if the size requested if less than the node size
 		//if so, we return the requested size + bookkeeping and update the free list with the current size
+		printf("head1 size: %d\n", head1->size);
+		printf("size: %d\n", size);
+		//printf("head1 next size: %d\n", head1->next->size);
+		//printf("tmp size first: %d\n", tmp->size);
 		if(size <= head1->size) {
 			struct Flist* tmp;
 			int new_size = head1->size-size;
 			int leftover_size = head1->size-new_size;
 			head1->size = new_size;	
 			
-			tmp = (void*) head1 + new_size;
+			tmp = (flist*) ((void*) head1 + new_size);
 			tmp->size = leftover_size;
-//			printf("Tmp size: %d\n", tmp->size);
+			printf("Tmp size: %d\n", tmp->size);
 	
-			//print_free_list(tmp);
+//			print_free_list(tmp);
 
 			//if its the first node
+			//printf("previous to head node: %d\n", head1->prev->size);
 			if(head1->prev == NULL) {
 			//if(1) {
+				//printf("head is NULL");
 				if(leftover_size <= 8) {
 					struct Flist* old_head;
 					old_head = head1;
@@ -55,7 +61,7 @@ void *my_malloc(size_t size) {
 				//head1 = head1->next;
 				//printf("head node size: %d\n", head1->size);
 				//printf("Tmp2 size: %d\n", tmp->size);
-				return (char*) tmp + 8;
+				return (flist*) ((char*) tmp + 8);
 			} //end of if
 
 			else {
@@ -72,6 +78,8 @@ void *my_malloc(size_t size) {
 //			printf("fasfdf\n");
 		}//end of if
 		//printf("going to next head");
+		printf("going to next node\n");
+		printf("next node size: %d\n", head1->next->size);
 		head1 = head1->next;
 	}//end of while
 
@@ -121,7 +129,9 @@ void *my_malloc(size_t size) {
 	struct Flist* head_copy;
 
 //	printf("if NULL and not enough size");
-
+	
+	//head = (void*) sbrk(8192);
+	
 	head_copy = head;
 	
 	head = (void*) sbrk(8192);
@@ -134,10 +144,14 @@ void *my_malloc(size_t size) {
 //	printf("size of head: \n", head->size);
 	
 	head->next = head_copy;
+	//head->next->size = new_size;
 
 	tmp = (flist*) ((char*) head + new_size);
 	tmp->size = leftover_size;
+	//head->size = tmp->size;
 
+	printf("tmp size last: %d\n", tmp->size);
+	printf("head size last: %d\n", head->size);
 //	printf("allocated size: sbrk");
 	
 	return (char*) tmp + 8;
@@ -172,6 +186,12 @@ void *free_list_begin() {
 
 //returns the next node in the list
 void *free_list_next(void *node) {
+	/*if (node == NULL){
+		return NULL;
+	}
+
+	return ( (flist *) node)->next; */
+	
 	flist *f = (flist*) node;
 
 	//if its the last node, return NULL
@@ -179,7 +199,7 @@ void *free_list_next(void *node) {
 		return NULL;
 	}
 
-	return (void*) f->next;  
+	return (flist*) ((void*) f->next);
 }
 
 void coalesce_free_list() {
