@@ -17,21 +17,10 @@ void *my_malloc(size_t size) {
 
 	//sets the size to a multiple of 8 and then + 8
 	size = (size + 7 + 8) & -8;
-	
+
 	//copy of head
 	struct Flist *head1 = head;
-	
-	//checks for nodes with sizes greater than 8192
-	if(head1 == NULL && size > 8192) {
-//		printf("piza");
-		//created a new node with size of 8192
-		//and return that node
-		head1 = (void*) sbrk(size);
-		head1->size = size;
-//		printf("here");
-		return (char*) head1 + 8;
-	}//end of if
-	
+
 	//loops while head is not NULL
 //	printf("here2\n");
 	while(head1 != NULL) {
@@ -46,33 +35,45 @@ void *my_malloc(size_t size) {
 			
 			tmp = (void*) head1 + new_size;
 			tmp->size = leftover_size;
-			printf("Tmp size: %d\n", tmp->size);
+//			printf("Tmp size: %d\n", tmp->size);
 	
+			//print_free_list(tmp);
+
 			//if its the first node
-			if(head1 == head) {
+			if(head1->prev == NULL) {
+			//if(1) {
 				if(leftover_size <= 8) {
 					struct Flist* old_head;
 					old_head = head1;
 					head1 = head1->next;
-					printf("old head size: %d\n", old_head->size);
+//					printf("old head size: %d\n", old_head->size);
 					return (char*) old_head + 8;
 				}
 
+//				printf("head node but more than 8");
+				//head1 = head;
+				//head1 = head1->next;
+				//printf("head node size: %d\n", head1->size);
+				//printf("Tmp2 size: %d\n", tmp->size);
 				return (char*) tmp + 8;
 			} //end of if
 
 			else {
 				if(leftover_size <= 8) {	
 					head1->prev->next = head1->next; 
-					printf("head1 size: %d\n", head1->size);
+					//printf("head1 size: %d\n", head1);
 					return (char*) head1 + 8;
 				}	
 
+//				printf("non-head node but more than 8");
 				return (char*) tmp + 8;
 			} //end of else
 
 //			printf("fasfdf\n");
 		}//end of if
+		//printf("going to next head");
+		head1 = head1->next;
+	}//end of while
 
 		//checks if the size is equal to the node size
 		//if so, we just take out that chunk and relink the nodes
@@ -100,8 +101,17 @@ void *my_malloc(size_t size) {
 		//	}//end of else
 	//	}//end of else if
 
-		head1 = head1->next;
-	}//end of while
+	//checks for nodes with sizes greater than 8192
+	if(size > 8192) {
+//		printf("piza");
+		//created a new node with size of 8192
+		//and return that node
+//		head = (flist*) ((char*) sbrk(0) - size - 8);
+		head1 = (void*) sbrk(size);
+		head1->size = size;
+//		printf("here");
+		return (char*) head1 + 8;
+	}//end of if
 
 	//checks for nodes rest of nodes
 	//create a new node, update size of new node
@@ -109,7 +119,9 @@ void *my_malloc(size_t size) {
 	//return the node 
 	struct Flist* tmp;
 	struct Flist* head_copy;
-	
+
+//	printf("if NULL and not enough size");
+
 	head_copy = head;
 	
 	head = (void*) sbrk(8192);
@@ -119,11 +131,15 @@ void *my_malloc(size_t size) {
 
 	head->size = new_size;
 	
+//	printf("size of head: \n", head->size);
+	
 	head->next = head_copy;
 
 	tmp = (flist*) ((char*) head + new_size);
 	tmp->size = leftover_size;
 
+//	printf("allocated size: sbrk");
+	
 	return (char*) tmp + 8;
 }
 
@@ -168,4 +184,16 @@ void *free_list_next(void *node) {
 
 void coalesce_free_list() {
 
+}
+
+void print_free_list(struct Flist* node) {
+	while(node->next != NULL) {
+		printf("previous node: \n", node->prev);
+		printf("previous node size: \n", node->prev->size);
+		printf("node: \n", node);
+		printf("size:\n", node->size);
+		printf("next node: \n", node->next);
+		printf("next node size: \n", node->next->size);
+		node = node->next;
+	}
 }
