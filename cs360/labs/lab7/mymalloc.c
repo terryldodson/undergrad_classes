@@ -48,7 +48,7 @@ void *my_malloc(size_t size) {
 			if(head1->prev == NULL) {
 			//if(1) {
 				//printf("head is NULL");
-				if(leftover_size <= 8) {
+				if(new_size <= 8) {
 					struct Flist* old_head;
 					old_head = head1;
 					head1 = head1->next;
@@ -65,7 +65,7 @@ void *my_malloc(size_t size) {
 			} //end of if
 
 			else {
-				if(leftover_size <= 8) {	
+				if(new_size <= 8) {	
 					head1->prev->next = head1->next; 
 					//printf("head1 size: %d\n", head1);
 					return (char*) head1 + 8;
@@ -155,7 +155,7 @@ void *my_malloc(size_t size) {
 //	printf("allocated size: sbrk");
 	
 	return (char*) tmp + 8;
-}
+} //end of my_malloc
 
 void my_free(void *ptr) {
 	//saves old head
