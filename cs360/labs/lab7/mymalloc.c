@@ -79,7 +79,7 @@ void *my_malloc(size_t size) {
 		}//end of if
 		//printf("going to next head");
 		printf("going to next node\n");
-		printf("next node size: %d\n", head1->next->size);
+		//printf("next node size: %d\n", head1->next->size);
 		head1 = head1->next;
 	}//end of while
 
