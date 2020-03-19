@@ -14,6 +14,7 @@ struct Flist *head = NULL;
 void *my_malloc(size_t size) {
 //	printf("Here4\n");
 	struct Flist *node;
+	int sizeN;
 
 	//sets the size to a multiple of 8 and then + 8
 	size = (size + 7 + 8) & -8;
@@ -31,49 +32,82 @@ void *my_malloc(size_t size) {
 		printf("size: %d\n", size);
 		//printf("head1 next size: %d\n", head1->next->size);
 		//printf("tmp size first: %d\n", tmp->size);
-		if(size <= head1->size) {
+		
+		if(size == head1->size) {
+			struct Flist* old_head;
+			int new_size = 8192 - size;
+			int leftover_size = 8192 - new_size;
+			printf("new size 1: %d\n", new_size);
+			printf("leftover size 1: %d\n", leftover_size);
+			
+			if(head1->next == NULL) {
+				old_head = head1;
+				head1 = NULL;
+				//printf("Old head 1 size: %d\n", old_head->size);
+				return old_head + new_size + 8;
+			}
+
+			else {
+				head1->prev->next = head1->next; 
+				//printf("head1 size: %d\n", head1);
+				return (char*) head1 + 8;
+			}	
+		}
+
+		else if(size < head1->size) {
 			struct Flist* tmp;
 			int new_size = head1->size-size;
 			int leftover_size = head1->size-new_size;
+			printf("new size: %d\n", new_size);
+			printf("leftover size: %d\n", leftover_size);
 			head1->size = new_size;	
+			//head1->size = sizeN;
+			//head1->size = leftover_size;
+			//printf("sizeN: %d\n", sizeN);
 			
+			//returnSize = 8192-sizeN;
+			//printf(head);
 			tmp = (flist*) ((void*) head1 + new_size);
 			tmp->size = leftover_size;
-			printf("Tmp size: %d\n", tmp->size);
+			//tmp->size = leftover_size;
+			printf("head 1 size now: %d\n", head1->size);
+			printf("Tmp size fdsf: %d\n", tmp->size);
 	
 //			print_free_list(tmp);
 
 			//if its the first node
 			//printf("previous to head node: %d\n", head1->prev->size);
-			if(head1->prev == NULL) {
+			//if(head1->prev == NULL) {
 			//if(1) {
 				//printf("head is NULL");
-				if(new_size <= 8) {
+				/*if(new_size <= 8) {
 					struct Flist* old_head;
 					old_head = head1;
-					head1 = head1->next;
+					head1 = NULL;
+					//head1 = head1->next;
 //					printf("old head size: %d\n", old_head->size);
 					return (char*) old_head + 8;
-				}
+				w	//return (flist*) ((void*) sizeN + 8);
+				}*/
 
-//				printf("head node but more than 8");
+				//printf("head node but more than 8");
 				//head1 = head;
 				//head1 = head1->next;
 				//printf("head node size: %d\n", head1->size);
 				//printf("Tmp2 size: %d\n", tmp->size);
 				return (flist*) ((char*) tmp + 8);
-			} //end of if
+			//} //end of if
 
-			else {
+			/*else {
 				if(new_size <= 8) {	
 					head1->prev->next = head1->next; 
 					//printf("head1 size: %d\n", head1);
 					return (char*) head1 + 8;
 				}	
 
-//				printf("non-head node but more than 8");
+//		 		printf("non-head node but more than 8");
 				return (char*) tmp + 8;
-			} //end of else
+			} //end of else*/
 
 //			printf("fasfdf\n");
 		}//end of if
@@ -135,6 +169,7 @@ void *my_malloc(size_t size) {
 	head_copy = head;
 	
 	head = (void*) sbrk(8192);
+	//sizeN = size;
 
 	int new_size = 8192-size;
 	int leftover_size = 8192-new_size;
