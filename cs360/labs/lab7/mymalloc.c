@@ -29,6 +29,8 @@ void *my_malloc(size_t size) {
 		//checks to see if the size requested if less than the node size
 		//if so, we return the requested size + bookkeeping and update the free list with the current size
 		printf("head1 size: %d\n", head1->size);
+		//printf("head next size: %d\n", head->next->size);
+		printf("head 1 address: %0x%x\n", head1);
 		printf("size: %d\n", size);
 		//printf("head1 next size: %d\n", head1->next->size);
 		//printf("tmp size first: %d\n", tmp->size);
@@ -42,15 +44,17 @@ void *my_malloc(size_t size) {
 			
 			if(head1->next == NULL) {
 				old_head = head1;
+				printf("head address: %0x%x\n", head1);
+				printf("old head address: %0x%x\n", old_head);
 				head1 = NULL;
-				//printf("Old head 1 size: %d\n", old_head->size);
-				return old_head + new_size + 8;
+				printf("Old head 1 size: %d\n", old_head->size);
+				return (flist*) ((void*) old_head + 8);// + new_size + 8);
 			}
 
 			else {
 				head1->prev->next = head1->next; 
 				//printf("head1 size: %d\n", head1);
-				return (char*) head1 + 8;
+				return (flist*) ((void*) head1 + 8);
 			}	
 		}
 
@@ -71,7 +75,9 @@ void *my_malloc(size_t size) {
 			tmp->size = leftover_size;
 			//tmp->size = leftover_size;
 			printf("head 1 size now: %d\n", head1->size);
+			printf("head 3 address: %0x%x\n", head1);
 			printf("Tmp size fdsf: %d\n", tmp->size);
+			printf("tmp address: %0x%x\n", tmp);
 	
 //			print_free_list(tmp);
 
@@ -110,7 +116,7 @@ void *my_malloc(size_t size) {
 			} //end of else*/
 
 //			printf("fasfdf\n");
-		}//end of if
+		}//end of else if
 		//printf("going to next head");
 		printf("going to next node\n");
 		//printf("next node size: %d\n", head1->next->size);
@@ -180,6 +186,7 @@ void *my_malloc(size_t size) {
 	
 	head->next = head_copy;
 	//head->next->size = new_size;
+	printf("head 2 address: %0x%x\n", head);
 
 	tmp = (flist*) ((char*) head + new_size);
 	tmp->size = leftover_size;
