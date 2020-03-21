@@ -12,7 +12,6 @@ typedef struct Flist {
 struct Flist *head = NULL; 
 
 void *my_malloc(size_t size) {
-//	printf("Here4\n");
 	struct Flist *node;
 	int sizeN;
 
