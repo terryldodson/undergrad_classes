@@ -218,7 +218,25 @@ void *free_list_next(void *node) {
 
 //compares the nodes
 struct Flist* cmpnodes(const void* a, const void* b) {
-	return (flist*) (a - b);
+	const void* tmp;
+
+	if(a < b) {
+        tmp = b;
+        b = a;
+        a = tmp;
+        return (int) a;
+    }
+
+    else if(a > b) {
+		tmp = a;
+		a = b;
+		b = tmp;
+		return (int) b;
+	}
+
+	else {
+		return a;
+	}
 }//end of cmpnodes 
 	
 void coalesce_free_list() {
@@ -249,7 +267,9 @@ void coalesce_free_list() {
 	}//end of for 
 	
 	//sorting nodes
-	qsort(array, count, sizeof(struct Flist *), cmpnodes((const void*) head, (const void*) head->next));
+	struct Flist* (*functionPtr) (const void*, const void*);
+	functionPtr = &cmpnodes;
+	qsort(array, count, sizeof(struct Flist *), (*functionPtr) (cmpnodes((const void*) head, (const void*) head->next)));
 
 	//reset head variables
 	head = array[0];
