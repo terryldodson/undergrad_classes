@@ -66,7 +66,6 @@ void *my_malloc(size_t size) {
 			tmp->size = leftover_size;
 
 			return (flist*) ((char*) tmp + 8);
-
 		}//end of else if
 
 		head1 = head1->next;
