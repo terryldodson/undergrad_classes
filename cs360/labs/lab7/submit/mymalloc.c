@@ -216,6 +216,7 @@ void *free_list_next(void *node) {
 	return (flist*) ((void*) f->next);
 }//end of free_list_next
 
+
 //compares the nodes
 struct Flist* cmpnodes(const void* a, const void* b) {
 	const void* tmp;
@@ -224,24 +225,24 @@ struct Flist* cmpnodes(const void* a, const void* b) {
         tmp = b;
         b = a;
         a = tmp;
-        return (int) a;
+        return (flist*) ((int) a);
     }
 
     else if(a > b) {
 		tmp = a;
 		a = b;
 		b = tmp;
-		return (int) b;
+		return (flist*) ((int) b);
 	}
 
 	else {
-		return a;
+		return (flist*) a;
 	}
 }//end of cmpnodes 
 	
 void coalesce_free_list() {
-	struct Flist *head = head; //primary head
-	struct Flist *next_node = head; //temp head
+	struct Flist *head = free_list_begin(); //primary head
+	struct Flist *next_node = free_list_begin(); //temp head
 	//struct Flist *new_node;
 	int count = 0;
 	int i, size;
@@ -254,22 +255,40 @@ void coalesce_free_list() {
 	//obtaining the count of nodes on the list
 	while(next_node != NULL) {	
 		count++;
+		printf("count: %d\n", count);
 		next_node = next_node->next;
 	}//end of while
 
 	//creating and allocating size for array
 	struct Flist **array = malloc(count * 8);
 
+	printf("pizza\n");
 	//inserting nodes in array
 	for(i = 0; i < count; i++) {
-		array[i] = (flist*) ((int) head);
-		head = head->next;
+//		count = 1;
+		printf("count1: %d\n", count);
+		printf("# \t Address \t Size \t prev \t next\n");
+		array[i] = (flist*) ((int) head);	
+		printf("%d \t %0x%x \t %d \t %0x%x \t %0x%x\n", count, array[i], array[i]->size, array[i]->prev, array[i+1]);
+		//head = head->next;
+	//	count++;
 	}//end of for 
 	
 	//sorting nodes
-	struct Flist* (*functionPtr) (const void*, const void*);
-	functionPtr = &cmpnodes;
-	qsort(array, count, sizeof(struct Flist *), (*functionPtr) (cmpnodes((const void*) head, (const void*) head->next)));
+	for(i = 0; i < count; i++) {
+		qsort(array[0], count, sizeof(flist*), cmpnodes);
+	}
+
+	printf("pizza1\n");
+
+/*	for(i = 0; i < count; i++) {
+//		count = 1;
+//		printf("# \t Address \t Size \t prev \t next");
+		array[i] = (flist*) ((int) head);	
+//		printf("%d \t %0x%x \t %d \t %0x%x \t %0x%x\n", count, array[i], array[i]->size, array[i]->prev, array[i+1]);
+		head = head->next;
+	//	count++;
+	}//end of for */
 
 	//reset head variables
 	head = array[0];
