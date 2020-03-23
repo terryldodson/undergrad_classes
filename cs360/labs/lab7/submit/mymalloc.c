@@ -44,8 +44,15 @@ void *my_malloc(size_t size) {
 			int new_size = 8192 - size;
 			int leftover_size = 8192 - new_size;
 
-			if(head1->next == NULL) {
+			if(head1 == head) {
+				printf("head is first node\n");
+				head = head1->next;
+				return (char*) head + 8;
+			}
+			/*if(head1->next == NULL) {
+				printf("ashfff\n");
 				old_head = head1;
+<<<<<<< HEAD
 				printf("head address: %0x%x\n", head1);
 				printf("old head address: %0x%x\n", old_head);
 				head1 = NULL;
@@ -61,8 +68,16 @@ void *my_malloc(size_t size) {
 			}	
 		}
 =======
+=======
+				head1 = head1->next;
+
+				while(head1->next != NULL) {
+					printf("node: %0x%x\n", head1);
+				}
+
+>>>>>>> 02d926827433f15aa3729bde134cb745f14c867e
 				return old_head + new_size + 8;
-			} //end of inner if
+			} //end of inner if*/
 
 			else {
 				head1->prev->next = head1->next; 
@@ -218,25 +233,25 @@ void *free_list_next(void *node) {
 
 
 //compares the nodes
-struct Flist* cmpnodes(const void* a, const void* b) {
+int cmpnodes(const void* a, const void* b) {
 	const void* tmp;
 
 	if(a < b) {
         tmp = b;
         b = a;
         a = tmp;
-        return (flist*) ((int) a);
+        return (int) a;
     }
 
     else if(a > b) {
 		tmp = a;
 		a = b;
 		b = tmp;
-		return (flist*) ((int) b);
+		return (int) b;
 	}
 
 	else {
-		return (flist*) a;
+		return (int) a;
 	}
 }//end of cmpnodes 
 	
