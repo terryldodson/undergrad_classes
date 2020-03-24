@@ -1,3 +1,7 @@
+/*Name: Terryl Dodson
+ * Date: 3/23/2020
+ * Description: Had to create our own malloc program by writing my_malloc which returned to the user the requested size. Then we had to write coalesce which joins two nodes together if they're continguous in  memory*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "mymalloc.h"
@@ -103,6 +107,7 @@ void my_free(void *ptr) {
 	} //end of if
 
 	node = (flist*) ((char*) ptr-8);
+
 	ptr = head;
 	head = node;
 	node->next = ptr;
@@ -134,31 +139,12 @@ void *free_list_next(void *node) {
 
 //compares the nodes
 int cmpnodes(const void* a, const void* b) {
-	const void* tmp;
-
-	if(a < b) {
-        tmp = b;
-        b = a;
-        a = tmp;
-        return (int) a;
-    }
-
-    else if(a > b) {
-		tmp = a;
-		a = b;
-		b = tmp;
-		return (int) b;
-	}
-
-	else {
-		return (int) a;
-	}
+	return *(int*) a - *(int*) b;
 }//end of cmpnodes 
 	
 void coalesce_free_list() {
 	struct Flist *head = free_list_begin(); //primary head
 	struct Flist *next_node = free_list_begin(); //temp head
-	//struct Flist *new_node;
 	int count = 0;
 	int i, size;
 
@@ -175,64 +161,34 @@ void coalesce_free_list() {
 	}//end of while
 
 	//creating and allocating size for array
-	int *array = (int*)(malloc(sizeof(void*) * count));
+	struct Flist **array = (flist*) (malloc(count * sizeof(flist*)));
 
 	printf("pizza\n");
 	//inserting nodes in array
 	for(i = 0; i < count; i++) {
-//		count = 1;
-		//printf("count1: %d\n", count);
-		//printf("# \t Address \t Size \t prev \t next\n");
-		array[i] = (int) head;	
-		//printf("%d \t %0x%x \t %d \t %0x%x \t %0x%x\n", count, array[i], array[i]->size, array[i]->prev, array[i+1]);
-		head = (flist*) head->next;
-	//	count++;
+		array[i] = (flist*) ((int) head);	
+		head = head->next;
 	}//end of for 
 	
 	//sorting nodes
-//	for(i = 0; i < count; i++) {
-		qsort(array, count, sizeof(int), cmpnodes);
-//	}
-
-//	printf("sorted:\n");
-
-/*	for(i = 0; i < count; i++) {
-//		count = 1;
-		printf("count1: %d\n", count);
-		printf("# \t Address \t Size \t prev \t next\n");
-		array[i] = (flist*) ((int) head);	
-		printf("%d \t %0x%x \t %d \t %0x%x \t %0x%x\n", count, array[i], array[i]->size, array[i]->prev, array[i+1]);
-		//head = head->next;
-	//	count++;
-	}//end of for 
-*/	
-	printf("pizza1\n");
-
-/*	for(i = 0; i < count; i++) {
-//		count = 1;
-//		printf("# \t Address \t Size \t prev \t next");
-		array[i] = (flist*) ((int) head);	
-//		printf("%d \t %0x%x \t %d \t %0x%x \t %0x%x\n", count, array[i], array[i]->size, array[i]->prev, array[i+1]);
-		head = head->next;
-	//	count++;
-	}//end of for */
+	qsort(array[0], count, sizeof(flist*), cmpnodes);
 
 	//reset head variables
-	head = (flist*) array[0];
-	next_node = (flist*) array[0];
+	head = array[0];
+	next_node = array[0];
 
 	//goes through to check and make sure the nodes are contiguous
 	//if so it merges them together and sets the size
 	//if not, then it sets the head to the next node
 	for(i = 0; i < count-1; i++) {
-		size = ((flist*) array[i])->size;
+		size = array[i]->size;
 
 		if(array[i+1] == array[i] + size) {
-			head->size += ((flist*) array[i+1])->size;
+			head->size += array[i+1]->size;
 		}//end of if
 
 		else {
-			head->next = (flist*) array[i+1];
+			head->next = array[i+1];
 			head = head->next;
 		}//end of else
 	}//end of for
