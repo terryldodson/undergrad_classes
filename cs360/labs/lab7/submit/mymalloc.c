@@ -143,7 +143,7 @@ void *free_list_next(void *node) {
 int cmpnodes(const void* a, const void* b) {
 	return *(int*) a - *(int*) b;
 }//end of cmpnodes 
-	
+
 void coalesce_free_list() {
 	struct Flist *head = free_list_begin(); //primary head
 	struct Flist *next_node = free_list_begin(); //temp head
@@ -163,34 +163,51 @@ void coalesce_free_list() {
 	}//end of while
 
 	//creating and allocating size for array
-	struct Flist **array = (flist*) (malloc(count * sizeof(flist*)));
+	int *array = (int*) (malloc(sizeof(void*) * count));
 
 	printf("pizza\n");
 	//inserting nodes in array
 	for(i = 0; i < count; i++) {
-		array[i] = (flist*) ((int) head);	
+		array[i] = (int) head;	
 		head = head->next;
 	}//end of for 
-	
+
+	for(i = 0; i < count; i++) {
+		//		count = 1;
+		//printf("count1: %d\n", count);
+		printf("# \t Address \t Size \t prev \t next\n");
+		array[i] = (int) head;	
+		printf("%d \t %0x%x \t %d \t %0x%x \t %0x%x\n", count, array[i], ((flist*) array[i])->size, ((flist*) array[i])->prev, array[i+1]);
+	}
+
 	//sorting nodes
-	qsort(array[0], count, sizeof(flist*), cmpnodes);
+	qsort(array, count, sizeof(int), cmpnodes);
+
+	printf("Sorted: \n");
+	for(i = 0; i < count; i++) {
+        //      count = 1;
+        //printf("count1: %d\n", count);
+        printf("# \t Address \t Size \t prev \t next\n");
+        array[i] = (int) head;
+        printf("%d \t %0x%x \t %d \t %0x%x \t %0x%x\n", count, array[i], ((flist*) array[i])->size, ((flist*) array[i])->prev, array[i+1]);
+    }
 
 	//reset head variables
-	head = array[0];
-	next_node = array[0];
+	head = (flist*) array[0];
+	next_node = (flist*) array[0];
 
 	//goes through to check and make sure the nodes are contiguous
 	//if so it merges them together and sets the size
 	//if not, then it sets the head to the next node
 	for(i = 0; i < count-1; i++) {
-		size = array[i]->size;
+		size = ((flist*) array[i])->size;
 
 		if(array[i+1] == array[i] + size) {
-			head->size += array[i+1]->size;
+			head->size += ((flist*) array[i+1])->size;
 		}//end of if
 
 		else {
-			head->next = array[i+1];
+			head->next = (flist*) array[i+1];
 			head = head->next;
 		}//end of else
 	}//end of for
