@@ -175,27 +175,28 @@ void coalesce_free_list() {
 	for(i = 0; i < count; i++) {
 		//		count = 1;
 		//printf("count1: %d\n", count);
-		printf("# \t Address \t Size \t prev \t next\n");
-		array[i] = (int) head;	
-		printf("%d \t %0x%x \t %d \t %0x%x \t %0x%x\n", count, array[i], ((flist*) array[i])->size, ((flist*) array[i])->prev, array[i+1]);
+		//printf("# \t Address \t Size \t prev \t next\n");
+		//array[i] = (int) head;	
+		printf("%d Memory: %0x%x Size: %d\n", array[i], array[i], ((flist*) array[i])->size);
 	}
 
 	//sorting nodes
 	qsort(array, count, sizeof(int), cmpnodes);
 
-	printf("Sorted: \n");
+	/*printf("Sorted: \n");
 	for(i = 0; i < count; i++) {
         //      count = 1;
         //printf("count1: %d\n", count);
-        printf("# \t Address \t Size \t prev \t next\n");
-        array[i] = (int) head;
-        printf("%d \t %0x%x \t %d \t %0x%x \t %0x%x\n", count, array[i], ((flist*) array[i])->size, ((flist*) array[i])->prev, array[i+1]);
-    }
+        //printf("# \t Address \t Size \t prev \t next\n");
+        //array[i] = (int) head;
+		printf("%d\n", array[i]);
+	}*/
 
 	//reset head variables
 	head = (flist*) array[0];
 	next_node = (flist*) array[0];
-
+	int sum;
+	
 	//goes through to check and make sure the nodes are contiguous
 	//if so it merges them together and sets the size
 	//if not, then it sets the head to the next node
@@ -203,17 +204,32 @@ void coalesce_free_list() {
 		size = ((flist*) array[i])->size;
 
 		if(array[i+1] == array[i] + size) {
-			head->size += ((flist*) array[i+1])->size;
+			next_node->size += ((flist*) array[i+1])->size;
+			next_node = (flist*) array[i];
+			next_node->next = (flist*) array[i+1];
 		}//end of if
 
 		else {
-			head->next = (flist*) array[i+1];
-			head = head->next;
+			next_node->next = (flist*) array[i+1];
+			next_node = next_node->next;
 		}//end of else
+
+		sum += next_node->size;
 	}//end of for
+
+	next_node->next = NULL;
+
+	while(head != NULL) {
+		//		count = 1;
+		//printf("count1: %d\n", count);
+		//printf("# \t Address \t Size \t prev \t next\n");
+		//array[i] = (int) head;	
+		printf("Memory: %0x%x Size: %d Sum: %d\n", head, head->size, sum);
+		head = head->next;
+	}
 
 	//sets the last node's next to NULL
 	//also free the array
-	head->next = NULL;
+	//next_node->next = NULL;
 	free(array);
 }//end of coalesce_free_list
