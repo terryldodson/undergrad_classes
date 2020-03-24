@@ -32,21 +32,9 @@ void *my_malloc(size_t size) {
 			int leftover_size = 8192 - new_size;
 
 			if(head1 == head) {
-				printf("head is first node\n");
 				head = head1->next;
-				return (char*) head + 8;
+				return (char*) head1 + 8;
 			}
-			/*if(head1->next == NULL) {
-				printf("ashfff\n");
-				old_head = head1;
-				head1 = head1->next;
-
-				while(head1->next != NULL) {
-					printf("node: %0x%x\n", head1);
-				}
-
-				return old_head + new_size + 8;
-			} //end of inner if*/
 
 			else {
 				head1->prev->next = head1->next; 
