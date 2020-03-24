@@ -1,6 +1,8 @@
 /*Name: Terryl Dodson
  * Date: 3/23/2020
- * Description: Had to create our own malloc program by writing my_malloc which returned to the user the requested size. Then we had to write coalesce which joins two nodes together if they're continguous in  memory*/
+ * Description: Had to create our own malloc program by writing my_malloc 
+ * which returned to the user the requested size. Then we had to write 
+ * coalesce which joins two nodes together if they're continguous in  memory*/
 
 #include <stdio.h>
 #include <stdlib.h>
