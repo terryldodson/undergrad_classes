@@ -175,11 +175,28 @@ void coalesce_free_list() {
 	}//end of while
 
 	//creating and allocating size for array
-	struct Flist **array = malloc(count * 8);
+	int *array = (int*)(malloc(sizeof(void*) * count));
 
 	printf("pizza\n");
 	//inserting nodes in array
 	for(i = 0; i < count; i++) {
+//		count = 1;
+		//printf("count1: %d\n", count);
+		//printf("# \t Address \t Size \t prev \t next\n");
+		array[i] = (int) head;	
+		//printf("%d \t %0x%x \t %d \t %0x%x \t %0x%x\n", count, array[i], array[i]->size, array[i]->prev, array[i+1]);
+		head = (flist*) head->next;
+	//	count++;
+	}//end of for 
+	
+	//sorting nodes
+//	for(i = 0; i < count; i++) {
+		qsort(array, count, sizeof(int), cmpnodes);
+//	}
+
+//	printf("sorted:\n");
+
+/*	for(i = 0; i < count; i++) {
 //		count = 1;
 		printf("count1: %d\n", count);
 		printf("# \t Address \t Size \t prev \t next\n");
@@ -188,12 +205,7 @@ void coalesce_free_list() {
 		//head = head->next;
 	//	count++;
 	}//end of for 
-	
-	//sorting nodes
-	for(i = 0; i < count; i++) {
-		qsort(array[0], count, sizeof(flist*), cmpnodes);
-	}
-
+*/	
 	printf("pizza1\n");
 
 /*	for(i = 0; i < count; i++) {
@@ -206,21 +218,21 @@ void coalesce_free_list() {
 	}//end of for */
 
 	//reset head variables
-	head = array[0];
-	next_node = array[0];
+	head = (flist*) array[0];
+	next_node = (flist*) array[0];
 
 	//goes through to check and make sure the nodes are contiguous
 	//if so it merges them together and sets the size
 	//if not, then it sets the head to the next node
 	for(i = 0; i < count-1; i++) {
-		size = array[i]->size;
+		size = ((flist*) array[i])->size;
 
 		if(array[i+1] == array[i] + size) {
-			head->size += array[i+1]->size;
+			head->size += ((flist*) array[i+1])->size;
 		}//end of if
 
 		else {
-			head->next = array[i+1];
+			head->next = (flist*) array[i+1];
 			head = head->next;
 		}//end of else
 	}//end of for
