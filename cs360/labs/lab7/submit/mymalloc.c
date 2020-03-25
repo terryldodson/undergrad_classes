@@ -168,8 +168,8 @@ void coalesce_free_list() {
 	printf("pizza\n");
 	//inserting nodes in array
 	for(i = 0; i < count; i++) {
-		array[i] = (int) head;	
-		head = head->next;
+		array[i] = (int) head;
+		head = ((flist*)head)->next;
 	}//end of for 
 
 	for(i = 0; i < count; i++) {
@@ -204,15 +204,24 @@ void coalesce_free_list() {
 		size = ((flist*) array[i])->size;
 
 		if(array[i+1] == array[i] + size) {
-			next_node->size += ((flist*) array[i+1])->size;
 			next_node = (flist*) array[i];
-			next_node->next = (flist*) array[i+1];
-		}//end of if
+			next_node->size += ((flist*) array[i+1])->size;
 
-		else {
+			if((flist*) array[i] == head) {
+				(((flist*) array[i])->prev)->next = ((flist*) array[i+1])->next;
+				head = (flist*) array[i];
+				head = head->next;
+			}
+			else if((((flist*) array[i])->prev) != NULL) {
+				(((flist*) array[i])->prev)->next = ((flist*) array[i+1])->next;
+				array[i+1] = array[i];
+				array[i] = array[i+1];
+			}
+		}//end of if
+		/*else {
 			next_node->next = (flist*) array[i+1];
 			next_node = next_node->next;
-		}//end of else
+		}//end of else*/
 
 		sum += next_node->size;
 	}//end of for
