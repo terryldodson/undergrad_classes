@@ -229,10 +229,11 @@ void coalesce_free_list() {
 			printf("array[i] value: %d, i value: %d\n", array[i], i);
 
 			//printf("pizza7");
-			fflush(stdout);
+			fflush(stdout);	
+			tmp = (flist*) array[i+1];
 			next_node = NULL;
 			tmp->next = next_node;
-			tmp = (flist*) array[i+1];
+			//tmp = (flist*) array[i+1];
 
 			/*if(tmp->next == NULL) {
 				tmp = array[0];
