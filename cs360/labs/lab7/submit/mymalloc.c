@@ -1,4 +1,5 @@
 /*Name: Terryl Dodson
+ * dson3:hydra2 ~/comp_sci_classes/cs360/labs/lab7/subm
  * Date: 3/23/2020
  * Description: Had to create our own malloc program by writing my_malloc 
  * which returned to the user the requested size. Then we had to write 
@@ -163,7 +164,7 @@ void coalesce_free_list() {
 		printf("count: %d\n", count);
 		next_node = next_node->next;
 		//sum += next_node->size;
-	
+
 		//printf("sum: %d\n", sum);
 	}//end of while
 
@@ -172,8 +173,8 @@ void coalesce_free_list() {
 	//creating and allocating size for array
 	int *array = (int*) (malloc(sizeof(void*) * count));
 
-	
-//	printf("pizza\n");
+
+	//	printf("pizza\n");
 	//inserting nodes in array
 	for(i = 0; i < count; i++) {
 		array[i] = (int) head;
@@ -182,27 +183,27 @@ void coalesce_free_list() {
 	}//end of for 
 
 	//for(i = 0; i < count; i++) {
-		//		count = 1;
-		//printf("count1: %d\n", count);
-		//printf("# \t Address \t Size \t prev \t next\n");
-		//array[i] = (int) head;	
-		//printf("%d Memory: %0x%x Size: %d\n", array[i], array[i], ((flist*) array[i])->size);
+	//		count = 1;
+	//printf("count1: %d\n", count);
+	//printf("# \t Address \t Size \t prev \t next\n");
+	//array[i] = (int) head;	
+	//printf("%d Memory: %0x%x Size: %d\n", array[i], array[i], ((flist*) array[i])->size);
 	//}
 
 	//sorting nodes
 	qsort(array, count, sizeof(int), cmpnodes);
 
-/*	printf("Sorted: \n");
-	for(i = 0; i < count; i++) {
-        //      count = 1;
-        //printf("count1: %d\n", count);
-        //printf("# \t Address \t Size \t prev \t next\n");
-        //array[i] = (int) head;
-		printf("%d\n", array[i]);
+	/*	printf("Sorted: \n");
+		for(i = 0; i < count; i++) {
+	//      count = 1;
+	//printf("count1: %d\n", count);
+	//printf("# \t Address \t Size \t prev \t next\n");
+	//array[i] = (int) head;
+	printf("%d\n", array[i]);
 	}
-*/
+	*/
 
-//	for(i = 0; i < count; i++) {
+	//	for(i = 0; i < count; i++) {
 
 	//i}
 	//reset head variables
@@ -213,32 +214,61 @@ void coalesce_free_list() {
 	//int sum;
 	//
 
-	for(i = 0; i < count; i++) {
+	for(i = 0; i < count-1; i++) {
 		size = ((flist*) array[i])->size;
 		printf("size: %d, array[i]: %d, size + array[i]: %d, array[i+1]:%d\n", size, array[i], array[i] + size, array[i+1]);
 	}
 
 	for(i = 0; i < count-1; i++) {
 		size = ((flist*) array[i])->size;
-		
+
 		if(array[i+1] == array[i] + size) {
+			//tmp = (flist*) array[i];	
 			//tmp = (flist*) array[i];
 			tmp->size += ((flist*) array[i+1])->size;
 			printf("array[i] value: %d, i value: %d\n", array[i], i);
-			//head = tmp;
+
+			//printf("pizza7");
 			fflush(stdout);
 			next_node = NULL;
 			tmp->next = next_node;
+			tmp = (flist*) array[i+1];
+
+			/*if(tmp->next == NULL) {
+				tmp = array[0];
+			}*/
+
+			/*printf("pizza10");
+			flist* ptr = head;
+			while(ptr != NULL){
+				if(ptr->next == (flist*) array[i+1]) {
+					printf("ptr: %d\n", ptr);
+					//ptr = ptr->next;
+					ptr->next = ((flist*) array[i+1])->next;
+					break;
+				}
+				ptr = ptr->next;
+			}*/
+
+		/*	while(tmp != NULL) {
+				printf("array[i]: %d array[i+1]: %d\n", array[i], array[i+1]);
+				tmp = tmp->next;
+			}*/
+			/*while(ptr->next != (flist*) array[i+1]){
+			  ptr = ptr->next;
+			  }
+
+			  ptr->next = ((flist*) array[i+1])->next;*/
 			
-			//array[i+1] = (int) tmp;
 		}
 
 		else {
+			//tmp = array[0];
+			//i = 0;
 			printf("array[i+1] next: %d\n", ((flist*) array[i+1])->next);
-			next_node = ((flist*) array[i+1])->next;
-			//tmp = next_node;
+			next_node = ((flist*) array[i])->next;
 			tmp->next = next_node;
-			tmp = (flist*) array[i+1];
+			tmp = (flist*) array[i];
 
 		}
 		//printf("size: %d\n", size);
@@ -249,73 +279,73 @@ void coalesce_free_list() {
 		printf("value: %d, size: %d\n", (int) tmp, tmp->size);
 		tmp = tmp->next;
 	}
-	
+
 	//goes through to check and make sure the nodes are contiguous
 	//if so it merges them together and sets the size
 	//if not, then it sets the head to the next node
 	/*for(i = 0; i < count; i++) {
-		size = ((flist*) tmp[i])->size;
-//		printf("array previous[i]: %d array[i]: %d array[i+1]: %d Size: %d\n", ((flist*) array[i])->prev, array[i], array[i+1], size);
+	  size = ((flist*) tmp[i])->size;
+	//		printf("array previous[i]: %d array[i]: %d array[i+1]: %d Size: %d\n", ((flist*) array[i])->prev, array[i], array[i+1], size);
 
-		if(tmp[i] == array[i+1] + size) {
-			//printf("pizza1");
-			next_node = (flist*) array[i];
-			next_node->size += ((flist*) array[i+1])->size;
-			//((flist*) array[i])->next = ((flist*) array[i+1])->next;
-			
-			if((flist*) array[i+1] == head) {
-				(((flist*) array[i])->prev)->next = ((flist*) array[i+1])->next;
-				head = (flist*) array[i];
-				head = head->next;
-			}
+	if(tmp[i] == array[i+1] + size) {
+	//printf("pizza1");
+	next_node = (flist*) array[i];
+	next_node->size += ((flist*) array[i+1])->size;
+	//((flist*) array[i])->next = ((flist*) array[i+1])->next;
 
-
-			else {
-				flist* ptr = (flist*) array[i+1];
-				//flist* ptr2 = (flist*) array[i+1];
-				printf("pizza");
-				printf("array[i]: %d array[i] next: %d array[i+1]: %d array[i+1] next: %d Size: %d\n", (flist*) array[i], ((flist*) array[i])->next, ptr, ptr->next, size);
-				while(ptr == head){
-					//if(ptr == NULL)
-					//	break;
-					printf("pizza5");
-					ptr = ptr->next;
-				}
+	if((flist*) array[i+1] == head) {
+	(((flist*) array[i])->prev)->next = ((flist*) array[i+1])->next;
+	head = (flist*) array[i];
+	head = head->next;
+	}
 
 
-				//printf("ptr->next was: %d, is now: %d\n", ptr->next, ((flist*) array[i+1])->next);
-				//if(ptr != NULL)
-				printf("ptr prev: %d\n", ptr->prev);
-				printf("array[i] prev: %d\n", ((flist*) array[i])->prev);
-				printf("array[i+1] prev: %d\n", ((flist*) array[i+1])->prev);
-				ptr->next = ((flist*) array[i+1])->next;
-				ptr->prev = ((flist*) array[i+1])->prev;
-			}
-			else if((((flist*) array[i])->prev) != NULL) {
-			
-			//while(head->next != (FList*) array[i+1]){
-				//array[i+1]->prev = array[i+1]->prev->next;
-				(((flist*) array[i])->prev)->next = ((flist*) array[i+1])->next;
-				array[i] = array[i+1];
-			}
+	else {
+	flist* ptr = (flist*) array[i+1];
+	//flist* ptr2 = (flist*) array[i+1];
+	printf("pizza");
+	printf("array[i]: %d array[i] next: %d array[i+1]: %d array[i+1] next: %d Size: %d\n", (flist*) array[i], ((flist*) array[i])->next, ptr, ptr->next, size);
+	while(ptr == head){
+	//if(ptr == NULL)
+	//	break;
+	printf("pizza5");
+	ptr = ptr->next;
+	}
 
-			array[i+1] = array[i];
-		}//end of if
 
-		//printf("Size: %d\n", size);
-		else {
-			next_node->next = (flist*) array[i+1];
-			next_node = next_node->next;
-		}//end of else
+	//printf("ptr->next was: %d, is now: %d\n", ptr->next, ((flist*) array[i+1])->next);
+	//if(ptr != NULL)
+	printf("ptr prev: %d\n", ptr->prev);
+	printf("array[i] prev: %d\n", ((flist*) array[i])->prev);
+	printf("array[i+1] prev: %d\n", ((flist*) array[i+1])->prev);
+	ptr->next = ((flist*) array[i+1])->next;
+	ptr->prev = ((flist*) array[i+1])->prev;
+	}
+	else if((((flist*) array[i])->prev) != NULL) {
 
-		//sum += next_node->size;
+	//while(head->next != (FList*) array[i+1]){
+	//array[i+1]->prev = array[i+1]->prev->next;
+	(((flist*) array[i])->prev)->next = ((flist*) array[i+1])->next;
+	array[i] = array[i+1];
+	}
+
+	array[i+1] = array[i];
+	}//end of if
+
+	//printf("Size: %d\n", size);
+	else {
+	next_node->next = (flist*) array[i+1];
+	next_node = next_node->next;
+	}//end of else
+
+	//sum += next_node->size;
 	}//end of for*/
 
 	//flist* tmp = head;
 	/*while(tmp != NULL) {
-		printf("size: %d\n", tmp->size);		
-		tmp = tmp->next;
-	}*/
+	  printf("size: %d\n", tmp->size);		
+	  tmp = tmp->next;
+	  }*/
 
 	//next_node->next = NULL;
 
