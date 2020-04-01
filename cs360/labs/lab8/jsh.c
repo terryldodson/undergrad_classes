@@ -36,9 +36,11 @@ int main (int argc, char  *argv[]) {
 	//if the prompt doesn't equal a blank
 	if(strcmp(prompt, " ") != 0) { 
 
+//		printf("%s",prompt); 
+
 		//as long as it continues to read a line
 		while(get_line(is) >= 0) {
-			int amp;
+			int amp=0;
 
 			newargv = (char **) malloc(sizeof(char *)*(is->NF+1));
 
@@ -48,7 +50,7 @@ int main (int argc, char  *argv[]) {
 
 			newargv[is->NF] = NULL;
 
-			if(!strcmp(newargv[is->NF-1], "&")) {
+			if(strcmp(newargv[is->NF-1], "&") == 0) {
 				amp = 1;
 			} //end of if
 
@@ -72,7 +74,7 @@ int main (int argc, char  *argv[]) {
 
 				//insert value returned from fork into jrb tree
 				jrb_insert_int(processes, fv, new_jval_i(fv));
-				
+
 				if(!amp) { 
 					/*while loop to look through jrb tree until I find process I want which is fv*/
 					/*keep calling wait until the fork (fv) is equal to what wait returns*/
@@ -83,6 +85,11 @@ int main (int argc, char  *argv[]) {
 
 						JRB pid_num;
 						pid_num = jrb_find_int(processes, pid);
+						
+						if(pid_num == NULL) {
+						
+						}
+
 						jrb_delete_node(pid_num);
 
 						if(pid == fv) {
@@ -91,16 +98,17 @@ int main (int argc, char  *argv[]) {
 					} //end of while
 				} //end of outer if
 			} //end of else
-			
+
 			free(newargv);
-			} //end of while
-		} //end of if
+//			printf("%s",prompt); 	
+		} //end of while
+	} //end of if
 
-		/*traverse jrb tree and call wait*/
-		jrb_traverse(p, processes) {
-			wait(&stat_loc);
-		} //end of jrb_traverse 
+	/*traverse jrb tree and call wait*/
+	jrb_traverse(p, processes) {
+		wait(&stat_loc);
+	} //end of jrb_traverse 
 
-		//free jrb tree
-		jrb_free_tree(processes);
-	} //end of main
+	//free jrb tree
+	jrb_free_tree(processes);
+} //end of main
