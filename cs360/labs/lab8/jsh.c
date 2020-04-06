@@ -8,6 +8,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <sys/wait.h>
+#include <fcntl.h>
 #include "fields.h"
 #include "jrb.h"
 
@@ -15,6 +16,7 @@ int main (int argc, char  *argv[]) {
 	char* prompt;
 	IS is;
 	int i, n, fv, stat_loc, pid;
+	int fd1, fd2, index;
 	JRB processes;
 	JRB p;
 	char **newargv;
@@ -36,8 +38,6 @@ int main (int argc, char  *argv[]) {
 	//if the prompt doesn't equal a blank
 	if(strcmp(prompt, " ") != 0) { 
 
-//		printf("%s",prompt); 
-
 		//as long as it continues to read a line
 		while(get_line(is) >= 0) {
 			int amp=0;
@@ -46,11 +46,58 @@ int main (int argc, char  *argv[]) {
 
 			for(i = 0; i < is->NF; i++) {
 				newargv[i] = is->fields[i];
-			} //end of for
+			}
+
+			for(i = 0; i < is->NF; i++) {	
+				if(strcmp(is->fields[i], "<") == 0) {
+					newargv[i] = NULL;
+					fd1 = open(is->fields[i+1], O_RDONLY);
+					if(fd1 < 0) {
+						perror(is->fields[i+1]);
+						exit(1);
+					}
+
+					if(dup2(fd1, 0) != 0) {
+						perror(is->fields[i+1]);
+						exit(1);
+					}
+					close(fd1);
+				}
+
+				else if(strcmp(is->fields[i], ">") == 0) {
+					newargv[i] = NULL;
+					fd2 = open(is->fields[i+1], O_WRONLY | O_TRUNC | O_CREAT, 0644);
+					if(fd2 < 0) {
+						perror(is->fields[i+1]);
+						exit(1);
+					}
+
+					if(dup2(fd2, 1) != 1) {
+						perror(is->fields[i+1]);
+						exit(1);
+					}
+					close(fd2);
+				}
+
+				else if(strcmp(is->fields[i], ">>") == 0) {	
+					newargv[i] = NULL;
+					fd2 = open(is->fields[i+1], O_RDWR | O_APPEND);
+					if(fd2 < 0) {
+						perror(is->fields[i+1]);
+						exit(1);
+					}
+
+					if(dup2(fd2, 1) != 1) {
+						perror(is->fields[i+1]);
+						exit(1);
+					}
+					close(fd2);
+				}
+			}
 
 			newargv[is->NF] = NULL;
 
-			if(strcmp(newargv[is->NF-1], "&") == 0) {
+			if(strcmp(is->fields[is->NF-1], "&") == 0) {
 				amp = 1;
 			} //end of if
 
@@ -60,16 +107,14 @@ int main (int argc, char  *argv[]) {
 			//if fv is set to 0 we call execvp and exit
 			//when the & is not at the end of string we wait
 			if (fv == 0) {
-				if(strcmp(newargv[is->NF-1], "&") == 0) {
+				if(strcmp(is->fields[is->NF-1], "&") == 0) {
 					newargv[is->NF-1] = NULL;
 				} //end of if
 
 				execvp(newargv[0], newargv);
-
-				if(execvp(newargv[0], newargv) == -1) {
-					perror(newargv[0]);
-					exit(1);
-				} //end of if
+				
+				perror(newargv[0]);
+				exit(1);
 			} else {
 
 				//insert value returned from fork into jrb tree
@@ -85,9 +130,9 @@ int main (int argc, char  *argv[]) {
 
 						JRB pid_num;
 						pid_num = jrb_find_int(processes, pid);
-						
+
 						if(pid_num == NULL) {
-						
+
 						}
 
 						jrb_delete_node(pid_num);
@@ -100,7 +145,6 @@ int main (int argc, char  *argv[]) {
 			} //end of else
 
 			free(newargv);
-//			printf("%s",prompt); 	
 		} //end of while
 	} //end of if
 
