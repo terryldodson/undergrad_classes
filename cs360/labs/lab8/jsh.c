@@ -48,58 +48,6 @@ int main (int argc, char  *argv[]) {
 				newargv[i] = is->fields[i];
 			}
 
-			for(i = 0; i < is->NF; i++) {	
-				if(strcmp(is->fields[i], "<") == 0) {
-					newargv[i] = NULL;
-					fd1 = open(is->fields[i+1], O_RDONLY);
-					if(fd1 < 0) {
-						perror(is->fields[i+1]);
-						exit(1);
-					}
-
-					if(dup2(fd1, 0) != 0) {
-						perror(is->fields[i+1]);
-						exit(1);
-					}
-					close(fd1);
-				}
-
-				else if(strcmp(is->fields[i], ">") == 0) {
-					newargv[i] = NULL;
-					fd2 = open(is->fields[i+1], O_WRONLY | O_TRUNC | O_CREAT, 0644);
-					if(fd2 < 0) {
-						perror(is->fields[i+1]);
-						exit(1);
-					}
-
-					if(dup2(fd2, 1) != 1) {
-						perror(is->fields[i+1]);
-						exit(1);
-					}
-					close(fd2);
-				}
-
-				else if(strcmp(is->fields[i], ">>") == 0) {	
-					newargv[i] = NULL;
-					fd2 = open(is->fields[i+1], O_RDWR | O_APPEND);
-					if(fd2 < 0) {
-						perror(is->fields[i+1]);
-						exit(1);
-					}
-
-					if(dup2(fd2, 1) != 1) {
-						perror(is->fields[i+1]);
-						exit(1);
-					}
-					close(fd2);
-				}
-			}
-
-			newargv[is->NF] = NULL;
-
-			if(strcmp(is->fields[is->NF-1], "&") == 0) {
-				amp = 1;
-			} //end of if
 
 			//fork and set equal to variable fv
 			fv = fork();
@@ -107,12 +55,62 @@ int main (int argc, char  *argv[]) {
 			//if fv is set to 0 we call execvp and exit
 			//when the & is not at the end of string we wait
 			if (fv == 0) {
+				for(i = 0; i < is->NF; i++) {	
+					if(strcmp(is->fields[i], "<") == 0) {
+						newargv[i] = NULL;
+						fd1 = open(is->fields[i+1], O_RDONLY);
+						if(fd1 < 0) {
+							perror(is->fields[i+1]);
+							exit(1);
+						}
+
+						if(dup2(fd1, 0) != 0) {
+							perror(is->fields[i+1]);
+							exit(1);
+						}
+						close(fd1);
+					}
+
+					else if(strcmp(is->fields[i], ">") == 0) {
+						newargv[i] = NULL;
+						fd2 = open(is->fields[i+1], O_WRONLY | O_TRUNC | O_CREAT, 0644);
+						if(fd2 < 0) {
+							perror(is->fields[i+1]);
+							exit(1);
+						}
+
+						if(dup2(fd2, 1) != 1) {
+							perror(is->fields[i+1]);
+							exit(1);
+						}
+						close(fd2);
+					}
+
+					else if(strcmp(is->fields[i], ">>") == 0) {	
+						newargv[i] = NULL;
+						fd2 = open(is->fields[i+1], O_RDWR | O_APPEND);
+						if(fd2 < 0) {
+							perror(is->fields[i+1]);
+							exit(1);
+						}
+
+						if(dup2(fd2, 1) != 1) {
+							perror(is->fields[i+1]);
+							exit(1);
+						}
+						close(fd2);
+					}
+				}
+
+				newargv[is->NF] = NULL;
+
 				if(strcmp(is->fields[is->NF-1], "&") == 0) {
+					amp = 1;
 					newargv[is->NF-1] = NULL;
 				} //end of if
 
 				execvp(newargv[0], newargv);
-				
+
 				perror(newargv[0]);
 				exit(1);
 			} else {
