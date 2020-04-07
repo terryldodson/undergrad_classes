@@ -16,7 +16,7 @@ int main (int argc, char  *argv[]) {
 	char* prompt;
 	IS is;
 	int i, n, fv, stat_loc, pid;
-	int fd1, fd2, index;
+	int fd1, fd2, fd3, index;
 	JRB processes;
 	JRB p;
 	char **newargv;
@@ -48,9 +48,13 @@ int main (int argc, char  *argv[]) {
 				newargv[i] = is->fields[i];
 			}
 
-
 			//fork and set equal to variable fv
 			fv = fork();
+
+			if(strcmp(is->fields[is->NF-1], "&") == 0) {
+				amp = 1;
+				newargv[is->NF-1] = NULL;
+			} //end of if
 
 			//if fv is set to 0 we call execvp and exit
 			//when the & is not at the end of string we wait
@@ -58,6 +62,7 @@ int main (int argc, char  *argv[]) {
 				for(i = 0; i < is->NF; i++) {	
 					if(strcmp(is->fields[i], "<") == 0) {
 						newargv[i] = NULL;
+						newargv[i+1] = NULL;
 						fd1 = open(is->fields[i+1], O_RDONLY);
 						if(fd1 < 0) {
 							perror(is->fields[i+1]);
@@ -73,6 +78,7 @@ int main (int argc, char  *argv[]) {
 
 					else if(strcmp(is->fields[i], ">") == 0) {
 						newargv[i] = NULL;
+						newargv[i+1] = NULL;
 						fd2 = open(is->fields[i+1], O_WRONLY | O_TRUNC | O_CREAT, 0644);
 						if(fd2 < 0) {
 							perror(is->fields[i+1]);
@@ -88,26 +94,27 @@ int main (int argc, char  *argv[]) {
 
 					else if(strcmp(is->fields[i], ">>") == 0) {	
 						newargv[i] = NULL;
-						fd2 = open(is->fields[i+1], O_RDWR | O_APPEND);
-						if(fd2 < 0) {
+						newargv[i+1] = NULL;
+						fd3 = open(is->fields[i+1], O_WRONLY | O_APPEND);
+						if(fd3 < 0) {
 							perror(is->fields[i+1]);
 							exit(1);
 						}
 
-						if(dup2(fd2, 1) != 1) {
+						if(dup2(fd3, 1) != 1) {
 							perror(is->fields[i+1]);
 							exit(1);
 						}
-						close(fd2);
+						close(fd3);
 					}
 				}
 
 				newargv[is->NF] = NULL;
 
-				if(strcmp(is->fields[is->NF-1], "&") == 0) {
-					amp = 1;
-					newargv[is->NF-1] = NULL;
-				} //end of if
+				/*for(i = 0; i < is->NF; i++) {
+				  fprintf(stderr, newargv[i]);
+				  fprintf(stderr, "\n");
+				  }*/
 
 				execvp(newargv[0], newargv);
 
