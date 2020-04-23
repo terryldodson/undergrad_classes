@@ -35,7 +35,8 @@ void* client_process(void *name);
 int main (int argc, char *argv[]) {
 	int port, sock, i, num;	
 	pthread_t* rooms; 
-	pthread_t* clients;
+	pthread_t* people;
+	JRB tmp;
 
 	rooms = (pthread_t*) malloc(sizeof(pthread_t) * (argc-2));
 
@@ -45,11 +46,12 @@ int main (int argc, char *argv[]) {
 		exit(1);
 	}
 
-/*	chats = make_jrb();
+	chats = make_jrb();
 
 	for(i = 2; i < argc; i++) {	
-		ChatRoom cr = (ChatRoom) malloc(sizeof(struct ChatRoom));
-		cr->room_name = (char*) malloc(sizeof(char*) * (argc-2));	
+		ChatRoom cr = (ChatRoom) malloc(sizeof(struct ChatRoom));	
+		cr->room_name = (char*) (strdup(argv[i]));
+		//cr->room_name = (char*) malloc(sizeof(char*) * (argc-2));	
 
 		//created dllist
 		cr->messages = new_dllist();
@@ -58,10 +60,10 @@ int main (int argc, char *argv[]) {
 		//malloced for pthreads
 		cr->mutex = (pthread_mutex_t *) malloc(sizeof(pthread_mutex_t));
 		cr->cond = (pthread_cond_t *) malloc(sizeof(pthread_cond_t));
-		cr->room_name = (char*) (strdup(argv[i]));
+
 		pthread_create(&rooms[i-2], NULL, chat_rooms, (void*) cr);	
 		jrb_insert_str(chats, cr->room_name, new_jval_v((void*) cr)); 
-	}*/
+	}
 
 	//obtained port number
 	port = atoi(argv[1]);
@@ -69,10 +71,10 @@ int main (int argc, char *argv[]) {
 	//served socket and accepts connection
 	sock = serve_socket(port);
 
-	/*if(sock < 0) {
+	if(sock < 0) {
 		perror("serve_socket");
 		exit(1);
-	}*/
+	}
 
 	while(1) {
 		Client* name = (Client*) malloc(sizeof(struct Client));
@@ -83,55 +85,125 @@ int main (int argc, char *argv[]) {
 		name->fin = fdopen(name->fd, "r");
 		name->fout = fdopen(name->fd, "w");
 
-		pthread_create(clients, NULL, client_process, (void*) name);
+		/*jrb_traverse(tmp, chats) {
+		  ChatRoom cr;
+		  cr = (ChatRoom) tmp->val.v;
+		  fputs(cr->room_name, name->fout);
+		  fflush(name->fout);
+		  fputs(":\n", name->fout);
+		  fflush(name->fout);
+		  }*/
 
-/*		if(pthread_create(&clients, NULL, client_process, (void*) name) != 0) {
-			perror("pthread_create");
-			exit(1);
-		}*/
+		people = (pthread_t*) malloc(sizeof(pthread_t));
+
+		pthread_create(people, NULL, client_process, (void*) name);
+
 	}//end of while
 } //end of main
 
 void* chat_rooms(void *cr) {
+	/*Client* person;
+	char m[1000];
 
-	return NULL;
+	while(1) {		
+		fputs(person->client_name, person->fout);
+		fputs(": ", person->fout);
+		fputs(m, person->fout);
+		fputs("\n", person->fout);
+		fflush(person->fout);
+	}*/
 }
 
 void* client_process(void *name) {
 	JRB tmp, chk;
 	ChatRoom cr;
 	Client* person;
+	person = (Client*) name;
+	Dllist tmp1;
 	char s[1000];
 	char c[1000];
+	char m[1000];
 
 	fputs("Chat Rooms:\n\n", person->fout);	
+	fflush(person->fout);
 
 	jrb_traverse(tmp, chats) {
 		cr = (ChatRoom) tmp->val.v;
 		fputs(cr->room_name, person->fout);
-		fputs(":\n", person->fout);
+		fflush(person->fout);
+		fputs(": ", person->fout);
+
+		dll_traverse(tmp1, cr->clients) {
+			fputs(tmp1->val.v, person->fout);		
+			fflush(person->fout);
+			fputs(" ", person->fout);
+			fflush(person->fout);
+		}
+
+		fputs("\n", person->fout);
 	}
 
 	fputs("\nEnter your chat name (no spaces):\n", person->fout);	
 	fflush(person->fout);
 	fgets(s, 1000, person->fin);
+	size_t lnt = strlen(s);
+	s[lnt-1] = '\0';
 
-	fputs("Enter chat room:\n", person->fout);
-	fflush(person->fout);	
-	size_t ln = strlen(c);
-	c[ln-1] = '\0';
-	fgets(c, 1000, person->fin);
-	printf("chat: %s", c);
+	do {
+		fputs("Enter chat room:\n", person->fout);
+		fflush(person->fout);	
+		fgets(c, 1000, person->fin);
+		size_t ln = strlen(c);
+		c[ln-1] = '\0';
 
-	chk = jrb_find_str(chats, c);
-	//printf("%s\n", chats);
+		chk = jrb_find_str(chats, c);
 
-	if(chk == NULL) {
-		printf("%s", "not in tree\n");
-		//continue;
-	} else {
-		printf("%s", "in tree\n");
+		/*jrb_traverse(tmp, chats) {
+			ChatRoom cr;
+			cr = (ChatRoom) tmp->val.v;
+			fputs(cr->room_name, person->fout);
+			fflush(person->fout);
+			fputs(":\n", person->fout);
+			fflush(person->fout);
+		}*/
+	} while (chk == NULL);
+
+	//cr->room_name = strdup(c);
+	//printf("cr room name: %s\n", cr->room_name);
+	cr = chk->val.v;	
+
+	person->client_name = strdup(s);
+	dll_append(cr->clients, new_jval_v(strdup(person->client_name)));
+
+	pthread_mutex_lock(cr->mutex);
+	fputs(person->client_name, person->fout);
+	fflush(person->fout);
+	fputs(" has joined\n", person->fout);
+	fflush(person->fout);
+	pthread_cond_signal(cr->cond);
+	pthread_mutex_unlock(cr->mutex);
+
+	while(1) {
+		pthread_mutex_lock(cr->mutex);
+		
+		if(fgets(m, 1000, person->fin) == NULL) {
+			char* exit_message = " has left\n";
+			strcat(person->client_name, exit_message);
+			dll_append(cr->messages, new_jval_v(strdup(person->client_name)));
+			dll_traverse(tmp1, cr->clients) {
+				Client* human = (Client*) tmp1->val.v;
+				if(person->client_name == human->client_name) {
+					dll_delete_node(tmp1);
+				}
+			}
+		}
+
+		size_t lne = strlen(m);
+		m[lne-1] = '\0';
+		
+		dll_append(cr->messages, new_jval_v(strdup(m)));
+		pthread_cond_signal(cr->cond);
+		pthread_mutex_unlock(cr->mutex);
 	}
-	//	dll_append(clients, new_jval_s(strdup(s)));
 }
 
