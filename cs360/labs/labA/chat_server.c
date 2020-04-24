@@ -108,6 +108,8 @@ void* chat_rooms(void *cr) {
 			tmp = chat->messages;
 			//pthread_mutex_lock(chat->mutex);
 
+			printf("%s", tmp->val.s);
+
 			//dll_traverse(tmp, chat->messages) {
 			if(!dll_empty(chat->clients)) {	
 				dll_traverse(tmp1, chat->clients) {
@@ -143,6 +145,13 @@ void* chat_rooms(void *cr) {
 		Client* person;
 		person = (Client*) name;
 		Dllist tmp1;
+		char client[1000];
+		char join[20];
+		char colon[5];
+		char statement[1000];
+		char sentence[1000];
+		char exiting[1000];
+		char final_exit[1000];
 		char s[1000];
 		char c[1000];
 		char m[1000];
@@ -186,15 +195,13 @@ void* chat_rooms(void *cr) {
 		cr = chk->val.v;	
 
 		person->client_name = strdup(s);
-		dll_append(cr->clients, new_jval_v(strdup(person->client_name)));
-
-		//	pthread_mutex_lock(cr->mutex);
-		fputs(person->client_name, person->fout);
-		fflush(person->fout);
-		fputs(" has joined\n", person->fout);
-		fflush(person->fout);
-		//	pthread_cond_signal(cr->cond);
-		//	pthread_mutex_unlock(cr->mutex);
+		dll_append(cr->clients, new_jval_v(person));
+		
+		strcpy(client, person->client_name);
+		strcpy(join, " has joined\n");
+		strcat(client, join);
+		//fputs(client, person->fout);
+		//fflush(person->fout);
 
 		while(1) {
 
@@ -203,25 +210,35 @@ void* chat_rooms(void *cr) {
 			if(fgets(m, 1000, person->fin) == NULL) {
 				size_t lne = strlen(m);
 				m[lne-1] = '\0';
-				char* exit_message = " has left\n";
-				//char* exiting;
-				//strcat(person->exiting, person->client_name);
-				//strcat(person->exiting, exit_message);
-				strcat(person->client_name, exit_message);
+				strcpy(client, person->client_name);
+				strcpy(exiting, " has left\n");
+				strcat(final_exit, client);
+				strcat(final_exit, exiting);
 				dll_append(cr->messages, new_jval_v(strdup(m)));
+			
+				pthread_cond_signal(cr->cond);
+				pthread_mutex_unlock(cr->mutex);
+			} else {
+				strcpy(client, person->client_name);
+				strcpy(colon, ": ");
+				strcat(sentence, client);
+				strcat(sentence, colon);
+				strcat(sentence, m);
+				dll_append(cr->messages, new_jval_v(strdup(sentence)));
+				pthread_cond_signal(cr->cond);
+				pthread_mutex_unlock(cr->mutex);
 			}
 
-			dll_append(cr->messages, new_jval_v(strdup(person->client_name)));
+			//dll_append(cr->messages, new_jval_v(strdup(person->client_name)));
 
 
-			Dllist tmp2;
+			/*Dllist tmp2;
 			dll_traverse(tmp2, cr->messages) {	
 				//printf("pizza");
 				printf("messages: %s\n", tmp2->val.s);
-			}
+			}*/
 
-			pthread_cond_signal(cr->cond);
-			pthread_mutex_unlock(cr->mutex);
+
 		}
 	}
 
