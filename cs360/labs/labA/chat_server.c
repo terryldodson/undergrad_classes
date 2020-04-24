@@ -18,6 +18,7 @@ typedef struct Client
 	FILE *fin;
 	FILE *fout;
 	int fd;
+	char *exiting;
 }Client;
 
 typedef struct ChatRoom
@@ -51,7 +52,6 @@ int main (int argc, char *argv[]) {
 	for(i = 2; i < argc; i++) {	
 		ChatRoom cr = (ChatRoom) malloc(sizeof(struct ChatRoom));	
 		cr->room_name = (char*) (strdup(argv[i]));
-		//cr->room_name = (char*) malloc(sizeof(char*) * (argc-2));	
 
 		//created dllist
 		cr->messages = new_dllist();
@@ -85,15 +85,6 @@ int main (int argc, char *argv[]) {
 		name->fin = fdopen(name->fd, "r");
 		name->fout = fdopen(name->fd, "w");
 
-		/*jrb_traverse(tmp, chats) {
-		  ChatRoom cr;
-		  cr = (ChatRoom) tmp->val.v;
-		  fputs(cr->room_name, name->fout);
-		  fflush(name->fout);
-		  fputs(":\n", name->fout);
-		  fflush(name->fout);
-		  }*/
-
 		people = (pthread_t*) malloc(sizeof(pthread_t));
 
 		pthread_create(people, NULL, client_process, (void*) name);
@@ -102,108 +93,135 @@ int main (int argc, char *argv[]) {
 } //end of main
 
 void* chat_rooms(void *cr) {
-	/*Client* person;
-	char m[1000];
-
-	while(1) {		
-		fputs(person->client_name, person->fout);
-		fputs(": ", person->fout);
-		fputs(m, person->fout);
-		fputs("\n", person->fout);
-		fflush(person->fout);
-	}*/
-}
-
-void* client_process(void *name) {
-	JRB tmp, chk;
-	ChatRoom cr;
 	Client* person;
-	person = (Client*) name;
-	Dllist tmp1;
-	char s[1000];
-	char c[1000];
 	char m[1000];
+	Dllist tmp, tmp1;
+	ChatRoom chat;
+	chat = (ChatRoom) cr;
 
-	fputs("Chat Rooms:\n\n", person->fout);	
-	fflush(person->fout);
+	while(1) {
 
-	jrb_traverse(tmp, chats) {
-		cr = (ChatRoom) tmp->val.v;
-		fputs(cr->room_name, person->fout);
-		fflush(person->fout);
-		fputs(": ", person->fout);
+		pthread_cond_wait(chat->cond, chat->mutex);
+		
+		while(!dll_empty(chat->messages)) {
 
-		dll_traverse(tmp1, cr->clients) {
-			fputs(tmp1->val.v, person->fout);		
-			fflush(person->fout);
-			fputs(" ", person->fout);
-			fflush(person->fout);
+			tmp = chat->messages;
+			//pthread_mutex_lock(chat->mutex);
+
+			//dll_traverse(tmp, chat->messages) {
+			if(!dll_empty(chat->clients)) {	
+				dll_traverse(tmp1, chat->clients) {
+					//Client* human = (Client*) tmp1->val.v;
+					//ChatRoom area = (ChatRoom) tmp->val.s;
+					Client* p = (Client*) tmp1->val.v;
+
+					fputs(tmp->val.s, person->fout);
+					fflush(person->fout);
+					/*fputs(p->client_name, person->fout);
+					  fputs(": ", person->fout);		
+					  fputs(tmp->val.s, person->fout);
+					  fputs("\n", person->fout);
+					  fflush(person->fout);	
+
+					  if(person->client_name == p->client_name) {
+					  dll_delete_node(tmp);
+					  }*/
+				}
+			}
+
+			dll_delete_node(tmp);
 		}
-
-		fputs("\n", person->fout);
 	}
 
-	fputs("\nEnter your chat name (no spaces):\n", person->fout);	
-	fflush(person->fout);
-	fgets(s, 1000, person->fin);
-	size_t lnt = strlen(s);
-	s[lnt-1] = '\0';
+		//pthread_cond_signal(chat->cond);
+		//pthread_mutex_unlock(chat->mutex);
+}
 
-	do {
-		fputs("Enter chat room:\n", person->fout);
-		fflush(person->fout);	
-		fgets(c, 1000, person->fin);
-		size_t ln = strlen(c);
-		c[ln-1] = '\0';
+	void* client_process(void *name) {
+		JRB tmp, chk;
+		ChatRoom cr;
+		Client* person;
+		person = (Client*) name;
+		Dllist tmp1;
+		char s[1000];
+		char c[1000];
+		char m[1000];
 
-		chk = jrb_find_str(chats, c);
+		fputs("Chat Rooms:\n\n", person->fout);	
+		fflush(person->fout);
 
-		/*jrb_traverse(tmp, chats) {
-			ChatRoom cr;
+		jrb_traverse(tmp, chats) {
 			cr = (ChatRoom) tmp->val.v;
 			fputs(cr->room_name, person->fout);
 			fflush(person->fout);
-			fputs(":\n", person->fout);
-			fflush(person->fout);
-		}*/
-	} while (chk == NULL);
+			fputs(": ", person->fout);
 
-	//cr->room_name = strdup(c);
-	//printf("cr room name: %s\n", cr->room_name);
-	cr = chk->val.v;	
-
-	person->client_name = strdup(s);
-	dll_append(cr->clients, new_jval_v(strdup(person->client_name)));
-
-	pthread_mutex_lock(cr->mutex);
-	fputs(person->client_name, person->fout);
-	fflush(person->fout);
-	fputs(" has joined\n", person->fout);
-	fflush(person->fout);
-	pthread_cond_signal(cr->cond);
-	pthread_mutex_unlock(cr->mutex);
-
-	while(1) {
-		pthread_mutex_lock(cr->mutex);
-		
-		if(fgets(m, 1000, person->fin) == NULL) {
-			char* exit_message = " has left\n";
-			strcat(person->client_name, exit_message);
-			dll_append(cr->messages, new_jval_v(strdup(person->client_name)));
 			dll_traverse(tmp1, cr->clients) {
-				Client* human = (Client*) tmp1->val.v;
-				if(person->client_name == human->client_name) {
-					dll_delete_node(tmp1);
-				}
+				fputs(tmp1->val.v, person->fout);		
+				fflush(person->fout);
+				fputs(" ", person->fout);
+				fflush(person->fout);
 			}
+
+			fputs("\n", person->fout);
 		}
 
-		size_t lne = strlen(m);
-		m[lne-1] = '\0';
-		
-		dll_append(cr->messages, new_jval_v(strdup(m)));
-		pthread_cond_signal(cr->cond);
-		pthread_mutex_unlock(cr->mutex);
+		fputs("\nEnter your chat name (no spaces):\n", person->fout);	
+		fflush(person->fout);
+		fgets(s, 1000, person->fin);
+		size_t lnt = strlen(s);
+		s[lnt-1] = '\0';
+
+		do {
+			fputs("Enter chat room:\n", person->fout);
+			fflush(person->fout);	
+			fgets(c, 1000, person->fin);
+			size_t ln = strlen(c);
+			c[ln-1] = '\0';
+
+			chk = jrb_find_str(chats, c);
+
+		} while (chk == NULL);
+
+		cr = chk->val.v;	
+
+		person->client_name = strdup(s);
+		dll_append(cr->clients, new_jval_v(strdup(person->client_name)));
+
+		//	pthread_mutex_lock(cr->mutex);
+		fputs(person->client_name, person->fout);
+		fflush(person->fout);
+		fputs(" has joined\n", person->fout);
+		fflush(person->fout);
+		//	pthread_cond_signal(cr->cond);
+		//	pthread_mutex_unlock(cr->mutex);
+
+		while(1) {
+
+			pthread_mutex_lock(cr->mutex);
+
+			if(fgets(m, 1000, person->fin) == NULL) {
+				size_t lne = strlen(m);
+				m[lne-1] = '\0';
+				char* exit_message = " has left\n";
+				//char* exiting;
+				//strcat(person->exiting, person->client_name);
+				//strcat(person->exiting, exit_message);
+				strcat(person->client_name, exit_message);
+				dll_append(cr->messages, new_jval_v(strdup(m)));
+			}
+
+			dll_append(cr->messages, new_jval_v(strdup(person->client_name)));
+
+
+			Dllist tmp2;
+			dll_traverse(tmp2, cr->messages) {	
+				//printf("pizza");
+				printf("messages: %s\n", tmp2->val.s);
+			}
+
+			pthread_cond_signal(cr->cond);
+			pthread_mutex_unlock(cr->mutex);
+		}
 	}
-}
 
