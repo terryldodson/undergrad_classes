@@ -118,15 +118,22 @@ void* chat_rooms(void *cr) {
 
 			//pthread_mutex_lock(chat->mutex);
 
+			/*dll_traverse(tmp, chat->messages) {
+				dll_traverse(tmp1, chat->clients) {
+					printf("%s\n", tmp->val.s);
+				}
+			}*/
+
 			//dll_traverse(tmp, chat->messages) {
 			if(!dll_empty(chat->clients)) {	
-				dll_traverse(tmp, chat->messages) {
+				dll_traverse(tmp, chat->messages) {				
 					dll_traverse(tmp1, chat->clients) {
-						printf("%s", tmp->val.s);
 						//printf("%s", tmp->val.s);
+						printf("%s", tmp->val.s);
+						
 						//Client* human = (Client*) tmp1->val.v;
 						//ChatRoom area = (ChatRoom) tmp->val.s;
-						Client* p = (Client*) tmp1->val.s;
+						Client* p = (void*) tmp1->val.v;
 
 						fputs(tmp->val.s, p->fout);
 						fflush(p->fout);
@@ -142,10 +149,12 @@ void* chat_rooms(void *cr) {
 					}
 				}
 			}
-
-			dll_delete_node(tmp);
 		}
 
+
+		free_dllist(chat->messages);
+		chat->messages = new_dllist();
+	
 		//pthread_cond_signal(chat->cond);
 		//pthread_mutex_unlock(chat->mutex);
 	}
@@ -178,7 +187,10 @@ void* client_process(void *name) {
 		fputs(": ", person->fout);
 
 		dll_traverse(tmp1, cr->clients) {
-			fputs(tmp1->val.v, person->fout);		
+			Client* tmp2;
+			tmp2 = (Client*) tmp1;
+			//printf("%s\n", tmp2->client_name);
+			fputs(tmp2->client_name, person->fout);		
 			fflush(person->fout);
 			fputs(" ", person->fout);
 			fflush(person->fout);
@@ -207,7 +219,7 @@ void* client_process(void *name) {
 	cr = chk->val.v;	
 
 	person->client_name = strdup(s);
-	dll_append(cr->clients, new_jval_v(person->client_name));
+	dll_append(cr->clients, new_jval_v(person));
 
 	pthread_mutex_lock(cr->mutex);
 	strcpy(client, person->client_name);
@@ -222,7 +234,7 @@ void* client_process(void *name) {
 
 		pthread_mutex_lock(cr->mutex);
 
-		if(fgets(m, 1000, person->fin) == NULL) {
+		/*if(fgets(m, 1000, person->fin) == NULL) {
 			strcpy(client, person->client_name);
 			strcpy(exiting, " has left\n");
 			strcat(final_exit, client);
@@ -231,7 +243,7 @@ void* client_process(void *name) {
 			dll_append(cr->messages, new_jval_v(strdup(final_exit)));	
 			pthread_cond_signal(cr->cond);
 			pthread_mutex_unlock(cr->mutex);
-		} else {
+		}*/ if(fgets(m, 1000, person->fin) != NULL) {
 			size_t lne = strlen(m);
 			m[lne-1] = '\0';
 			strcpy(client, person->client_name);
@@ -244,6 +256,16 @@ void* client_process(void *name) {
 			pthread_cond_signal(cr->cond);
 			pthread_mutex_unlock(cr->mutex);
 		}
+
+
+		strcpy(client, person->client_name);
+		strcpy(exiting, " has left\n");
+		strcat(final_exit, client);
+		strcat(final_exit, exiting);
+		//printf("%s\n", final_exit);	
+		dll_append(cr->messages, new_jval_v(strdup(final_exit)));	
+		pthread_cond_signal(cr->cond);
+		pthread_mutex_unlock(cr->mutex);
 
 		//dll_append(cr->messages, new_jval_v(strdup(person->client_name)));
 
