@@ -1,1 +1,0 @@
-CREATE VIEW HotelData (guestName, hotelName) AS SELECT DISTINCT g.guestName, h.hotelName FROM Room r, Guest g, Booking b, Hotel h WHERE g.guestNo = b.guestNo AND b.hotelNo = h.hotelNo AND CURDATE() BETWEEN b.dateFrom and b.dateTo ORDER BY h.hotelName;
